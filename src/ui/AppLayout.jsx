@@ -38,12 +38,13 @@ const StyledAppLayoutGrid = styled.div`
 
 const Main = styled.main`
   grid-column: span 2;
+  /* background-color: #1f2226; */
   background-color: var(--color-grey-50);
   /* grid-row: 2; */
   /* overflow-y: auto; */
   /* border: 1px solid red; */
   width: 100%;
-  padding: 3%;
+  padding: 0 3%;
   margin-inline: auto;
 `;
 

@@ -35,7 +35,7 @@ const GlobalStyles = createGlobalStyle`
 
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
   --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
 
@@ -47,12 +47,16 @@ const GlobalStyles = createGlobalStyle`
   /* --color-grey-0: #1A1A1A; */
   /* --color-grey-0: #181818; */
   --color-grey-0: #121212;
---color-grey-50: #111827;
+/* --color-grey-50: #111827; */
+--color-grey-50: #1f2226
+
+;
 --color-grey-100: #1f2937;
 --color-grey-200: #374151;
 --color-grey-300: #4b5563;
 --color-grey-400: #6b7280;
---color-grey-500: #9ca3af;
+/* --color-grey-500: #9ca3af; */
+--color-grey-500: #c3c7ce;
 --color-grey-600: #d1d5db;
 --color-grey-700: #e5e7eb;
 --color-grey-800: #f3f4f6;
@@ -79,7 +83,8 @@ const GlobalStyles = createGlobalStyle`
 
 --backdrop-color: rgba(0, 0, 0, 0.3);
 
---shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+/* --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4); */
+--shadow-sm: 0 1px 2px 1px rgba(256, 256, 256, 0.04);
 --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
 --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
 

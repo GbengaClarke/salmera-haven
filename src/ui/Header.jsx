@@ -3,13 +3,12 @@ import { MobileOnly } from "./Sidebar";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdMoon } from "react-icons/io";
 import { IoSunnySharp } from "react-icons/io5";
-import ImageResuseable from "../styles/ImageResuseable";
 import { media } from "../styles/breakpoints";
 import HeaderFloatMenu from "./HeaderFloatMenu";
 import { useDarkModeContext } from "../context/DarkModeContext";
 import Logo from "./Logo";
 import AvatarDetails from "./AvatarDetails";
-import Clock from "./Clock";
+// import Clock from "./Clock";
 
 const StyledHeader = styled.div`
   grid-column: span 2;
@@ -52,11 +51,6 @@ export const FlexContainer = styled.div`
   }
 `;
 
-const Avatar = styled.img`
-  object-fit: cover;
-  height: 100%;
-`;
-
 export const IconsContainer = styled.button`
   position: relative;
 
@@ -95,6 +89,7 @@ export const FlexAligner = styled.div`
 `;
 
 function Header({ toggleSideBar, sidebarOpen }) {
+  // eslint-disable-next-line no-unused-vars
   const { toggleTheme, isDarkMode, theme } = useDarkModeContext();
 
   return (
