@@ -43,6 +43,8 @@ const Main = styled.main`
   /* grid-row: 2; */
   /* overflow-y: auto; */
   /* border: 1px solid red; */
+  overflow-y: scroll;
+
   width: 100%;
   padding: 0 3%;
   margin-inline: auto;

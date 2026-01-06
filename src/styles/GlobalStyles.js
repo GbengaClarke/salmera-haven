@@ -51,7 +51,8 @@ const GlobalStyles = createGlobalStyle`
 --color-grey-50: #1f2226
 
 ;
---color-grey-100: #1f2937;
+--color-grey-100: #22282e;
+/* --color-grey-100: #1f2937; */
 --color-grey-200: #374151;
 --color-grey-300: #4b5563;
 --color-grey-400: #6b7280;
@@ -136,7 +137,8 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  /* font-family: "Raleway", sans-serif; */
+  font-family: "Inter", sans-serif;
   /* color: var(--color-grey-700); */
   /* margin: 0; */
 

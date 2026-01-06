@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
 import TableOperations from "./TableOperations";
+import RoomsTable from "../features/rooms/RoomsTable";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -22,19 +23,42 @@ const StyledTableContainer = styled.div`
   }
 `;
 
+const RowFlex = styled.div`
+  display: flex;
+  padding: 0.5rem 0.7rem;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (min-width: 602px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 0.8rem;
+  }
+`;
+
+const TableWrapper = styled.div`
+  /* overflow-x: scroll; */
+`;
+
 function TableContainer() {
   return (
     <StyledTableContainer>
-      <Row type={"horizontal"}>
+      <RowFlex>
         <Row>
           <Heading as={"h3"}>All Rooms</Heading>
           <p>This is a list of all the available rooms.</p>
         </Row>
 
         <TableOperations />
-      </Row>
+      </RowFlex>
 
-      <Row>table</Row>
+      <Row>
+        <TableWrapper>
+          <RoomsTable />
+        </TableWrapper>
+      </Row>
     </StyledTableContainer>
   );
 }

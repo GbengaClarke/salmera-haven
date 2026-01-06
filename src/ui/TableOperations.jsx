@@ -47,8 +47,16 @@ function TableOperations() {
 
   const StyledOperations = styled.div`
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    /* flex-direction: column; */
+    /* align-items: left; */
+    /* justify-content: center; */
+    gap: 0.5rem;
+
+    @media (min-width: 594px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.8rem;
+    }
   `;
   //change fragment and input media query here
   return (

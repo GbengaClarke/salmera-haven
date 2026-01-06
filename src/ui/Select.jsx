@@ -9,6 +9,8 @@ const StyledSelect = styled.select`
   border-radius: 9px;
   background-color: var(--color-grey-0);
   padding: 0.7rem 0.8rem;
+  width: 100%;
+
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 
@@ -28,6 +30,14 @@ const StyledSelect = styled.select`
   & option {
     font-family: "Inter";
   }
+
+  @media (min-width: 594px) {
+    width: fit-content;
+  }
+
+  @media (max-width: 363px) {
+    font-size: 0.9rem;
+  }
 `;
 
 // const Styledoption = styled.option`
@@ -35,10 +45,13 @@ const StyledSelect = styled.select`
 // `;
 
 function Select({ options }) {
+  function placeholder() {
+    const sike = 1;
+  }
   return (
-    <StyledSelect value={""}>
+    <StyledSelect value={""} onChange={placeholder}>
       {options.map((option) => (
-        <option value={option.value} key={option.value}>
+        <option value={option.value} onChange={placeholder} key={option.value}>
           {" "}
           {option.label}
         </option>

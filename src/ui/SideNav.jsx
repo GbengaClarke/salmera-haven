@@ -103,6 +103,7 @@ const LogoutLink = styled(NavLink)`
     /* margin-top: -10rem; */
     margin-top: auto;
     margin-bottom: 3rem;
+    /* margin-bottom: 3rem; */
   }
 `;
 

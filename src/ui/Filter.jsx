@@ -14,6 +14,15 @@ const StyledFilter = styled.div`
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-grey-100);
+  white-space: nowrap;
+
+  & div {
+  }
+
+  @media (max-width: 394px) {
+    /* white-space: nowrap; */
+    justify-content: center;
+  }
 `;
 
 const FilterOption = styled.div`
@@ -21,10 +30,20 @@ const FilterOption = styled.div`
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &:active {
     background-color: var(--color-brand-500); //lower opacity later
     color: white;
     /* color: var(--color-grey-100); */
+  }
+
+  @media (max-width: 394px) {
+    padding: 0.6rem 1.2rem;
+  }
+
+  @media (max-width: 363px) {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
   }
 `;
 
