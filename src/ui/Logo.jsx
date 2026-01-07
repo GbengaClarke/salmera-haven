@@ -5,6 +5,7 @@ import { media } from "../styles/breakpoints";
 const CompanyName = styled.h1`
   font-size: 1.6rem;
   color: var(--color-blue-700);
+  /* color: #286bdb; */
   margin-left: -1rem;
 
   ${media.mobilesm} {

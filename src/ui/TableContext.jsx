@@ -1,16 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import styled from "styled-components";
 import RoomsRow from "../features/rooms/RoomsRow";
 
 const StyledTable = styled.div`
   /* border: 1px solid red; */
-  /* border: 1px solid var(--color-grey-200); */
-
   font-size: 1.4rem;
-
-  /* background-color: var(--color-grey-0); */
   border-radius: 1rem;
-  /* width: 50rem; */
+
   overflow: hidden;
 `;
 
@@ -29,6 +25,7 @@ const StyledBody = styled.div`
   flex-direction: column;
   justify-content: center;
   font-size: 1.2rem;
+
   /* border: 1px solid red; */
   /* padding: 0.7rem 0.7rem 1.5rem 0.7rem; */
 `;
@@ -50,7 +47,7 @@ const CommonRow = styled.div`
   }
 `;
 
-const StyledRow = styled.div``;
+// const StyledRow = styled.div``;
 
 const TableContext = createContext();
 
@@ -88,11 +85,16 @@ function Body({ data }) {
 
   return (
     <StyledBody>
-      {data.map((room) => (
-        <CommonRow key={room.preview} columns={columns}>
-          <RoomsRow data={room} />
-        </CommonRow>
-      ))}
+      {data.map((room, i, arr) => {
+        const isLast3 = i >= arr.length - 3;
+        const str = String(isLast3);
+
+        return (
+          <CommonRow key={room.preview} columns={columns}>
+            <RoomsRow last3={str} data={room} />
+          </CommonRow>
+        );
+      })}
     </StyledBody>
   );
 }

@@ -25,6 +25,7 @@ const Link = styled(NavLink)`
   gap: 0.9rem;
   color: var(--color-grey-500);
   font-weight: 500;
+
   padding: 0.7rem 1rem;
   border-right: 3px solid rgba(0, 195, 159, 0);
   transition: border-right-color 0.25s ease;
@@ -36,6 +37,10 @@ const Link = styled(NavLink)`
     color: var(--color-blue-500);
     background-color: var(--color-grey-200);
     border-right: 3px solid rgba(0, 195, 159);
+
+    & svg {
+      color: var(--color-blue-500);
+    }
   }
 
   &:hover {
@@ -55,6 +60,10 @@ const Link = styled(NavLink)`
   &:active svg {
     color: var(--color-blue-500);
   }
+
+  @media (min-height: 260px) and (max-height: 330px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const Logout = styled.li`
@@ -63,6 +72,13 @@ const Logout = styled.li`
   font-weight: 600;
   color: var(--color-red-700);
   margin-top: auto;
+
+  @media (min-height: 260px) and (max-height: 330px) {
+    /* display: flex; */
+    flex-direction: column;
+    height: 100dvh;
+    /* text-align: left; */
+  }
 `;
 
 const Margin = styled.div`
@@ -80,6 +96,8 @@ const LogoutLink = styled(NavLink)`
   border-right: 3px solid rgba(0, 195, 159, 0);
   transition: border-right-color 0.25s ease;
   margin-top: -30rem;
+  /* margin-top: -25rem; */
+  /* border: 2px solid red; */
 
   &:hover {
     color: var(--color-red-800);
@@ -105,11 +123,17 @@ const LogoutLink = styled(NavLink)`
     margin-bottom: 3rem;
     /* margin-bottom: 3rem; */
   }
+
+  @media (min-height: 260px) and (max-height: 330px) {
+    font-size: 1.2rem;
+    margin-top: 0rem;
+  }
 `;
 
 function SideNav({ closeSideBar }) {
   function handleCloseSidebar() {
-    if (window.innerWidth < 576) closeSideBar();
+    if (window.innerWidth < 800) closeSideBar();
+    // if (window.innerWidth < 576) closeSideBar();
   }
 
   return (

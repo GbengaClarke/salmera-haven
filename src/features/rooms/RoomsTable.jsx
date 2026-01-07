@@ -64,7 +64,7 @@ function RoomsTable() {
         <div></div>
       </Table.Header>
 
-      <Table.Body data={roomsData}></Table.Body>
+      <Table.Body data={roomsData} />
     </Table>
   );
 }
