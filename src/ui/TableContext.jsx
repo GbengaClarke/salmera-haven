@@ -6,7 +6,9 @@ const StyledTable = styled.div`
   /* border: 1px solid red; */
   font-size: 1.4rem;
   border-radius: 1rem;
-
+  min-width: 500px;
+  max-width: 800px;
+  margin-inline: auto;
   overflow: hidden;
 `;
 
@@ -34,9 +36,8 @@ const CommonRow = styled.div`
   display: grid;
   grid-template-columns: ${({ columns }) => columns};
   color: var(--color-grey-600);
-  /* gap: 1rem; */
-
   align-items: center;
+  padding: 0.6rem;
 
   &:nth-child(odd) {
     background-color: inherit;
@@ -86,7 +87,7 @@ function Body({ data }) {
   return (
     <StyledBody>
       {data.map((room, i, arr) => {
-        const isLast3 = i >= arr.length - 3;
+        const isLast3 = i >= arr.length - 2;
         const str = String(isLast3);
 
         return (

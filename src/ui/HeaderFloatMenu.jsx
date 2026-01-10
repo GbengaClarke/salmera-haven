@@ -54,6 +54,7 @@ const Cont = styled.div`
   padding: 0.6rem 0.4rem;
   border-radius: 4px;
   cursor: pointer;
+  font-family: "Raleway", sans-serif;
 
   &:hover {
     background-color: var(--color-grey-200);

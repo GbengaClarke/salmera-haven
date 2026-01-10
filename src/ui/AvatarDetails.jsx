@@ -22,6 +22,7 @@ const AvatarInfo = styled.div`
 
   & div {
     font-size: 0.7rem;
+    font-family: "Raleway", sans-serif;
     color: var(--color-grey-500);
   }
 

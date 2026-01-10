@@ -1,18 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { GoDuplicate } from "react-icons/go";
-import { IoIosCopy } from "react-icons/io";
-import { IoDuplicateOutline } from "react-icons/io5";
-import {
-  MdDelete,
-  MdOutlineDeleteOutline,
-  MdOutlineEditNote,
-} from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineEditNote } from "react-icons/md";
 import styled from "styled-components";
 
 const Img = styled.img`
   width: 100%;
-  height: 95%;
+  height: 100%;
   object-fit: cover;
 `;
 
@@ -56,7 +50,7 @@ const FloatMenu = styled.div`
   padding: 0.3rem 0.5rem;
   gap: 0.7rem;
   box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.15);
-  /* z-index: 1000; */
+  /* z-index: 100000; */
 
   /* simple fade-in animation?? */
   /* opacity: ${({ open }) => (open ? 1 : 0)};
@@ -74,9 +68,12 @@ const Mod = styled.button`
   /* border: 1px solid red; */
   transition: all 0.25s ease;
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: var(--color-grey-100);
     color: var(--color-blue-500);
+    outline: none;
   }
 
   &:hover p {
@@ -84,12 +81,22 @@ const Mod = styled.button`
   }
 `;
 
+const StyledCapacity = styled.div`
+  text-align: left;
+`;
+const StyledDiscount = styled.div`
+  color: var(--color-mint-500);
+  font-weight: 500;
+`;
+
+const StyledPrice = styled.div`
+  font-weight: 500;
+`;
+
 function RoomsRow({ data, last3 }) {
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [floatOpen, setFloatMenu] = useState(false);
-
-  console.log(last3);
 
   function handleFloat(e) {
     if (e.target === ref.current || ref2.current.contains(e.target)) {
@@ -120,9 +127,15 @@ function RoomsRow({ data, last3 }) {
       {/* <div>{data.preview}</div> */}
       <Img src="placeholderpic.webp" alt="cabin image" />
       <div>{data.rooms}</div>
-      <div>{data.capacity}</div>
-      <div>{data.price}</div>
-      <div>{data.discount ? data.discount : "-"}</div>
+      <StyledCapacity>
+        {" "}
+        Accommodates up to {data.capacity}{" "}
+        {data.capacity > 1 ? "guests" : "guest"}
+      </StyledCapacity>
+      <StyledPrice>${data.price}</StyledPrice>
+      <StyledDiscount>
+        {data.discount ? `$${data.discount}` : "-"}
+      </StyledDiscount>
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <CiMenuKebab ref={ref2} />

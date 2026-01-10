@@ -3,6 +3,8 @@ import Row from "../styles/Row";
 import Heading from "../styles/Heading";
 import TableOperations from "./TableOperations";
 import RoomsTable from "../features/rooms/RoomsTable";
+import { media } from "../styles/breakpoints";
+import AddRooms from "../features/rooms/AddRooms";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -39,7 +41,14 @@ const RowFlex = styled.div`
 `;
 
 const TableWrapper = styled.div`
-  /* overflow-x: scroll; */
+  overflow-x: scroll;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  ${media.mobile} {
+    overflow-x: auto;
+    margin-bottom: 0;
+  }
 `;
 
 function TableContainer() {
@@ -58,6 +67,8 @@ function TableContainer() {
         <TableWrapper>
           <RoomsTable />
         </TableWrapper>
+
+        <AddRooms />
       </Row>
     </StyledTableContainer>
   );

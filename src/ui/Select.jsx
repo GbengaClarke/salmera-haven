@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledSelect = styled.select`
   font-size: 1rem;
   /* border: 1px solid red; */
-  font-family: "Inter";
   font-weight: 500;
   color: var(--color-grey-600);
   border-radius: 9px;
@@ -27,10 +26,6 @@ const StyledSelect = styled.select`
     border: 1px solid var(--color-blue-700);
   }
 
-  & option {
-    font-family: "Inter";
-  }
-
   @media (min-width: 594px) {
     width: fit-content;
   }
@@ -40,14 +35,8 @@ const StyledSelect = styled.select`
   }
 `;
 
-// const Styledoption = styled.option`
-//   font-family: "Inter";
-// `;
-
 function Select({ options }) {
-  function placeholder() {
-    const sike = 1;
-  }
+  function placeholder() {}
   return (
     <StyledSelect value={""} onChange={placeholder}>
       {options.map((option) => (

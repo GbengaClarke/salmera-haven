@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledFilter = styled.div`
   display: flex;
   font-size: 1rem;
-  font-family: "Inter";
   font-weight: 500;
   color: var(--color-grey-600);
   /* gap: 0.8rem; */
