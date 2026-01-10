@@ -4,7 +4,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { useRef, useState } from "react";
 import { media } from "../styles/breakpoints";
-import { swipeInMenu } from "./ux";
+import { swipeInMenu } from "./userExperience";
 
 const StyledMaxWidth = styled.div`
   max-width: 1200px;

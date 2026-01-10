@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Button } from "../../ui/Button";
 import { IoMdAdd } from "react-icons/io";
-import { useState } from "react";
 import Modal from "../../ui/Modal";
 import CreateRoomForm from "./CreateRoomForm";
 
