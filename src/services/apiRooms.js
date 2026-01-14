@@ -51,28 +51,13 @@ export async function addRoom(formData) {
   return data;
 }
 
-export async function uploadRoomImage(image) {
-  const imageName = `${Math.random()}-${image.name}`;
+export async function deleteRoom(roomId) {
+  const { error } = await supabase.from("rooms").delete().eq("id", roomId);
+  // .select()
+  // .single();
 
-  const { error: errorImage } = await supabase.storage
-    .from("room-pictures")
-    .upload(imageName, image, {
-      cacheControl: "3600",
-      upsert: false,
-    });
-
-  if (errorImage) {
-    console.error(errorImage);
-    throw new Error("Room's picture could not be uploaded");
+  if (error) {
+    console.error(error);
+    throw new Error("Room could not be deleted");
   }
-
-  const { data } = supabase.storage
-    .from("room-pictures")
-    .getPublicUrl(imageName);
-
-  console.log(data.publicUrl);
-
-  return data.publicUrl;
 }
-
-// https://cpdwazwtvjpogpwizqis.supabase.co/storage/v1/object/public/room-pictures/close-up-laptop-with-lock-chain.webp

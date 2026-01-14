@@ -12,7 +12,7 @@ function RoomsTable() {
     <Table columns="0.6fr 1.8fr 2.2fr 1fr 1.2fr 0.7fr">
       <Table.Header>
         <div></div>
-        <div>cabin</div>
+        <div>room</div>
         <div>capacity</div>
         <div>price</div>
         <div>discount</div>

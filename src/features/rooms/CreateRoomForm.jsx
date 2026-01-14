@@ -10,7 +10,6 @@ import { media } from "../../styles/breakpoints";
 import { useForm } from "react-hook-form";
 import useAddRoom from "./useAddRoom";
 import { useEffect, useRef } from "react";
-import { uploadRoomImage } from "../../services/apiRooms";
 
 const style = {
   width: "max-content",

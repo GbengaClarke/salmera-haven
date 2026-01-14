@@ -49,7 +49,7 @@ function App() {
             },
           }}
         >
-          {(t) => (
+          {/* {(t) => (
             <ToastBar toast={t}>
               {({ icon, message }) => (
                 <>
@@ -66,7 +66,7 @@ function App() {
                 </>
               )}
             </ToastBar>
-          )}
+          )} */}
         </Toaster>
         <BrowserRouter>
           <Routes>

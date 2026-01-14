@@ -11,9 +11,8 @@ function useAddRoom() {
   } = useMutation({
     mutationFn: addRoom,
     onSuccess: () => {
-      toast.success("New Room Successfully Created");
-
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      toast.success("New room successfully created");
     },
     onError: (err) => toast.error(err.message) || "Failed to add room",
   });

@@ -4,6 +4,10 @@ import { GoDuplicate } from "react-icons/go";
 import { MdOutlineDeleteOutline, MdOutlineEditNote } from "react-icons/md";
 import styled from "styled-components";
 import { CommonRow } from "../../ui/TableContext";
+import { deleteRoom } from "../../services/apiRooms";
+import useDeleteRoom from "./useDeleteRoom";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const Img = styled.img`
   width: 100%;
@@ -97,7 +101,8 @@ const ImageCont = styled.div`
 `;
 
 function RoomsRow({ room, last3 }) {
-  const { name, maxCapacity, regularPrice, discount, image } = room;
+  const { id, name, maxCapacity, regularPrice, discount, image } = room;
+
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [floatOpen, setFloatMenu] = useState(false);
@@ -111,6 +116,8 @@ function RoomsRow({ room, last3 }) {
 
     setFloatMenu(!floatOpen);
   }
+
+  const { deleteRoom, error, isPending } = useDeleteRoom();
 
   useEffect(() => {
     function handler(event) {
@@ -140,23 +147,37 @@ function RoomsRow({ room, last3 }) {
       <StyledDiscount>{discount ? `$${discount}` : "-"}</StyledDiscount>
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
-        <CiMenuKebab ref={ref2} />
-        {floatOpen && (
-          <FloatMenu $isLast3={last3} open={floatOpen}>
-            <Mod>
-              <MdOutlineEditNote />
-              <p>Edit</p>
-            </Mod>
-            <Mod>
-              <GoDuplicate />
-              <p>Duplicate</p>
-            </Mod>
-            <Mod>
-              <MdOutlineDeleteOutline />
-              <p>Delete</p>
-            </Mod>
-          </FloatMenu>
-        )}
+        <Modal>
+          <CiMenuKebab ref={ref2} />
+          {floatOpen && (
+            <FloatMenu $isLast3={last3} open={floatOpen}>
+              <Mod disabled={isPending}>
+                <MdOutlineEditNote />
+                <p>Edit</p>
+              </Mod>
+              <Mod disabled={isPending}>
+                <GoDuplicate />
+                <p>Duplicate</p>
+              </Mod>
+
+              <Modal.Open openFor="confirmDelete">
+                <Mod disabled={isPending}>
+                  <MdOutlineDeleteOutline />
+                  <p>Delete</p>
+                </Mod>
+              </Modal.Open>
+              <Modal.Window openFor="confirmDelete">
+                <ConfirmDelete
+                  resourceName="room"
+                  onConfirm={() => {
+                    deleteRoom(id);
+                  }}
+                  disabled={isPending}
+                />
+              </Modal.Window>
+            </FloatMenu>
+          )}
+        </Modal>
       </ModifyMenu>
     </CommonRow>
   );
