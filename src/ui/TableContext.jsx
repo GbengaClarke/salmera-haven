@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
-import RoomsRow from "../features/rooms/RoomsRow";
+// import RoomsRow from "../features/rooms/RoomsRow";
 
 const StyledTable = styled.div`
   /* border: 1px solid red; */
@@ -32,12 +32,13 @@ const StyledBody = styled.div`
   /* padding: 0.7rem 0.7rem 1.5rem 0.7rem; */
 `;
 
-const CommonRow = styled.div`
+export const CommonRow = styled.div`
   display: grid;
   grid-template-columns: ${({ columns }) => columns};
   color: var(--color-grey-600);
   align-items: center;
   padding: 0.6rem;
+  /* border: 1px solid red; */
 
   &:nth-child(odd) {
     background-color: inherit;
@@ -81,23 +82,31 @@ function Header({ children }) {
 //   );
 // }
 
-function Body({ data }) {
-  const { columns } = useContext(TableContext);
+function Body({ data, render }) {
+  // const { columns } = useContext(TableContext);
 
   return (
     <StyledBody>
-      {data.map((room, i, arr) => {
-        const isLast3 = i >= arr.length - 2;
-        const str = String(isLast3);
-
-        return (
-          <CommonRow key={room.preview} columns={columns}>
-            <RoomsRow last3={str} data={room} />
-          </CommonRow>
-        );
-      })}
+      {/* <CommonRow key={data.preview} columns={columns}> */}
+      {data.map(render)}
+      {/* </CommonRow> */}
     </StyledBody>
   );
+
+  // return (
+  //   <StyledBody>
+  //     {data.map((room, i, arr) => {
+  //       const isLast3 = i >= arr.length - 2;
+  //       const str = String(isLast3);
+
+  //       return (
+  //         <CommonRow key={room.preview} columns={columns}>
+  //           <RoomsRow last3={str} data={room} />
+  //         </CommonRow>
+  //       );
+  //     })}
+  //   </StyledBody>
+  // );
 }
 
 Table.Header = Header;

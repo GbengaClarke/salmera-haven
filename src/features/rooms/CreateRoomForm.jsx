@@ -7,12 +7,16 @@ import FormRow, {
 } from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
 import { media } from "../../styles/breakpoints";
+import { useForm } from "react-hook-form";
+import useAddRoom from "./useAddRoom";
+import { useEffect, useRef } from "react";
+import { uploadRoomImage } from "../../services/apiRooms";
 
 const style = {
   width: "max-content",
 };
 
-const StyledForm = styled.div`
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,66 +54,153 @@ const StyledButtons = styled.div`
 `;
 
 function CreateRoomForm({ closeModal }) {
+  const nameInputRef = useRef(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm();
+
+  const { createRoom, error, isPending } = useAddRoom();
+
+  function onSubmit(data) {
+    createRoom(data, {
+      onSuccess: (data) => {
+        reset();
+        closeModal?.();
+      },
+      onError: (err) => {
+        if (err.message === "A room with this name already exists") {
+          setError("name", {
+            type: "server",
+            message: err.message,
+          });
+        }
+      },
+    });
+  }
+
+  //focus the first input in the form on open
+  useEffect(() => {
+    nameInputRef.current?.focus();
+  }, []);
+
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <FormTitle
         head={"Add new room"}
         subText={"Please complete this form to add a new room"}
       />
 
       <StyledFormElements>
-        <FormRow label={"Room name"} error={""}>
+        <FormRow label={"Room name"} error={errors.name && errors.name.message}>
           <input
             id={"name"}
             type={"text"}
+            defaultValue={"10"}
+            disabled={isPending}
+            {...register("name", { required: "This field is required" })}
             placeholder={`Insert room name here...`}
+            ref={(e) => {
+              register("name").ref(e);
+              nameInputRef.current = e;
+            }}
           />
         </FormRow>
 
-        <FormRow label={"Max capacity"} error={""}>
+        <FormRow
+          label={"Max capacity"}
+          error={errors.maxCapacity && errors.maxCapacity.message}
+        >
           <input
             id={"maxCapacity"}
+            defaultValue={"10"}
             type={"number"}
+            disabled={isPending}
+            {...register("maxCapacity", { required: "This field is required" })}
             placeholder={`Insert room maximum capacity here...`}
           />
         </FormRow>
-        <FormRow label={"Regular price"} error={""}>
+        <FormRow
+          label={"Regular price"}
+          error={errors.regularPrice && errors.regularPrice.message}
+        >
           <input
             id={"reguarPrice"}
             type={"number"}
+            defaultValue={"10"}
+            disabled={isPending}
+            {...register("regularPrice", {
+              required: "This field is required",
+            })}
             placeholder={`Insert room price here...`}
           />
         </FormRow>
-        <FormRow label={"Discount"} error={""}>
+
+        <FormRow
+          label={"Discount"}
+          error={errors.discount && errors.discount.message}
+        >
           <input
             id={"discount"}
             type={"number"}
+            defaultValue={"10"}
+            disabled={isPending}
+            {...register("discount", { required: "This field is required" })}
             placeholder={`Insert room discount here...`}
           />
         </FormRow>
-        <FormRow label={"Description for website"} error={""}>
+
+        <FormRow
+          label={"Description for website"}
+          error={errors.description && errors.description.message}
+        >
           <Textarea
             id={"description"}
             type={"text"}
+            defaultValue={"sike"}
+            disabled={isPending}
+            {...register("description", { required: "This field is required" })}
             placeholder={`Insert room description here...`}
           />
         </FormRow>
 
-        <FormRow label={"Room photo"} error={""} style={style}>
-          <InputFile id={"image"} type={"file"} />
+        <FormRow
+          label={"Room photo"}
+          error={errors.image && errors.image.message}
+          style={style}
+        >
+          <InputFile
+            disabled={isPending}
+            id={"image"}
+            accept="image/*"
+            type={"file"}
+            {...register("image", { required: "This field is required" })}
+          />
         </FormRow>
       </StyledFormElements>
 
       <StyledButtons>
         <CancelButton
+          type="button"
+          disabled={isPending}
           onClick={closeModal}
           fontSize={"1.3rem"}
           padding={".5rem 1rem"}
         >
           Cancel
         </CancelButton>
-        <Button fontSize={"1.3rem"} padding={".5rem 1rem"}>
-          Add room
+
+        <Button
+          disabled={isPending}
+          type="submit"
+          fontSize={"1.3rem"}
+          padding={".5rem 1rem"}
+        >
+          {isPending ? "Adding..." : "Add room"}
         </Button>
       </StyledButtons>
     </StyledForm>

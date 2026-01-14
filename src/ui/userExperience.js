@@ -24,5 +24,3 @@ export function swipeInMenu(touchStartX, touchEndX, setSidebarOpen) {
 
   return { onTouchStart, onTouchMove, onTouchEnd };
 }
-
-//close menu on clicking outside

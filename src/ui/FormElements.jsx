@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
-export const StyledFormElements = styled.form`
+export const StyledFormElements = styled.div`
   border: 1px solid var(--color-grey-300);
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.7rem;
   width: 100%;
+
   /* max-width: 40rem; */
   border-radius: var(--border-radius-lg);
   overflow-y: scroll;
@@ -102,9 +103,7 @@ function FormRow({ label, children, error, style }) {
     <StyledRow style={style}>
       {label && <label htmlFor={children.props.id}>{label}</label>}
       {children}
-      <StyledError
-        error={error}
-      >{`${error}! this input is invalid, try again`}</StyledError>
+      <StyledError error={error}>{error}</StyledError>
     </StyledRow>
   );
 }

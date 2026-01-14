@@ -57,20 +57,19 @@ function AppLayout() {
     setSidebarOpen((sb) => !sb);
   }
 
-  const { onTouchStart, onTouchMove, onTouchEnd } = swipeInMenu(
-    touchStartX,
-    touchEndX,
-    setSidebarOpen
-  );
+  // const { onTouchStart, onTouchMove, onTouchEnd } = swipeInMenu(
+  //   touchStartX,
+  //   touchEndX,
+  //   setSidebarOpen
+  // );
+
+  // onTouchStart={onTouchStart}
+  // onTouchMove={onTouchMove}
+  // onTouchEnd={onTouchEnd}
 
   return (
     <StyledMaxWidth>
-      <StyledAppLayoutGrid
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        $sidebarOpen={sidebarOpen}
-      >
+      <StyledAppLayoutGrid $sidebarOpen={sidebarOpen}>
         <BackdropEffect $sidebarOpen={sidebarOpen} />
         <Sidebar
           isOpen={sidebarOpen}

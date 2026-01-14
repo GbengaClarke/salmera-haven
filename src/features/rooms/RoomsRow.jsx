@@ -3,6 +3,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { GoDuplicate } from "react-icons/go";
 import { MdOutlineDeleteOutline, MdOutlineEditNote } from "react-icons/md";
 import styled from "styled-components";
+import { CommonRow } from "../../ui/TableContext";
 
 const Img = styled.img`
   width: 100%;
@@ -36,7 +37,7 @@ const FloatMenu = styled.div`
   position: absolute;
   right: 2.2rem;
 
-  top: ${({ isLast3 }) => (isLast3 === "false" ? "2.5rem" : "-8rem")};
+  top: ${({ $isLast3 }) => ($isLast3 === "false" ? "2.5rem" : "-8rem")};
 
   display: flex;
   flex-direction: column;
@@ -50,12 +51,6 @@ const FloatMenu = styled.div`
   padding: 0.3rem 0.5rem;
   gap: 0.7rem;
   box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.15);
-  /* z-index: 100000; */
-
-  /* simple fade-in animation?? */
-  /* opacity: ${({ open }) => (open ? 1 : 0)};
-  transform: translateY(${({ open }) => (open ? "0" : "-10px")});
-  transition: all 10s ease; */
 `;
 
 const Mod = styled.button`
@@ -93,7 +88,16 @@ const StyledPrice = styled.div`
   font-weight: 500;
 `;
 
-function RoomsRow({ data, last3 }) {
+const ImageCont = styled.div`
+  width: 7rem;
+  height: 5rem;
+  overflow: hidden;
+  border-radius: 3px;
+  background-color: var(--color-grey-100);
+`;
+
+function RoomsRow({ room, last3 }) {
+  const { name, maxCapacity, regularPrice, discount, image } = room;
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [floatOpen, setFloatMenu] = useState(false);
@@ -123,26 +127,22 @@ function RoomsRow({ data, last3 }) {
   }, []);
 
   return (
-    <>
-      {/* <div>{data.preview}</div> */}
-      <Img src="placeholderpic.webp" alt="cabin image" />
-      <div>{data.rooms}</div>
+    <CommonRow columns="0.6fr 1.8fr 2.2fr 1fr 1.2fr 0.7fr">
+      <ImageCont>
+        <Img src={image} alt={name} />
+      </ImageCont>
+
+      <div>{name}</div>
       <StyledCapacity>
-        {" "}
-        Accommodates up to {data.capacity}{" "}
-        {data.capacity > 1 ? "guests" : "guest"}
+        Accommodates up to {maxCapacity} {maxCapacity > 1 ? "guests" : "guest"}
       </StyledCapacity>
-      <StyledPrice>${data.price}</StyledPrice>
-      <StyledDiscount>
-        {data.discount ? `$${data.discount}` : "-"}
-      </StyledDiscount>
+      <StyledPrice>${regularPrice}</StyledPrice>
+      <StyledDiscount>{discount ? `$${discount}` : "-"}</StyledDiscount>
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <CiMenuKebab ref={ref2} />
-        {/* fade in?? */}
-        {/* <FloatMenu open={floatOpen}>sike</FloatMenu> */}
         {floatOpen && (
-          <FloatMenu isLast3={last3} open={floatOpen}>
+          <FloatMenu $isLast3={last3} open={floatOpen}>
             <Mod>
               <MdOutlineEditNote />
               <p>Edit</p>
@@ -158,7 +158,7 @@ function RoomsRow({ data, last3 }) {
           </FloatMenu>
         )}
       </ModifyMenu>
-    </>
+    </CommonRow>
   );
 }
 

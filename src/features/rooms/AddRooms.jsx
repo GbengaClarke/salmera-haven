@@ -3,6 +3,7 @@ import { Button } from "../../ui/Button";
 import { IoMdAdd } from "react-icons/io";
 import Modal from "../../ui/Modal";
 import CreateRoomForm from "./CreateRoomForm";
+import toast from "react-hot-toast";
 
 const Div = styled.div`
   margin-right: auto;
@@ -10,6 +11,8 @@ const Div = styled.div`
 `;
 
 function AddRooms() {
+  // toast("Here is your toast.");
+
   return (
     <Div>
       <Modal>
