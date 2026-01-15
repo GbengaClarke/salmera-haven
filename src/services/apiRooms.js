@@ -61,3 +61,30 @@ export async function deleteRoom(roomId) {
     throw new Error("Room could not be deleted");
   }
 }
+
+export async function duplicateRoom(roomId) {
+  const { data, error } = await supabase
+    .from("rooms")
+    .select("*")
+    .eq("id", roomId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Rooms could not be loaded");
+  }
+
+  const { id, ...duplicateData } = data;
+
+  // console.log(duplicateData);
+
+  const { error: errorDuplicating } = await supabase
+    .from("rooms")
+    .insert([{ ...duplicateData, name: `Copy of ${duplicateData.name}` }])
+    .select();
+
+  if (errorDuplicating) {
+    console.error(errorDuplicating);
+    throw new Error("Room could not be duplicated");
+  }
+}

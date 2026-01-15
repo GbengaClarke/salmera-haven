@@ -8,6 +8,7 @@ import { deleteRoom } from "../../services/apiRooms";
 import useDeleteRoom from "./useDeleteRoom";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import useDuplicateRoom from "./useDuplicateRoom";
 
 const Img = styled.img`
   width: 100%;
@@ -107,6 +108,19 @@ function RoomsRow({ room, last3 }) {
   const ref2 = useRef(null);
   const [floatOpen, setFloatMenu] = useState(false);
 
+  const { deleteRoom, error, isPending } = useDeleteRoom();
+
+  const {
+    duplicateRoom,
+    error: errorDuplicating,
+    isPending: isDuplicating,
+  } = useDuplicateRoom();
+
+  function handleDuplicate() {
+    duplicateRoom(id);
+    setFloatMenu(false);
+  }
+
   function handleFloat(e) {
     if (e.target === ref.current || ref2.current.contains(e.target)) {
       setFloatMenu(!floatOpen);
@@ -116,8 +130,6 @@ function RoomsRow({ room, last3 }) {
 
     setFloatMenu(!floatOpen);
   }
-
-  const { deleteRoom, error, isPending } = useDeleteRoom();
 
   useEffect(() => {
     function handler(event) {
@@ -148,24 +160,28 @@ function RoomsRow({ room, last3 }) {
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <Modal>
-          <CiMenuKebab ref={ref2} />
+          <CiMenuKebab ref={ref2} disabled={true} />
           {floatOpen && (
             <FloatMenu $isLast3={last3} open={floatOpen}>
-              <Mod disabled={isPending}>
+              <Mod disabled={isPending || isDuplicating}>
                 <MdOutlineEditNote />
                 <p>Edit</p>
               </Mod>
-              <Mod disabled={isPending}>
+              <Mod
+                disabled={isPending || isDuplicating}
+                onClick={handleDuplicate}
+              >
                 <GoDuplicate />
                 <p>Duplicate</p>
               </Mod>
 
               <Modal.Open openFor="confirmDelete">
-                <Mod disabled={isPending}>
+                <Mod disabled={isPending || isDuplicating}>
                   <MdOutlineDeleteOutline />
                   <p>Delete</p>
                 </Mod>
               </Modal.Open>
+
               <Modal.Window openFor="confirmDelete">
                 <ConfirmDelete
                   resourceName="room"

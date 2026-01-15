@@ -11,11 +11,18 @@ function useDeleteRoom() {
     isPending,
   } = useMutation({
     mutationFn: deleteRoomApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      toast.success("Room deleted");
+    onMutate: () => {
+      const toastId = toast.loading("Deleting room...");
+      return { toastId };
     },
-    onError: (err) => toast.error(err.message) || "Failed to delete room",
+    onSuccess: (_, __, context) => {
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      toast.success("Room deleted", { id: context.toastId });
+    },
+    onError: (err, _, context) =>
+      toast.error(err.message || "Failed to delete room", {
+        id: context.toastId,
+      }),
   });
 
   return { deleteRoom, error, isPending };

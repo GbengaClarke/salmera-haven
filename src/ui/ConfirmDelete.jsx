@@ -13,6 +13,7 @@ const StyledConfirmDelete = styled.div`
     color: var(--color-grey-500);
     margin-bottom: 1.2rem;
     font-family: "Raleway", sans-serif;
+    hyphens: none;
   }
 
   & div {
@@ -28,7 +29,12 @@ const StyledH3 = styled.h3`
   color: var(--color-brand-500);
 `;
 
-function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
+function ConfirmDelete({ resourceName, onConfirm, disabled, closeModal }) {
+  function handleClick() {
+    onConfirm();
+    closeModal();
+  }
+
   return (
     <StyledConfirmDelete>
       <StyledH3>Delete {resourceName}</StyledH3>
@@ -38,13 +44,13 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
       </p>
 
       <div>
-        <CancelButton disabled={disabled} onClick={onCloseModal}>
+        <CancelButton disabled={disabled} onClick={closeModal}>
           Cancel
         </CancelButton>
         <Button
           bgc={"var(--color-red-700)"}
           disabled={disabled}
-          onClick={onConfirm}
+          onClick={handleClick}
         >
           Delete
         </Button>
