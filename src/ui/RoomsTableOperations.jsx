@@ -55,14 +55,14 @@ const StyledOperations = styled.div`
     gap: 0.8rem;
   }
 `;
-function TableOperations() {
+function RoomsTableOperations() {
   return (
     <StyledOperations>
-      <Filter options={filter} />
+      <Filter options={filter} filterField="discount" />
 
       <Sortby options={sortBy} />
     </StyledOperations>
   );
 }
 
-export default TableOperations;
+export default RoomsTableOperations;

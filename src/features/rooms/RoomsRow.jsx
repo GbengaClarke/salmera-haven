@@ -155,7 +155,7 @@ function RoomsRow({ room, last3 }) {
   return (
     <CommonRow columns="0.6fr 1.8fr 2.2fr 1fr 1.2fr 0.7fr">
       <ImageCont>
-        <Img src={image} alt={name} />
+        <Img src={image} alt={`picture of room ${name}`} />
       </ImageCont>
 
       <div>{name}</div>

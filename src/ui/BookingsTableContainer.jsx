@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
-import TableOperations from "./TableOperations";
+import TableOperations from "./RoomsTableOperations";
 import RoomsTable from "../features/rooms/RoomsTable";
 import { media } from "../styles/breakpoints";
 import AddRooms from "../features/rooms/AddRooms";

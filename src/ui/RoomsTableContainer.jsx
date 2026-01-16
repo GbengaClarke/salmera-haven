@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
-import TableOperations from "./TableOperations";
+import TableOperations from "./RoomsTableOperations";
 import RoomsTable from "../features/rooms/RoomsTable";
 import { media } from "../styles/breakpoints";
 import AddRooms from "../features/rooms/AddRooms";
+import RoomsTableOperations from "./RoomsTableOperations";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -51,7 +52,7 @@ const TableWrapper = styled.div`
   }
 `;
 
-function TableContainer() {
+function RoomsTableContainer() {
   return (
     <StyledTableContainer>
       <RowFlex>
@@ -60,7 +61,7 @@ function TableContainer() {
           <p>This is a list of all the available rooms.</p>
         </Row>
 
-        <TableOperations />
+        <RoomsTableOperations />
       </RowFlex>
 
       <Row>
@@ -74,4 +75,4 @@ function TableContainer() {
   );
 }
 
-export default TableContainer;
+export default RoomsTableContainer;

@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
   display: flex;
@@ -29,11 +30,17 @@ const FilterOption = styled.div`
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 
+  ${({ $active }) =>
+    $active &&
+    css`
+      background-color: var(--color-brand-500);
+      color: white;
+    `}
+
   &:hover,
   &:active {
-    background-color: var(--color-brand-500); //lower opacity later
+    background-color: var(--color-brand-500);
     color: white;
-    /* color: var(--color-grey-100); */
   }
 
   @media (max-width: 394px) {
@@ -46,11 +53,28 @@ const FilterOption = styled.div`
   }
 `;
 
-function Filter({ options }) {
+function Filter({ options, filterField }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function handleFilter(value) {
+    searchParams.set(filterField, value);
+    setSearchParams(searchParams);
+  }
+
+  const presentFilter = searchParams.get(filterField) || "all";
+
   return (
     <StyledFilter>
       {options.map((option) => (
-        <FilterOption key={option.value}>{option.label}</FilterOption>
+        <FilterOption
+          onClick={() => {
+            handleFilter(option.value);
+          }}
+          $active={presentFilter === option.value}
+          key={option.value}
+        >
+          {option.label}
+        </FilterOption>
       ))}
     </StyledFilter>
   );
