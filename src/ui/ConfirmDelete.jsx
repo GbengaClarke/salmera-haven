@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Heading from "../styles/Heading";
 import { Button, CancelButton } from "./Button";
 
 const StyledConfirmDelete = styled.div`
@@ -29,10 +28,17 @@ const StyledH3 = styled.h3`
   color: var(--color-brand-500);
 `;
 
-function ConfirmDelete({ resourceName, onConfirm, disabled, closeModal }) {
+function ConfirmDelete({
+  resourceName,
+  onConfirm,
+  disabled,
+  closeModal,
+  setFloatMenu,
+}) {
   function handleClick() {
     onConfirm();
     closeModal();
+    setFloatMenu(false);
   }
 
   return (

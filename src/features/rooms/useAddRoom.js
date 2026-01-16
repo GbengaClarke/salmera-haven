@@ -1,23 +1,43 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addRoom } from "../../services/apiRooms";
+import { addEditRoom as addEditRoomApi } from "../../services/apiRooms";
 import toast from "react-hot-toast";
 
-function useAddRoom() {
+function useAddEditRoom() {
   const queryClient = useQueryClient();
   const {
-    mutate: createRoom,
+    mutate: addEditRoom,
     error,
-    isPending,
+    isPending: isWorking,
   } = useMutation({
-    mutationFn: addRoom,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      toast.success("New room successfully created");
+    onMutate: (variables) => {
+      const isEditing = Boolean(variables.id);
+
+      const toastId = toast.loading(
+        isEditing ? "Editing room..." : "Adding room..."
+      );
+
+      return { toastId, isEditing };
     },
-    onError: (err) => toast.error(err.message) || "Failed to add room",
+    mutationFn: addEditRoomApi,
+
+    onSuccess: (_, variables, context) => {
+      const message = context.isEditing
+        ? "Room successfully edited"
+        : "New room successfully created";
+
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      toast.success(message, { id: context.toastId });
+    },
+    onError: (err, _, context) => {
+      const message = context.isEditing
+        ? "Room edit failed"
+        : "Failed to add room";
+
+      toast.error(err.message || message, { id: context.toastId });
+    },
   });
 
-  return { createRoom, error, isPending };
+  return { addEditRoom, error, isWorking };
 }
 
-export default useAddRoom;
+export default useAddEditRoom;

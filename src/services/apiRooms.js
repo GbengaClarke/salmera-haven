@@ -11,44 +11,116 @@ export async function getRooms() {
   return data;
 }
 
-export async function addRoom(formData) {
-  const image = formData.image[0];
+async function uploadRoomImage(imageFile) {
+  const imageName = `${Math.random()}-${imageFile.name}`;
 
-  //upload image
-  const imageName = `${Math.random()}-${image.name}`;
-
-  const { error: errorImage } = await supabase.storage
+  const { error } = await supabase.storage
     .from("room-pictures")
-    .upload(imageName, image, {
+    .upload(imageName, imageFile, {
       cacheControl: "3600",
       upsert: false,
     });
 
-  if (errorImage) {
-    console.error(errorImage);
+  if (error) {
     throw new Error("Room's picture could not be uploaded");
   }
 
-  const { data: imagePathData } = supabase.storage
+  const { data } = supabase.storage
     .from("room-pictures")
     .getPublicUrl(imageName);
 
-  const imagePath = imagePathData.publicUrl;
+  return data.publicUrl;
+}
 
-  const { data, error } = await supabase
-    .from("rooms")
-    .insert([{ ...formData, image: imagePath }])
-    .select();
+export async function addEditRoom({ formData, id }) {
+  const image = formData.image[0];
+
+  let imagePath = formData.image;
+
+  if (formData.image instanceof FileList) {
+    imagePath = await uploadRoomImage(image);
+  }
+
+  const payload = {
+    ...formData,
+    image: imagePath,
+  };
+
+  let query = supabase.from("rooms");
+
+  if (id) {
+    query = query.update(payload).eq("id", id);
+  } else {
+    query = query.insert([payload]);
+  }
+
+  const { error } = await query.select();
 
   if (error) {
     if (error.code === "23505") {
       throw new Error("A room with this name already exists");
     }
-    console.error(error);
-    throw new Error("Room could not be added");
+
+    throw new Error(
+      id ? "Room could not be edited" : "Room could not be added"
+    );
   }
 
-  return data;
+  //upload image
+  // const imageName = `${Math.random()}-${image.name}`;
+
+  // const { error: errorImage } = await supabase.storage
+  //   .from("room-pictures")
+  //   .upload(imageName, image, {
+  //     cacheControl: "3600",
+  //     upsert: false,
+  //   });
+
+  // if (errorImage) {
+  //   console.error(errorImage);
+  //   throw new Error("Room's picture could not be uploaded");
+  // }
+
+  // const { data: imagePathData } = supabase.storage
+  //   .from("room-pictures")
+  //   .getPublicUrl(imageName);
+
+  // const imagePath = imagePathData.publicUrl;
+
+  //add full room
+  // if (!id) {
+  //   const { data, error } = await supabase
+  //     .from("rooms")
+  //     .insert([{ ...formData, image: imagePath }])
+  //     .select();
+
+  //   if (error) {
+  //     if (error.code === "23505") {
+  //       throw new Error("A room with this name already exists");
+  //     }
+  //     console.error(error);
+  //     throw new Error("Room could not be added");
+  //   }
+  // }
+
+  // //edit room
+  // if (id) {
+  //   const imageX =
+  //     typeof formData.image === "string" ? formData.image : imagePath;
+
+  //   const { data, error } = await supabase
+  //     .from("rooms")
+  //     .update({ ...formData, image: imageX })
+  //     .eq("id", id)
+  //     .select();
+
+  //   if (error) {
+  //     console.error(error);
+  //     throw new Error("Room could not be edited");
+  //   }
+  // }
+
+  // return data;
 }
 
 export async function deleteRoom(roomId) {
@@ -62,29 +134,27 @@ export async function deleteRoom(roomId) {
   }
 }
 
-export async function duplicateRoom(roomId) {
-  const { data, error } = await supabase
-    .from("rooms")
-    .select("*")
-    .eq("id", roomId)
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Rooms could not be loaded");
-  }
-
-  const { id, ...duplicateData } = data;
-
-  // console.log(duplicateData);
-
+export async function duplicateRoom(duplicateData) {
   const { error: errorDuplicating } = await supabase
     .from("rooms")
-    .insert([{ ...duplicateData, name: `Copy of ${duplicateData.name}` }])
+    .insert([duplicateData])
     .select();
 
   if (errorDuplicating) {
     console.error(errorDuplicating);
     throw new Error("Room could not be duplicated");
+  }
+}
+
+export async function editRoom(object) {
+  const { data, error } = await supabase
+    .from("rooms")
+    .update(object.values)
+    .eq("id", object.id)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Room could not be edited");
   }
 }

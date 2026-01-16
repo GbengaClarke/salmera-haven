@@ -85,9 +85,10 @@ function Window({ children, openFor }) {
 
   if (openFor !== openName) return null;
 
+  // const isEditing = openFor === "editRoom";
+
   return createPortal(
     <Overlay>
-      {/* <StyledModal> */}
       <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />

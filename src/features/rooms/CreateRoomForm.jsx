@@ -8,8 +8,8 @@ import FormRow, {
 import { Button, CancelButton } from "../../ui/Button";
 import { media } from "../../styles/breakpoints";
 import { useForm } from "react-hook-form";
-import useAddRoom from "./useAddRoom";
 import { useEffect, useRef } from "react";
+import useAddEditRoom from "./useAddRoom";
 
 const style = {
   width: "max-content",
@@ -52,8 +52,12 @@ const StyledButtons = styled.div`
   gap: 1.5rem;
 `;
 
-function CreateRoomForm({ closeModal }) {
+function CreateRoomForm({ closeModal, room = {}, setFloatMenu }) {
   const nameInputRef = useRef(null);
+
+  const { id: editId, ...editValues } = room;
+
+  const isEditing = editId;
 
   const {
     register,
@@ -61,25 +65,34 @@ function CreateRoomForm({ closeModal }) {
     reset,
     setError,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: { discount: 0, ...editValues },
+  });
 
-  const { createRoom, error, isPending } = useAddRoom();
+  const { addEditRoom, isWorking } = useAddEditRoom();
 
   function onSubmit(data) {
-    createRoom(data, {
-      onSuccess: (data) => {
-        reset();
-        closeModal?.();
+    addEditRoom(
+      {
+        formData: data,
+        id: editId,
       },
-      onError: (err) => {
-        if (err.message === "A room with this name already exists") {
-          setError("name", {
-            type: "server",
-            message: err.message,
-          });
-        }
-      },
-    });
+      {
+        onSuccess: () => {
+          reset();
+          closeModal?.();
+          setFloatMenu?.(false);
+        },
+        onError: (err) => {
+          if (err.message === "A room with this name already exists") {
+            setError("name", {
+              type: "server",
+              message: err.message,
+            });
+          }
+        },
+      }
+    );
   }
 
   //focus the first input in the form on open
@@ -90,8 +103,10 @@ function CreateRoomForm({ closeModal }) {
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <FormTitle
-        head={"Add new room"}
-        subText={"Please complete this form to add a new room"}
+        head={isEditing ? "Edit Room" : "Add new room"}
+        subText={`Please complete this form to ${
+          isEditing ? "edit the" : "add a new"
+        } room`}
       />
 
       <StyledFormElements>
@@ -99,8 +114,7 @@ function CreateRoomForm({ closeModal }) {
           <input
             id={"name"}
             type={"text"}
-            defaultValue={"10"}
-            disabled={isPending}
+            disabled={isWorking}
             {...register("name", { required: "This field is required" })}
             placeholder={`Insert room name here...`}
             ref={(e) => {
@@ -116,9 +130,8 @@ function CreateRoomForm({ closeModal }) {
         >
           <input
             id={"maxCapacity"}
-            defaultValue={"10"}
             type={"number"}
-            disabled={isPending}
+            disabled={isWorking}
             {...register("maxCapacity", { required: "This field is required" })}
             placeholder={`Insert room maximum capacity here...`}
           />
@@ -128,12 +141,15 @@ function CreateRoomForm({ closeModal }) {
           error={errors.regularPrice && errors.regularPrice.message}
         >
           <input
-            id={"reguarPrice"}
+            id={"regularPrice"}
             type={"number"}
-            defaultValue={"10"}
-            disabled={isPending}
+            disabled={isWorking}
             {...register("regularPrice", {
               required: "This field is required",
+              min: {
+                value: 1,
+                message: "capacity should be atleast 1",
+              },
             })}
             placeholder={`Insert room price here...`}
           />
@@ -146,8 +162,7 @@ function CreateRoomForm({ closeModal }) {
           <input
             id={"discount"}
             type={"number"}
-            defaultValue={"10"}
-            disabled={isPending}
+            disabled={isWorking}
             {...register("discount", { required: "This field is required" })}
             placeholder={`Insert room discount here...`}
           />
@@ -160,8 +175,7 @@ function CreateRoomForm({ closeModal }) {
           <Textarea
             id={"description"}
             type={"text"}
-            defaultValue={"sike"}
-            disabled={isPending}
+            disabled={isWorking}
             {...register("description", { required: "This field is required" })}
             placeholder={`Insert room description here...`}
           />
@@ -173,11 +187,13 @@ function CreateRoomForm({ closeModal }) {
           style={style}
         >
           <InputFile
-            disabled={isPending}
+            disabled={isWorking}
             id={"image"}
             accept="image/*"
             type={"file"}
-            {...register("image", { required: "This field is required" })}
+            {...register("image", {
+              required: isEditing ? false : "This field is required",
+            })}
           />
         </FormRow>
       </StyledFormElements>
@@ -185,7 +201,7 @@ function CreateRoomForm({ closeModal }) {
       <StyledButtons>
         <CancelButton
           type="button"
-          disabled={isPending}
+          disabled={isWorking}
           onClick={closeModal}
           fontSize={"1.3rem"}
           padding={".5rem 1rem"}
@@ -194,12 +210,18 @@ function CreateRoomForm({ closeModal }) {
         </CancelButton>
 
         <Button
-          disabled={isPending}
+          disabled={isWorking}
           type="submit"
           fontSize={"1.3rem"}
           padding={".5rem 1rem"}
         >
-          {isPending ? "Adding..." : "Add room"}
+          {isWorking
+            ? isEditing
+              ? "Editing..."
+              : "Adding..."
+            : isEditing
+            ? "Edit room"
+            : "Add room"}
         </Button>
       </StyledButtons>
     </StyledForm>

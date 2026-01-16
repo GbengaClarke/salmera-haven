@@ -18,11 +18,10 @@ function useDuplicateRoom() {
     },
 
     onSuccess: (_, __, context) => {
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
       toast.success("Room duplicated successfully", {
         id: context.toastId,
       });
-
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
 
     onError: (error, _, context) => {
