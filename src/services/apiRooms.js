@@ -12,7 +12,7 @@ export async function getRooms() {
 }
 
 async function uploadRoomImage(imageFile) {
-  const imageName = `${Math.random()}-${imageFile.name}`;
+  const imageName = `${Math.random()}-${imageFile.name}`.replace(".", "-");
 
   const { error } = await supabase.storage
     .from("room-pictures")

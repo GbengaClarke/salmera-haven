@@ -5,6 +5,7 @@ import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import Logo from "./Logo";
 import FlexAlign from "../styles/FlexAlign";
 import SideNav from "./SideNav";
+import Uploader from "../data/Uploader";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);

@@ -57,8 +57,14 @@ function Filter({ options, filterField }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleFilter(value) {
-    searchParams.set(filterField, value);
-    setSearchParams(searchParams);
+    // searchParams.set(filterField, value);
+    // setSearchParams(searchParams);
+
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set(filterField, value);
+      return params;
+    });
   }
 
   const presentFilter = searchParams.get(filterField) || "all";

@@ -11,10 +11,10 @@ const StyledSortby = styled.div`
   }
 `;
 
-function Sortby({ options }) {
+function Sortby({ options, sortByField }) {
   return (
     <StyledSortby>
-      <Select options={options} />
+      <Select options={options} sortByField={sortByField} />
     </StyledSortby>
   );
 }

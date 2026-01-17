@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
@@ -35,13 +37,34 @@ const StyledSelect = styled.select`
   }
 `;
 
-function Select({ options }) {
-  function placeholder() {}
+function Select({ options, sortByField }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState("");
+
+  // console.log(value);
+  // console.log(options);
+
+  // function handleSortBy() {
+  //   searchParams.set(sortByField, value);
+  //   setSearchParams(searchParams);
+  // }
+
+  function onChange(e) {
+    const selectedValue = e.target.value;
+
+    setValue(selectedValue);
+
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set(sortByField, selectedValue);
+      return params;
+    });
+  }
+
   return (
-    <StyledSelect value={""} onChange={placeholder}>
+    <StyledSelect value={value} onChange={onChange}>
       {options.map((option) => (
-        <option value={option.value} onChange={placeholder} key={option.value}>
-          {" "}
+        <option value={option.value} key={option.value}>
           {option.label}
         </option>
       ))}

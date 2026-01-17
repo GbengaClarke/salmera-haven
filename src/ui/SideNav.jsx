@@ -6,6 +6,7 @@ import { RxDashboard } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../styles/breakpoints";
+import Uploader from "../data/Uploader";
 
 const Ul = styled.ul`
   display: flex;
@@ -169,6 +170,7 @@ function SideNav({ closeSideBar }) {
             <span>Settings</span>
           </Link>
         </li>
+        {/* <Uploader /> */}
 
         <Logout>
           <LogoutLink>

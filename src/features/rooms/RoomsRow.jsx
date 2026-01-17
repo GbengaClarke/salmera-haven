@@ -94,7 +94,7 @@ const StyledPrice = styled.div`
 `;
 
 const ImageCont = styled.div`
-  width: 7rem;
+  width: 100%;
   height: 5rem;
   overflow: hidden;
   border-radius: 3px;
@@ -153,7 +153,7 @@ function RoomsRow({ room, last3 }) {
   }, []);
 
   return (
-    <CommonRow columns="0.6fr 1.8fr 2.2fr 1fr 1.2fr 0.7fr">
+    <CommonRow columns="0.8fr 1.5fr 2.2fr 1fr 1.2fr 0.7fr">
       <ImageCont>
         <Img src={image} alt={`picture of room ${name}`} />
       </ImageCont>

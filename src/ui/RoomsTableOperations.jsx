@@ -35,11 +35,11 @@ const sortBy = [
     label: "Sort by capacity (high first)",
   },
   {
-    value: "price-asc",
+    value: "regularPrice-asc",
     label: "Sort by price (low first)",
   },
   {
-    value: "price-dsc",
+    value: "regularPrice-dsc",
     label: "Sort by price (high first)",
   },
 ];
@@ -60,7 +60,7 @@ function RoomsTableOperations() {
     <StyledOperations>
       <Filter options={filter} filterField="discount" />
 
-      <Sortby options={sortBy} />
+      <Sortby options={sortBy} sortByField="sortBy" />
     </StyledOperations>
   );
 }
