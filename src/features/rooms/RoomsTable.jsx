@@ -95,7 +95,7 @@ function RoomsTable() {
   if (isPending) return <Spinner />;
 
   return (
-    <Table columns="0.8fr 1.5fr 2.2fr 1fr 1.2fr 0.7fr">
+    <Table columns="1fr 1fr 2.2fr 1fr 1fr 0.7fr">
       <Table.Header>
         <div></div>
         <div>room</div>

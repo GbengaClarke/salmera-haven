@@ -69,8 +69,6 @@ function BookingsTableContainer() {
         <TableWrapper>
           <BookingsTable />
         </TableWrapper>
-
-        <AddRooms />
       </Row>
     </StyledTableContainer>
   );

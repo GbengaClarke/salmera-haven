@@ -1,61 +1,13 @@
+import { bookings } from "../../data/data-bookings";
+import Pagination from "../../ui/pagination";
 import Table from "../../ui/TableContext";
-import RoomsRow from "../rooms/RoomsRow";
-
-const roomsData = [
-  {
-    preview: "Single Room",
-    rooms: 1,
-    capacity: 1,
-    price: 120,
-    discount: 0,
-    roomService: false,
-  },
-  {
-    preview: "Standard Double",
-    rooms: 1,
-    capacity: 2,
-    price: 180,
-    discount: 10,
-    roomService: true,
-  },
-  {
-    preview: "Deluxe Double",
-    rooms: 2,
-    capacity: 4,
-    price: 320,
-    discount: 15,
-    roomService: true,
-  },
-  {
-    preview: "Family Suite",
-    rooms: 3,
-    capacity: 6,
-    price: 480,
-    discount: 20,
-    roomService: true,
-  },
-  {
-    preview: "Executive Suite",
-    rooms: 4,
-    capacity: 8,
-    price: 750,
-    discount: 25,
-    roomService: true,
-  },
-  {
-    preview: "Budget Room",
-    rooms: 1,
-    capacity: 2,
-    price: 90,
-    discount: 5,
-    roomService: false,
-  },
-];
+import BookingRow from "./BookingRow";
 
 function BookingsTable() {
   return (
-    <Table columns="1fr 1.8fr 2.2fr 1fr 1.2fr 0.5fr">
+    <Table columns="0.2fr 1fr 1.8fr 2.2fr 1.3fr 1.2fr 0.5fr">
       <Table.Header>
+        <div></div>
         <div>room</div>
         <div>guest</div>
         <div>dates</div>
@@ -64,17 +16,20 @@ function BookingsTable() {
         <div></div>
       </Table.Header>
 
-      {/* <Table.Body data={roomsData} /> */}
+      <Table.Body
+        data={bookings}
+        render={(booking, i, arr) => (
+          <BookingRow
+            key={booking.guestId}
+            booking={booking}
+            last3={String(i >= arr.length - 2)}
+          />
+        )}
+      />
 
-      {/* <Table.Body
-        data={roomsData}
-        render={(room, i, arr) => {
-          const isLast3 = i >= arr.length - 2;
-          const str = String(isLast3);
-
-          return <RoomsRow key={room.preview} data={room} last3={str} />;
-        }}
-      /> */}
+      <Table.Footer>
+        <Pagination />
+      </Table.Footer>
     </Table>
   );
 }

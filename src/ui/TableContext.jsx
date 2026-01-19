@@ -20,6 +20,7 @@ const StyledHeader = styled.div`
   text-transform: uppercase;
   font-weight: 500;
   padding: 1rem 0rem;
+  text-align: left;
 `;
 
 const StyledBody = styled.div`
@@ -32,11 +33,32 @@ const StyledBody = styled.div`
   /* padding: 0.7rem 0.7rem 1.5rem 0.7rem; */
 `;
 
+const Footer = styled.div`
+  background-color: inherit;
+  /* background-color: var(--color-grey-50); */
+  display: flex;
+  align-items: center;
+  padding: 1.2rem;
+
+  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
+  &:not(:has(*)) {
+    display: none;
+  }
+`;
+
+const Empty = styled.p`
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 2.4rem;
+`;
+
 export const CommonRow = styled.div`
   display: grid;
   grid-template-columns: ${({ columns }) => columns};
   color: var(--color-grey-600);
   align-items: center;
+  text-align: left;
   padding: 0.6rem;
   /* border: 1px solid red; */
 
@@ -85,31 +107,13 @@ function Header({ children }) {
 function Body({ data, render }) {
   // const { columns } = useContext(TableContext);
 
-  return (
-    <StyledBody>
-      {/* <CommonRow key={data.preview} columns={columns}> */}
-      {data.map(render)}
-      {/* </CommonRow> */}
-    </StyledBody>
-  );
+  if (data.length === 0) return <Empty>no data presently</Empty>;
 
-  // return (
-  //   <StyledBody>
-  //     {data.map((room, i, arr) => {
-  //       const isLast3 = i >= arr.length - 2;
-  //       const str = String(isLast3);
-
-  //       return (
-  //         <CommonRow key={room.preview} columns={columns}>
-  //           <RoomsRow last3={str} data={room} />
-  //         </CommonRow>
-  //       );
-  //     })}
-  //   </StyledBody>
-  // );
+  return <StyledBody>{data.map(render)}</StyledBody>;
 }
 
 Table.Header = Header;
 Table.Body = Body;
+Table.Footer = Footer;
 
 export default Table;

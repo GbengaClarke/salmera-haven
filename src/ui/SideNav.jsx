@@ -170,7 +170,7 @@ function SideNav({ closeSideBar }) {
             <span>Settings</span>
           </Link>
         </li>
-        <Uploader />
+        {/* <Uploader /> */}
 
         <Logout>
           <LogoutLink>

@@ -3,7 +3,10 @@ import styled, { css } from "styled-components";
 export const Button = styled.button`
   /* background-color: var(--color-brand-600); */
   background-color: ${({ bgc = "var(--color-brand-600)" }) => bgc};
-  color: white;
+  /* color: white; */
+
+  color: ${({ textColor = "white" }) => textColor};
+
   font-weight: 500;
   padding: ${({ padding = "1rem" }) => padding};
   border-radius: 4px;
@@ -19,6 +22,7 @@ export const Button = styled.button`
   &:hover,
   &:focus {
     /* background-color: var(--color-brand-700); */
+
     ${({ bgc }) =>
       bgc
         ? css`

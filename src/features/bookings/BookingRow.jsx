@@ -1,20 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { CiMenuKebab } from "react-icons/ci";
-import { GoDuplicate } from "react-icons/go";
-import { MdOutlineDeleteOutline, MdOutlineEditNote } from "react-icons/md";
-import styled from "styled-components";
+import { CiInboxOut, CiMenuKebab } from "react-icons/ci";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import styled, { css } from "styled-components";
 import { CommonRow } from "../../ui/TableContext";
-import useDeleteRoom from "./useDeleteRoom";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import useDuplicateRoom from "./useDuplicateRoom";
-import CreateRoomForm from "./CreateRoomForm";
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
+import { FaRegEye } from "react-icons/fa";
+import { IoMdLogOut } from "react-icons/io";
 
 const ModifyMenu = styled.div`
   position: relative;
@@ -50,9 +42,8 @@ const FloatMenu = styled.div`
   /* border: 1px solid red; */
   border-radius: 4px;
   height: auto;
-  /* width: 10rem; */
+  /* width: 12rem; */
   width: max-content;
-
   background-color: var(--color-grey-50);
   z-index: 100;
   padding: 0.3rem 0.5rem;
@@ -83,52 +74,76 @@ const Mod = styled.button`
   }
 `;
 
-const StyledCapacity = styled.div`
-  text-align: left;
-`;
-const StyledDiscount = styled.div`
-  color: var(--color-mint-500);
-  font-weight: 500;
+const StyledInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* gap: 0.2rem; */
+  justify-content: center;
+  padding: 0.6rem 0;
+
+  & div {
+    font-weight: 500;
+    color: var(--color-grey-700);
+  }
+
+  & p {
+    /* font-family: "Raleway", sans-serif; */
+  }
 `;
 
 const StyledPrice = styled.div`
   font-weight: 500;
+  color: var(--color-grey-700);
 `;
 
-const ImageCont = styled.div`
-  width: 80%;
-  height: 5rem;
-  overflow: hidden;
-  border-radius: 3px;
-  background-color: var(--color-grey-100);
+const statusStyles = {
+  "checked-in": css`
+    background-color: var(--color-brand-mint);
+  `,
+  "checked-out": css`
+    background-color: var(--color-grey-300);
+    /* color: var(--color-grey-700); */
+  `,
+  unconfirmed: css`
+    background-color: var(--color-janquil-100);
+    /* background-color: #857d0e; */
+  `,
+};
+
+const StyledStatus = styled.div`
+  /* color: white; */
+  color: var(--color-grey-700);
+  width: fit-content;
+  padding: 0.5rem 0.8rem;
+  font-weight: 500;
+  border-radius: 3rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+
+  ${({ status }) => statusStyles[status]}
 `;
 
-function RoomsRow({ room, last3 }) {
-  const { id, name, maxCapacity, regularPrice, discount, image, description } =
-    room;
+function BookingRow({ booking, last3 }) {
+  const {
+    id,
+    numGuests,
+    isPaid,
+    observations,
+    hasBreakfast,
+    guestId,
+    roomId,
+    endDate,
+    startDate,
+    created_at,
+  } = booking;
+
+  // console.log(id);
 
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [floatOpen, setFloatMenu] = useState(false);
 
-  const { deleteRoom, isPending: isDeleting } = useDeleteRoom();
-
-  const { duplicateRoom, isPending: isDuplicating } = useDuplicateRoom();
-
-  const isMenuPending = isDeleting || isDuplicating;
-
-  function handleDuplicate() {
-    const duplicateData = {
-      name: `copy of ${name}`,
-      maxCapacity,
-      regularPrice,
-      discount,
-      image,
-      description,
-    };
-    duplicateRoom(duplicateData);
-    setFloatMenu(false);
-  }
+  // const { deleteRoom, isPending: isDeleting } = useDeleteRoom();
 
   function handleFloat(e) {
     if (e.target === ref.current || ref2.current.contains(e.target)) {
@@ -155,54 +170,50 @@ function RoomsRow({ room, last3 }) {
   }, []);
 
   return (
-    <CommonRow columns="1fr 1fr 2.2fr 1fr 1fr 0.7fr">
-      <ImageCont>
-        <Img src={image} alt={`picture of room ${name}`} />
-      </ImageCont>
-
-      <div>{name}</div>
-      <StyledCapacity>
-        Accommodates up to {maxCapacity} {maxCapacity > 1 ? "guests" : "guest"}
-      </StyledCapacity>
-      <StyledPrice>${regularPrice}</StyledPrice>
-      <StyledDiscount>{discount ? `$${discount}` : "-"}</StyledDiscount>
+    <CommonRow columns="0.2fr 1fr 1.8fr 2.2fr 1.3fr 1.2fr 0.5fr">
+      <div></div>
+      <div>000</div>
+      <StyledInfo>
+        <div>Gbenga Clarke</div>
+        <p>gbengaclarke@gmail.com</p>
+      </StyledInfo>
+      <StyledInfo>
+        <div> In 3 months &rarr; 8 night stay</div>
+        <p>Apr 30 2026 &mdash; May 08 2026</p>
+      </StyledInfo>
+      <StyledStatus status={"unconfirmed"}>unconfirmed </StyledStatus>
+      <StyledPrice>${"2,500.00"}</StyledPrice>
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <Modal>
           <CiMenuKebab ref={ref2} disabled={true} />
           {floatOpen && (
             <FloatMenu $isLast3={last3} open={floatOpen}>
-              <Modal.Open openFor="editRoom">
-                <Mod disabled={isMenuPending}>
-                  <MdOutlineEditNote />
-                  <p>Edit</p>
-                </Mod>
-              </Modal.Open>
+              <Mod disabled={""}>
+                <FaRegEye />
+                <p>See details</p>
+              </Mod>
 
-              <Mod disabled={isMenuPending} onClick={handleDuplicate}>
-                <GoDuplicate />
-                <p>Duplicate</p>
+              <Mod disabled={""}>
+                <IoMdLogOut />
+                <p>Check out</p>
               </Mod>
 
               <Modal.Open openFor="confirmDelete">
-                <Mod disabled={isMenuPending}>
+                <Mod disabled={""}>
                   <MdOutlineDeleteOutline />
-                  <p>Delete</p>
+                  <p>Delete booking</p>
                 </Mod>
               </Modal.Open>
-
-              <Modal.Window openFor="editRoom">
-                <CreateRoomForm room={room} setFloatMenu={setFloatMenu} />
-              </Modal.Window>
 
               <Modal.Window openFor="confirmDelete">
                 <ConfirmDelete
                   resourceName="room"
                   setFloatMenu={setFloatMenu}
                   onConfirm={() => {
-                    deleteRoom(id);
+                    // deleteRoom(id);
                   }}
-                  disabled={isDeleting}
+                  // disabled={isDeleting}
                 />
               </Modal.Window>
             </FloatMenu>
@@ -213,4 +224,4 @@ function RoomsRow({ room, last3 }) {
   );
 }
 
-export default RoomsRow;
+export default BookingRow;

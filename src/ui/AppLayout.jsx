@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import { useRef, useState } from "react";
 import { media } from "../styles/breakpoints";
 import { swipeInMenu } from "./userExperience";
+import Footer from "./Footer";
 
 const StyledMaxWidth = styled.div`
   max-width: 1200px;
@@ -43,7 +44,7 @@ const Main = styled.main`
 
   width: 100%;
   padding-inline: 3%;
-  padding-bottom: 4rem;
+  padding-bottom: 2.5rem;
   margin-inline: auto;
 `;
 
@@ -78,6 +79,7 @@ function AppLayout() {
         <Header toggleSideBar={toggleSideBar} sidebarOpen={sidebarOpen} />
         <Main>
           <Outlet />
+          <Footer />
         </Main>
       </StyledAppLayoutGrid>
     </StyledMaxWidth>
