@@ -1,5 +1,4 @@
-// import { bookings } from "../../data/data-bookings";
-import Pagination from "../../ui/pagination";
+// import Pagination from "../../ui/pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/TableContext";
 import BookingRow from "./BookingRow";
@@ -33,9 +32,7 @@ function BookingsTable() {
         )}
       />
 
-      <Table.Footer>
-        <Pagination />
-      </Table.Footer>
+      <Table.Footer>{/* <Pagination /> */}</Table.Footer>
     </Table>
   );
 }
