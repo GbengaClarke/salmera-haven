@@ -107,9 +107,9 @@ function Header({ children }) {
 function Body({ data, render }) {
   // const { columns } = useContext(TableContext);
 
-  if (data.length === 0) return <Empty>no data presently</Empty>;
+  if (data?.length === 0) return <Empty>no data presently</Empty>;
 
-  return <StyledBody>{data.map(render)}</StyledBody>;
+  return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 
 Table.Header = Header;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CiInboxOut, CiMenuKebab } from "react-icons/ci";
+import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import styled, { css } from "styled-components";
 import { CommonRow } from "../../ui/TableContext";
@@ -7,6 +7,14 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { FaRegEye } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
+import {
+  formatCurrency,
+  formatDistanceFromStartDate,
+  noonCheckout,
+} from "../../utils/helpers";
+import { format, isSameDay, parseISO } from "date-fns";
+import useDeleteBooking from "./useDeleteBooking";
+// import { getRoomAndGuestName } from "../../services/apiBooking";
 
 const ModifyMenu = styled.div`
   position: relative;
@@ -135,15 +143,18 @@ function BookingRow({ booking, last3 }) {
     endDate,
     startDate,
     created_at,
+    status,
+    totalPrice,
+    numNights,
+    guest: { fullName: guestName, email: email },
+    room: { name: roomName },
   } = booking;
-
-  // console.log(id);
 
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [floatOpen, setFloatMenu] = useState(false);
 
-  // const { deleteRoom, isPending: isDeleting } = useDeleteRoom();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
 
   function handleFloat(e) {
     if (e.target === ref.current || ref2.current.contains(e.target)) {
@@ -172,17 +183,25 @@ function BookingRow({ booking, last3 }) {
   return (
     <CommonRow columns="0.2fr 1fr 1.8fr 2.2fr 1.3fr 1.2fr 0.5fr">
       <div></div>
-      <div>000</div>
+      <div>{roomName}</div>
       <StyledInfo>
-        <div>Gbenga Clarke</div>
-        <p>gbengaclarke@gmail.com</p>
+        <div>{guestName}</div>
+        <p>{email}</p>
       </StyledInfo>
       <StyledInfo>
-        <div> In 3 months &rarr; 8 night stay</div>
-        <p>Apr 30 2026 &mdash; May 08 2026</p>
+        <div>
+          {isSameDay(parseISO(startDate), new Date())
+            ? "Today"
+            : formatDistanceFromStartDate(startDate)}{" "}
+          &rarr; {numNights} night stay
+        </div>
+        <p>
+          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
+          {format(noonCheckout(endDate), "MMM dd yyyy")}
+        </p>
       </StyledInfo>
-      <StyledStatus status={"unconfirmed"}>unconfirmed </StyledStatus>
-      <StyledPrice>${"2,500.00"}</StyledPrice>
+      <StyledStatus status={status}>{status.replace("-", " ")} </StyledStatus>
+      <StyledPrice>{formatCurrency(totalPrice)}</StyledPrice>
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <Modal>
@@ -194,10 +213,12 @@ function BookingRow({ booking, last3 }) {
                 <p>See details</p>
               </Mod>
 
-              <Mod disabled={""}>
-                <IoMdLogOut />
-                <p>Check out</p>
-              </Mod>
+              {status !== "checked-out" && (
+                <Mod disabled={""}>
+                  <IoMdLogOut />
+                  <p>Check out</p>
+                </Mod>
+              )}
 
               <Modal.Open openFor="confirmDelete">
                 <Mod disabled={""}>
@@ -212,8 +233,9 @@ function BookingRow({ booking, last3 }) {
                   setFloatMenu={setFloatMenu}
                   onConfirm={() => {
                     // deleteRoom(id);
+                    deleteBooking(id);
                   }}
-                  // disabled={isDeleting}
+                  disabled={isDeleting}
                 />
               </Modal.Window>
             </FloatMenu>

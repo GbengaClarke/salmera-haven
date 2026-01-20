@@ -9,6 +9,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import useDuplicateRoom from "./useDuplicateRoom";
 import CreateRoomForm from "./CreateRoomForm";
+import { formatCurrency } from "../../utils/helpers";
 
 const Img = styled.img`
   width: 100%;
@@ -164,8 +165,10 @@ function RoomsRow({ room, last3 }) {
       <StyledCapacity>
         Accommodates up to {maxCapacity} {maxCapacity > 1 ? "guests" : "guest"}
       </StyledCapacity>
-      <StyledPrice>${regularPrice}</StyledPrice>
-      <StyledDiscount>{discount ? `$${discount}` : "-"}</StyledDiscount>
+      <StyledPrice>{formatCurrency(regularPrice)}</StyledPrice>
+      <StyledDiscount>
+        {discount ? formatCurrency(discount) : "-"}
+      </StyledDiscount>
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <Modal>
