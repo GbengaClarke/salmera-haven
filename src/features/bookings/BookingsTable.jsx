@@ -1,11 +1,27 @@
-// import Pagination from "../../ui/pagination";
+import { useSearchParams } from "react-router-dom";
+import Pagination from "../../ui/pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/TableContext";
 import BookingRow from "./BookingRow";
 import useGetBookings from "./useGetBookings";
+import { filterStatus, sortBookings, sortRooms } from "../../utils/sorter";
+import { useMemo } from "react";
 
 function BookingsTable() {
   const { bookings, isGettingBookings } = useGetBookings();
+
+  const [searchParams] = useSearchParams();
+
+  // const status = searchParams.get("status") || "all";
+  // const sortBy = searchParams.get("sortBy") || "startDate-dsc";
+
+  // let filteredBookings = useMemo(() => {
+  //   if (status === "all") return bookings;
+  //   return bookings?.filter((booking) => booking.status === status);
+  // }, [bookings, status]);
+
+  // let filteredBookings = bookings;
+  // const sortedBookings = sortBookings(filteredBookings, sortBy);
 
   if (isGettingBookings) return <Spinner />;
 
@@ -32,7 +48,9 @@ function BookingsTable() {
         )}
       />
 
-      <Table.Footer>{/* <Pagination /> */}</Table.Footer>
+      <Table.Footer>
+        <Pagination />
+      </Table.Footer>
     </Table>
   );
 }

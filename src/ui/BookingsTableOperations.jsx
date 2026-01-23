@@ -12,6 +12,8 @@ const filter = [
 const sortBy = [
   { value: "startDate-desc", label: "Sort by date (recent first)" },
   { value: "startDate-asc", label: "Sort by date (earlier first)" },
+  { value: "fullName-asc", label: "Sort by name (A-Z)" },
+  { value: "fullName-desc", label: "Sort by name (Z-A)" },
   {
     value: "totalPrice-desc",
     label: "Sort by amount (high first)",
@@ -33,9 +35,9 @@ const StyledOperations = styled.div`
 function BookingsTableOperations() {
   return (
     <StyledOperations>
-      <Filter options={filter} />
+      <Filter filterField="status" options={filter} />
 
-      <Sortby options={sortBy} />
+      <Sortby sortByField="sortBy" options={sortBy} />
     </StyledOperations>
   );
 }

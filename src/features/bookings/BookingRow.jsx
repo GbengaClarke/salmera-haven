@@ -14,6 +14,8 @@ import {
 } from "../../utils/helpers";
 import { format, isSameDay, parseISO } from "date-fns";
 import useDeleteBooking from "./useDeleteBooking";
+import { LuMapPinCheckInside } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 // import { getRoomAndGuestName } from "../../services/apiBooking";
 
 const ModifyMenu = styled.div`
@@ -104,7 +106,7 @@ const StyledPrice = styled.div`
   color: var(--color-grey-700);
 `;
 
-const statusStyles = {
+export const statusStyles = {
   "checked-in": css`
     background-color: var(--color-brand-mint);
   `,
@@ -155,6 +157,7 @@ function BookingRow({ booking, last3 }) {
   const [floatOpen, setFloatMenu] = useState(false);
 
   const { deleteBooking, isDeleting } = useDeleteBooking();
+  const navigate = useNavigate();
 
   function handleFloat(e) {
     if (e.target === ref.current || ref2.current.contains(e.target)) {
@@ -208,15 +211,27 @@ function BookingRow({ booking, last3 }) {
           <CiMenuKebab ref={ref2} disabled={true} />
           {floatOpen && (
             <FloatMenu $isLast3={last3} open={floatOpen}>
-              <Mod disabled={""}>
+              <Mod
+                onClick={() => {
+                  navigate(`/bookings/${id}`);
+                }}
+                disabled={""}
+              >
                 <FaRegEye />
                 <p>See details</p>
               </Mod>
 
-              {status !== "checked-out" && (
+              {status === "checked-in" && (
                 <Mod disabled={""}>
                   <IoMdLogOut />
                   <p>Check out</p>
+                </Mod>
+              )}
+
+              {status === "unconfirmed" && (
+                <Mod disabled={""}>
+                  <LuMapPinCheckInside />
+                  <p>Check in</p>
                 </Mod>
               )}
 

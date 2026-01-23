@@ -56,6 +56,8 @@ const FilterOption = styled.div`
 function Filter({ options, filterField }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // const { refetch } = useGetBookings();
+
   function handleFilter(value) {
     // searchParams.set(filterField, value);
     // setSearchParams(searchParams);

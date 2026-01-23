@@ -1,52 +1,61 @@
 import { supabase } from "./supabase";
 
-// export async function getBookings() {
-//   const { data: bookings, error } = await supabase.from("bookings").select("*");
-
-//   if (error) {
-//     console.error(error);
-//     throw new Error("Bookings could not be loaded");
-//   }
-
-//   return bookings;
-// }
-
-// export async function getRoomIdnGuestName(roomId, guestId) {
-//   const { data: roomName, error: errorRoomName } = await supabase
-//     .from("rooms")
-//     .select("name")
-//     .eq("id", roomId)
-//     .single();
-
-//   if (errorRoomName) {
-//     console.error(errorRoomName);
-//     throw new Error("Bookings could not be loaded");
-//   }
-
-//   const { data: guestName, error: errorGuestName } = await supabase
-//     .from("guests")
-//     .select("fullName")
-//     .eq("id", guestId)
-//     .single();
-
-//   if (errorGuestName) {
-//     console.error(errorGuestName);
-//     throw new Error("Guest name could not be retrieved");
-//   }
-
-//   // console.log({ ...guestName, ...roomName });
-
-//   return { ...guestName, ...roomName };
-// }
-
-export async function getBookings() {
-  const { data, error } = await supabase.from("bookings").select(`
-      *,
+export async function getBookings({ status, sortBy }) {
+  let query = supabase.from("bookings").select(
+    `
+      id,created_at,startDate,endDate,numNights,numGuests,status,totalPrice,
        room:rooms ( name ),
-  guest:guests ( fullName,email )
-    `);
+       guest:guests( fullName,email )
+       `,
+    { count: "exact" }
+  );
 
-  if (error) throw new Error("Bookings could not be loaded");
+  if (status !== "all") {
+    query = query.eq("status", status);
+  }
+
+  if (sortBy?.field && sortBy.field !== "fullName") {
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+  }
+
+  const { data, count, error } = await query;
+
+  console.log(count);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be loaded");
+  }
+
+  if (sortBy?.field === "fullName") {
+    data.sort((a, b) => {
+      const nameA = a.guest.fullName.toLowerCase();
+      const nameB = b.guest.fullName.toLowerCase();
+
+      return sortBy.direction === "asc"
+        ? nameA.localeCompare(nameB)
+        : nameB.localeCompare(nameA);
+    });
+  }
+
+  return data;
+}
+
+export async function getSingleBooking(id) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(
+      `*,room:rooms ( name ),guest:guests( fullName,email,nationalID,countryFlag )`
+    )
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("This booking could not be loaded");
+  }
 
   return data;
 }

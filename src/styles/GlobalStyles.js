@@ -20,7 +20,7 @@ const GlobalStyles = createGlobalStyle`
   --color-blue-100: #e0f2fe;
   --color-blue-500: #286BDB;
   --color-blue-700: #18438A;
-  --color-green-100: #dcfce7;
+  --color-mint-100: #dcfce7;
   --color-mint-500: #00C39E;
   --color-janquil-100: #eced89;
   --color-janquil-500: #ffce20;

@@ -38,16 +38,9 @@ const StyledSelect = styled.select`
 `;
 
 function Select({ options, sortByField }) {
+  // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = useState("");
-
-  // console.log(value);
-  // console.log(options);
-
-  // function handleSortBy() {
-  //   searchParams.set(sortByField, value);
-  //   setSearchParams(searchParams);
-  // }
 
   function onChange(e) {
     const selectedValue = e.target.value;
