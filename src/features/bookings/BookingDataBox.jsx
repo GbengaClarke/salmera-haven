@@ -8,6 +8,10 @@ import {
 } from "react-icons/hi2";
 import { format, isToday } from "date-fns";
 import FlexAlign from "../../styles/FlexAlign";
+import {
+  formatCurrency,
+  formatDistanceFromStartDate,
+} from "../../utils/helpers";
 
 /* ======================
    STYLES
@@ -79,10 +83,10 @@ const PriceBox = styled.div`
   background-color: ${({ $isPaid }) =>
     $isPaid ? "var(--color-mint-100)" : "var(--color-janquil-100)"};
   color: ${({ $isPaid }) =>
-    $isPaid ? "var(--color-green-700)" : "var(--color-grey-800)"};
+    $isPaid ? "var(--color-mint-500)" : "var(--color-janquil-600)"};
   font-weight: 700;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 
   svg {
     color: currentColor;
@@ -149,24 +153,26 @@ const ImageCont = styled.div`
   }
 `;
 
-function BookingDataBox({ booking }) {
+function BookingDataBox({ booking = {} }) {
   const {
-    name,
+    room: { name: roomName },
     id,
     startDate,
     endDate,
     numNights,
-    guestName,
-    email,
+    guest: { fullName, email, nationalID, countryFlag },
     numGuests,
-    nationalID,
     observations,
     status,
     hasBreakfast,
     totalPrice,
+    extraPrice,
+    roomPrice,
     isPaid,
     created_at,
   } = booking;
+
+  // if (!booking) return <div>sike mf</div>;
 
   return (
     <>
@@ -174,33 +180,31 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {numNights} nights in <span>Room {name}</span>
+            {numNights} nights in <span>Room {roomName}</span>
           </p>
         </div>
-
-        {/* <p>
+        <p>
           {format(new Date(startDate), "EEE, MMM dd yyyy")} (
-          {isToday(new Date(startDate)) ? "Today" : "Upcoming"}) &mdash;{" "}
-          {format(new Date(endDate), "EEE, MMM dd yyyy")}
-        </p> */}
+          {isToday(new Date(startDate))
+            ? "Today"
+            : formatDistanceFromStartDate(startDate)}
+          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+        </p>
       </Header>
       <Body>
         <GuestRow>
           <ImageCont>
-            <img src="https://flagcdn.com/ng.svg" alt="flag" />
+            <img src={countryFlag} alt=" country flag" />
           </ImageCont>
           <strong>
-            {guestName}{" "}
-            {numGuests > 1
-              ? `+ ${"numGuests"} guests`
-              : `+ ${"numGuests"} guest`}
+            {fullName}{" "}
+            {numGuests > 1 ? `+ ${numGuests} guests` : `+ ${numGuests} guest`}
           </strong>
           <span>&bull;</span>
           <span>{email}</span>
           <span>&bull;</span>
-          <span>National ID: {"nationalID"}</span>
+          <span>National ID: {nationalID}</span>
         </GuestRow>
-
         {observations && (
           <DataItem>
             <HiOutlineChatBubbleBottomCenterText />
@@ -210,7 +214,6 @@ function BookingDataBox({ booking }) {
             </FlexAlign>
           </DataItem>
         )}
-
         <DataItem>
           <HiOutlineCheckCircle />
           <FlexAlign>
@@ -218,10 +221,15 @@ function BookingDataBox({ booking }) {
             {hasBreakfast ? "Yes" : "No"}
           </FlexAlign>
         </DataItem>
-
         <PriceBox $isPaid={isPaid}>
           <div style={{ display: "flex", gap: "1.2rem", alignItems: "center" }}>
-            <HiOutlineCurrencyDollar />${totalPrice}
+            <HiOutlineCurrencyDollar />
+            Total price: {formatCurrency(totalPrice)}
+            {extraPrice > 1 && (
+              <span>
+                ({formatCurrency(roomPrice)} + {formatCurrency(extraPrice)})
+              </span>
+            )}
           </div>
           <p>{isPaid ? "Paid" : "Pay at property"}</p>
         </PriceBox>

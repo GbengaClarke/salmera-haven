@@ -7,6 +7,7 @@ function useGetBookings() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const PAGE_SIZE = Number(searchParams.get("pageSize")) || 10;
+  // const PAGE_SIZE = Number(searchParams.get("pageSize")) || 10;
 
   const status = searchParams.get("status") || "all";
 
@@ -14,7 +15,7 @@ function useGetBookings() {
 
   const [field, direction] = sortByRaw.split("-");
 
-  const sortBy = { field, direction };
+  // const sortBy = { field, direction };
 
   const page = Number(searchParams.get("page") || "1");
 
@@ -26,7 +27,12 @@ function useGetBookings() {
     isPending: isGettingBookings,
   } = useQuery({
     queryFn: () => {
-      return getBookings({ status, sortBy, PAGE_SIZE, page });
+      return getBookings({
+        status,
+        sortBy: { field, direction },
+        PAGE_SIZE,
+        page,
+      });
     },
     queryKey: ["bookings", status, field, direction, page, PAGE_SIZE],
     keepPreviousData: true,
@@ -40,7 +46,12 @@ function useGetBookings() {
       queryClient.prefetchQuery({
         queryKey: ["bookings", status, field, direction, page + 1, PAGE_SIZE],
         queryFn: () =>
-          getBookings({ status, sortBy, PAGE_SIZE, page: page + 1 }),
+          getBookings({
+            status,
+            sortBy: { field, direction },
+            PAGE_SIZE,
+            page: page + 1,
+          }),
       });
     }
 
@@ -48,25 +59,22 @@ function useGetBookings() {
       queryClient.prefetchQuery({
         queryKey: ["bookings", status, field, direction, page - 1, PAGE_SIZE],
         queryFn: () =>
-          getBookings({ status, sortBy, PAGE_SIZE, page: page - 1 }),
+          getBookings({
+            status,
+            sortBy: { field, direction },
+            PAGE_SIZE,
+            page: page - 1,
+          }),
       });
     }
-  }, [
-    page,
-    status,
-    field,
-    sortBy,
-    direction,
-    PAGE_SIZE,
-    totalPages,
-    queryClient,
-  ]);
+  }, [page, status, field, direction, PAGE_SIZE, totalPages, queryClient]);
 
   return {
     bookings: data?.bookings ?? [],
     count: data?.count ?? 0,
     errorGettingBookings,
     isGettingBookings,
+    PAGE_SIZE,
   };
 }
 

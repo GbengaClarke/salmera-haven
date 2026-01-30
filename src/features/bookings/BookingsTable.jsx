@@ -6,7 +6,7 @@ import BookingRow from "./BookingRow";
 import useGetBookings from "./useGetBookings";
 
 function BookingsTable() {
-  const { bookings, count, isGettingBookings } = useGetBookings();
+  const { bookings, count, isGettingBookings, PAGE_SIZE } = useGetBookings();
 
   if (isGettingBookings) return <Spinner />;
 
@@ -34,7 +34,7 @@ function BookingsTable() {
       />
 
       <Table.Footer>
-        <Pagination count={count} />
+        <Pagination count={count} PAGE_SIZE={PAGE_SIZE} />
       </Table.Footer>
     </Table>
   );

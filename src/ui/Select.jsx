@@ -50,6 +50,8 @@ function Select({ options, sortByField }) {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set(sortByField, selectedValue);
+      params.set("page", 1);
+
       return params;
     });
   }

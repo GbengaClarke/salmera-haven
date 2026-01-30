@@ -65,6 +65,7 @@ function Filter({ options, filterField }) {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set(filterField, value);
+      params.set("page", 1);
       return params;
     });
   }

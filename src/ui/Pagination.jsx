@@ -47,11 +47,11 @@ const StyledButton = styled.button`
   }
 `;
 
-function Pagination({ count }) {
+function Pagination({ count, PAGE_SIZE }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = Number(searchParams.get("page") || "1");
-  const PAGE_SIZE = searchParams.get("pageSize");
+  // const PAGE_SIZE = searchParams.get("pageSize");
 
   const totalPages = Math.ceil(count / PAGE_SIZE);
 

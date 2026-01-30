@@ -19,6 +19,8 @@ const sortBy = [
     label: "Sort by amount (high first)",
   },
   { value: "totalPrice-asc", label: "Sort by amount (low first)" },
+  { value: "id-asc", label: "Sort by booking ID (low first)" },
+  { value: "id-desc", label: "Sort by booking ID (high first)" },
 ];
 
 const StyledOperations = styled.div`

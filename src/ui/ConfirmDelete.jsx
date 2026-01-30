@@ -38,7 +38,7 @@ function ConfirmDelete({
   function handleClick() {
     onConfirm();
     closeModal();
-    setFloatMenu(false);
+    setFloatMenu?.(false);
   }
 
   return (

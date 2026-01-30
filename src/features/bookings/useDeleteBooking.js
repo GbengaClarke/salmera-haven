@@ -7,7 +7,7 @@ function useDeleteBooking() {
 
   const {
     mutate: deleteBooking,
-    error: errorBooking,
+    error: errorDeleting,
     isPending: isDeleting,
   } = useMutation({
     mutationFn: deleteBookingApi,
@@ -25,7 +25,7 @@ function useDeleteBooking() {
       }),
   });
 
-  return { deleteBooking, errorBooking, isDeleting };
+  return { deleteBooking, errorDeleting, isDeleting };
 }
 
 export default useDeleteBooking;

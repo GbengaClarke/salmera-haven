@@ -24,6 +24,8 @@ const GlobalStyles = createGlobalStyle`
   --color-mint-500: #00C39E;
   --color-janquil-100: #eced89;
   --color-janquil-500: #ffce20;
+--color-janquil-600: #857d0e;
+
   --color-silver-100: #e5e7eb;
   --color-silver-700: #374151;
   --color-red-100: #e0e7ff;
@@ -75,6 +77,7 @@ const GlobalStyles = createGlobalStyle`
 --color-mint-500: #dcfce7;
 --color-janquil-100: #857d0e;
 --color-janquil-500: #fef9c3;
+--color-janquil-600: #fef9c3;
 --color-silver-100: #374151;
 --color-silver-700: #f3f4f6;
 --color-red-100: #3730a3;

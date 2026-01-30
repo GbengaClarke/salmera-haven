@@ -16,6 +16,7 @@ import { format, isSameDay, parseISO } from "date-fns";
 import useDeleteBooking from "./useDeleteBooking";
 import { LuMapPinCheckInside } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import useCheckoutBooking from "./useCheckoutBooking";
 // import { getRoomAndGuestName } from "../../services/apiBooking";
 
 const ModifyMenu = styled.div`
@@ -157,6 +158,10 @@ function BookingRow({ booking, last3 }) {
   const [floatOpen, setFloatMenu] = useState(false);
 
   const { deleteBooking, isDeleting } = useDeleteBooking();
+  const { checkoutBooking, isCheckingout, errorCheckingout } =
+    useCheckoutBooking();
+
+  const isWorking = isDeleting || isCheckingout;
   const navigate = useNavigate();
 
   function handleFloat(e) {
@@ -188,7 +193,9 @@ function BookingRow({ booking, last3 }) {
       <div></div>
       <div>{roomName}</div>
       <StyledInfo>
-        <div>{guestName}</div>
+        <div>
+          {guestName} #{id}
+        </div>
         <p>{email}</p>
       </StyledInfo>
       <StyledInfo>
@@ -208,35 +215,45 @@ function BookingRow({ booking, last3 }) {
 
       <ModifyMenu onClick={handleFloat} ref={ref}>
         <Modal>
-          <CiMenuKebab ref={ref2} disabled={true} />
+          <CiMenuKebab ref={ref2} disabled={isWorking} />
           {floatOpen && (
             <FloatMenu $isLast3={last3} open={floatOpen}>
               <Mod
                 onClick={() => {
                   navigate(`/bookings/${id}`);
                 }}
-                disabled={""}
+                disabled={isWorking}
               >
                 <FaRegEye />
                 <p>See details</p>
               </Mod>
 
               {status === "checked-in" && (
-                <Mod disabled={""}>
+                <Mod
+                  disabled={isWorking}
+                  onClick={() => {
+                    checkoutBooking({ id: id, status: "checked-out" });
+                  }}
+                >
                   <IoMdLogOut />
                   <p>Check out</p>
                 </Mod>
               )}
 
               {status === "unconfirmed" && (
-                <Mod disabled={""}>
+                <Mod
+                  onClick={() => {
+                    navigate(`/bookings/${id}/checkin`);
+                  }}
+                  disabled={isWorking}
+                >
                   <LuMapPinCheckInside />
                   <p>Check in</p>
                 </Mod>
               )}
 
               <Modal.Open openFor="confirmDelete">
-                <Mod disabled={""}>
+                <Mod disabled={isWorking}>
                   <MdOutlineDeleteOutline />
                   <p>Delete booking</p>
                 </Mod>
@@ -250,7 +267,7 @@ function BookingRow({ booking, last3 }) {
                     // deleteRoom(id);
                     deleteBooking(id);
                   }}
-                  disabled={isDeleting}
+                  disabled={isWorking}
                 />
               </Modal.Window>
             </FloatMenu>

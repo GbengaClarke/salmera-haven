@@ -15,7 +15,8 @@ function useGetSingleBooking() {
     queryFn: () => {
       return getSingleBooking(id);
     },
-    queryKey: ["bookings"],
+    queryKey: ["bookings", id],
+    enabled: !!id,
   });
 
   return { booking, errorGettingSingleBooking, isGettingSingleBooking };

@@ -128,3 +128,28 @@ export async function deleteBooking(bookingId) {
     throw new Error("Booking could not be deleted");
   }
 }
+
+export async function checkoutBooking(object) {
+  const { error } = await supabase
+    .from("bookings")
+    .update({ status: object.status })
+    .eq("id", object.id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Checkout failed");
+  }
+}
+
+export async function checkinBooking(object) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(object.values)
+    .eq("id", object.id)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Checkin failed");
+  }
+}
