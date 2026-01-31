@@ -1,5 +1,12 @@
+import SettingsContainer from "../ui/SettingsContainer";
+import { StyledSection } from "./Bookings";
+
 function Settings() {
-  return <div>settings</div>;
+  return (
+    <StyledSection>
+      <SettingsContainer />{" "}
+    </StyledSection>
+  );
 }
 
 export default Settings;

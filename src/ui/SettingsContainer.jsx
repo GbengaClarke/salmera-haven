@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
-import TableOperations from "./RoomsTableOperations";
-import RoomsTable from "../features/rooms/RoomsTable";
 import { media } from "../styles/breakpoints";
-import AddRooms from "../features/rooms/AddRooms";
-import BookingsTableOperations from "./BookingsTableOperations";
-import BookingsTable from "../features/bookings/BookingsTable";
+import SettingsForm from "../features/settings/SettingsForm";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -27,7 +23,7 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-export const RowFlex = styled.div`
+const RowFlex = styled.div`
   display: flex;
   padding: 0.5rem 0.7rem;
   flex-direction: column;
@@ -42,7 +38,7 @@ export const RowFlex = styled.div`
   }
 `;
 
-export const TableWrapper = styled.div`
+const TableWrapper = styled.div`
   overflow-x: scroll;
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
@@ -53,25 +49,25 @@ export const TableWrapper = styled.div`
   }
 `;
 
-function BookingsTableContainer() {
+function SettingsContainer() {
   return (
     <StyledTableContainer>
       <RowFlex>
         <Row>
-          <Heading as={"h3"}>All Bookings</Heading>
-          <p>This is a list of all the present bookings.</p>
+          <Heading as={"h3"}>Settings</Heading>
+          <p>Manage and update preferences that apply to future bookings.</p>
         </Row>
-
-        <BookingsTableOperations />
       </RowFlex>
 
       <Row>
         <TableWrapper>
-          <BookingsTable />
+          <SettingsForm />
         </TableWrapper>
+
+        {/* <AddRooms /> */}
       </Row>
     </StyledTableContainer>
   );
 }
 
-export default BookingsTableContainer;
+export default SettingsContainer;
