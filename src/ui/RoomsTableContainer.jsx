@@ -12,25 +12,6 @@ import {
   TableWrapper,
 } from "./BookingsTableContainer";
 
-// const StyledTableContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   /* border: 1px solid red; */
-//   width: 100%;
-//   height: auto;
-
-//   & p {
-//     font-size: 1rem;
-//     color: var(--color-grey-500);
-//     text-align: left;
-//   }
-
-//   & h3 {
-//     color: var(--color-grey-700);
-//     text-align: left;
-//   }
-// `;
-
 function RoomsTableContainer() {
   return (
     <StyledTableContainer>
