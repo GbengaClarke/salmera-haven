@@ -98,7 +98,8 @@ function Checkin() {
     guest: { fullName },
   } = booking;
 
-  const placeholderBreakfastCost = 10; //10 dollars etraPrice
+  //load value from supabase??
+  const placeholderBreakfastCost = 10; //10 dollars extraPrice
 
   const [wantBreakfast, setWantBreakfast] = useState(hasBreakfast);
   // const [hasPaid, setHasPaid] = useState();

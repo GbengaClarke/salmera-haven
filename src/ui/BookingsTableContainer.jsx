@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
 import TableOperations from "./RoomsTableOperations";
@@ -8,7 +8,7 @@ import AddRooms from "../features/rooms/AddRooms";
 import BookingsTableOperations from "./BookingsTableOperations";
 import BookingsTable from "../features/bookings/BookingsTable";
 
-const StyledTableContainer = styled.div`
+export const StyledTableContainer = styled.div`
   display: flex;
   flex-direction: column;
   /* border: 1px solid red; */
@@ -29,16 +29,27 @@ const StyledTableContainer = styled.div`
 
 export const RowFlex = styled.div`
   display: flex;
-  padding: 0.5rem 0.7rem;
+  /* padding: 0.5rem 0.7rem; */
+  padding: ${({ $padding = "0.5rem 0.7rem" }) => $padding};
   flex-direction: column;
   gap: 1rem;
+  /* border: 1px solid red; */
+  ${({ $marginLeft }) =>
+    $marginLeft === "auto" &&
+    css`
+      margin-left: auto;
+    `}
 
   @media (min-width: 602px) {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-
+    justify-content: ${({ $justifyContent = "space-between" }) =>
+      $justifyContent};
     gap: 0.8rem;
+  }
+
+  ${media.mobile} {
+    /* margin-left: auto; */
   }
 `;
 

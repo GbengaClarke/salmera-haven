@@ -5,6 +5,7 @@ const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: ${({ $justify = "left" }) => $justify};
+  /* border: 1px solid red; */
   gap: ${({ $gap = "1rem" }) => $gap};
 
   ${media.mobile} {

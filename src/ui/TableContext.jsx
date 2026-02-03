@@ -7,7 +7,7 @@ const StyledTable = styled.div`
   font-size: 1.4rem;
   border-radius: 1rem;
   min-width: 500px;
-  max-width: 800px;
+  /* max-width: 850px; */
   margin-inline: auto;
   overflow: hidden;
 `;

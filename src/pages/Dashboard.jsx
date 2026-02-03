@@ -1,11 +1,11 @@
-import Test from "../components/Test";
+import DashboardContainer from "../ui/DashboardContainer";
+import { StyledSection } from "./Bookings";
 
 function Dashboard() {
   return (
-    <div>
-      dashboard
-      <Test />
-    </div>
+    <StyledSection>
+      <DashboardContainer />
+    </StyledSection>
   );
 }
 

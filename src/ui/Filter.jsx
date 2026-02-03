@@ -70,7 +70,7 @@ function Filter({ options, filterField }) {
     });
   }
 
-  const presentFilter = searchParams.get(filterField) || "all";
+  const presentFilter = searchParams.get(filterField) || "7";
 
   return (
     <StyledFilter>

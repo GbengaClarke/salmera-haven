@@ -80,7 +80,7 @@ const GlobalStyles = createGlobalStyle`
 --color-janquil-600: #fef9c3;
 --color-silver-100: #374151;
 --color-silver-700: #f3f4f6;
---color-red-100: #3730a3;
+/* --color-red-100: #3730a3; */
 --color-red-500: #e0e7ff;
 --color-brand-mint: #206a20;
 
