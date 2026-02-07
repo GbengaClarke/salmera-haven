@@ -34,12 +34,36 @@ function ConfirmDelete({
   disabled,
   closeModal,
   setFloatMenu,
+  message,
 }) {
   function handleClick() {
     onConfirm();
     closeModal();
     setFloatMenu?.(false);
   }
+
+  // console.log(message === "confirmCheckout");
+
+  if (message === "confirmCheckout")
+    return (
+      <StyledConfirmDelete>
+        <StyledH3>Check out {resourceName}</StyledH3>
+        <p>Are you sure you want to check out {resourceName}?</p>
+
+        <div>
+          <CancelButton disabled={disabled} onClick={closeModal}>
+            No
+          </CancelButton>
+          <Button
+            bgc={"var(--color-red-700)"}
+            disabled={disabled}
+            onClick={handleClick}
+          >
+            Yes
+          </Button>
+        </div>
+      </StyledConfirmDelete>
+    );
 
   return (
     <StyledConfirmDelete>

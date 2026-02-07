@@ -58,7 +58,7 @@ const StyledOperations = styled.div`
 function DashboardOperations() {
   return (
     <StyledOperations>
-      <Filter options={filter} filterField="days" />
+      <Filter options={filter} filterField="lastDays" />
 
       {/* <Sortby options={sortBy} sortByField="sortBy" /> */}
     </StyledOperations>

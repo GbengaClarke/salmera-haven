@@ -9,6 +9,7 @@ import {
   HiOutlineCalendarDays,
 } from "react-icons/hi2";
 import { FaBed, FaSuitcaseRolling } from "react-icons/fa";
+import { formatCurrency } from "../utils/helpers";
 
 const StyledCards = styled.div`
   display: flex;
@@ -108,7 +109,30 @@ const CardRow = styled.div`
   }
 `;
 
-function Cards() {
+function Cards({ scheduledTodayCount, bookings }) {
+  const { revenue, highest, checkIn, unconfirmed } = bookings.reduce(
+    (acc, curr) => {
+      acc.revenue += curr.totalPrice;
+      acc.highest = Math.max(acc.highest, curr.totalPrice);
+      acc.checkIn += curr.status === "checked-in" ? 1 : 0;
+      acc.unconfirmed += curr.status === "unconfirmed" ? 1 : 0;
+
+      return acc;
+    },
+    {
+      revenue: 0,
+      highest: 0,
+      checkIn: 0,
+      unconfirmed: 0,
+    }
+  );
+
+  // const occupation =
+  //   confirmedStays.reduce((acc, curr) => acc + curr.numNights, 0) /
+  //   (numDays * cabinCount)
+
+  // console.log(unconfirmed);
+
   return (
     <StyledCards>
       <CardContainer $bColor="var(--color-blue-700)">
@@ -118,8 +142,18 @@ function Cards() {
             <p>Total Bookings</p>
           </CardRow>
 
-          <strong>22</strong>
-          <span>4 scheduled today</span>
+          <strong>{bookings.length}</strong>
+          {/* <span>
+            {scheduledTodayCount > 0 ? scheduledTodayCount : "None"} arrivals
+            today
+          </span> */}
+
+          <span>
+            {scheduledTodayCount > 0
+              ? `${scheduledTodayCount} arrivals
+            today`
+              : "No arrival today"}
+          </span>
         </Card>
       </CardContainer>
       <CardContainer $bColor="var(--color-brand-mint)">
@@ -129,8 +163,8 @@ function Cards() {
             <p>Total Revenue</p>
           </CardRow>
 
-          <strong>$15,100</strong>
-          <span>Highest sale $1,400</span>
+          <strong>{formatCurrency(revenue)}</strong>
+          <span>Highest sale {formatCurrency(highest)}</span>
         </Card>
       </CardContainer>
       <CardContainer $bColor="var(--color-red-700)">
@@ -140,9 +174,9 @@ function Cards() {
             <p>Check ins</p>
           </CardRow>
 
-          <strong>5</strong>
+          <strong>{checkIn}</strong>
           {/*  unconfimed status below */}
-          <span>3 remaining</span>
+          <span>{unconfirmed} remaining</span>
         </Card>
       </CardContainer>
       <CardContainer $bColor="var(--color-janquil-500)">

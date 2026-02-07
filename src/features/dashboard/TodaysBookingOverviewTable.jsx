@@ -3,19 +3,24 @@ import Spinner from "../../ui/Spinner";
 import { useFilteredSortedRooms } from "../../hooks/useFilteredSortedRoom";
 import useRooms from "../rooms/useRooms";
 import TodaysOverviewRow from "../bookings/TodaysOverviewRow";
+import useGetTodayBookingOverview from "./useGetTodayBookingOverview";
 
 function TodaysBookingOverviewTable() {
-  const { rooms = [], isPending } = useRooms();
+  const {
+    getTodayBookingOverview,
+    errorGettingTodayBookingOverview,
+    isGettingTodayBookingOverview,
+  } = useGetTodayBookingOverview();
 
-  const sortedRooms = useFilteredSortedRooms(rooms);
-
-  if (isPending) return <Spinner />;
+  if (isGettingTodayBookingOverview) return <Spinner />;
 
   return (
     <Table>
       <Table.Body
-        data={sortedRooms}
-        render={(room) => <TodaysOverviewRow key={room.id} room={room} />}
+        data={getTodayBookingOverview}
+        render={(booking) => (
+          <TodaysOverviewRow key={booking.id} booking={booking} />
+        )}
       />
     </Table>
   );

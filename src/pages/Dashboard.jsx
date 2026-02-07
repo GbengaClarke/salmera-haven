@@ -1,4 +1,4 @@
-import DashboardContainer from "../ui/DashboardContainer";
+import DashboardContainer from "../features/dashboard/DashboardContainer";
 import { StyledSection } from "./Bookings";
 
 function Dashboard() {

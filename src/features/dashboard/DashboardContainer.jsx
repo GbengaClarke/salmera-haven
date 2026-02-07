@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { RowFlex, StyledTableContainer } from "./BookingsTableContainer";
-import DashboardOperations from "./DashboardOperations";
-import Cards from "./Cards";
-import { media } from "../styles/breakpoints";
-import TodayBookingOverview from "../features/dashboard/TodayBookingOverview";
-import StayDuration from "../features/dashboard/StayDuration";
-import ProgressBar from "../features/dashboard/ProgressBar";
-import SalesGraph from "../features/dashboard/SalesGraph";
+import { RowFlex, StyledTableContainer } from "../../ui/BookingsTableContainer";
+import DashboardOperations from "../../ui/DashboardOperations";
+import Cards from "../../ui/Cards";
+import TodayBookingOverview from "./TodayBookingOverview";
+import StayDuration from "./StayDuration";
+import ProgressBar from "./ProgressBar";
+import SalesGraph from "./SalesGraph";
+import { useEffect } from "react";
+import { getBookingsStats } from "../../services/apiDashboard";
+import useDashboardBookings from "./useDashboardBookings";
 
 const CardRow = styled.div`
   display: flex;
@@ -38,18 +40,24 @@ const StyledGrid = styled.div`
 `;
 
 function DashboardContainer() {
+  const {
+    bookings,
+    bookingsCount,
+    scheduledTodayCount,
+    errorGettingBookings,
+    isGettingBookings,
+  } = useDashboardBookings();
+
+  //after fully implementing, take out unused properties from getBookingsStats
+
   return (
     <StyledTableContainer>
       <RowFlex $marginLeft="auto" $padding="0">
-        {/* <Row>
-          <Heading as={"h3"}>Dashboard</Heading>
-        </Row> */}
-
         <DashboardOperations />
       </RowFlex>
 
       <CardRow>
-        <Cards />
+        <Cards bookings={bookings} scheduledTodayCount={scheduledTodayCount} />
       </CardRow>
 
       <StyledGrid>
