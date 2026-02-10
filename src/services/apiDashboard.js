@@ -19,7 +19,8 @@ export async function getBookingsStats({ lastDays = 7 }) {
     .from("bookings")
     .select(`id`, { count: "exact", head: true })
     .gte("startDate", today)
-    .lte("startDate", getToday({ end: true }));
+    .lte("startDate", getToday({ end: true }))
+    .eq("status", "unconfirmed");
 
   const [
     { data: bookings, count: bookingsCount, error },

@@ -104,10 +104,12 @@ function Header({ children }) {
 //   );
 // }
 
-function Body({ data, render }) {
+function Body({ data, render, name = "" }) {
   // const { columns } = useContext(TableContext);
 
-  if (data?.length === 0) return <Empty>no data presently</Empty>;
+  if (data?.length === 0 && !name) return <Empty>no data presently</Empty>;
+  if (data?.length === 0 && name === "todayOverview")
+    return <Empty>no activity today</Empty>;
 
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }

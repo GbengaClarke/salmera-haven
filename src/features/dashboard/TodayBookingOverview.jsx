@@ -9,11 +9,12 @@ const StyledTableContainer = styled.div`
   flex-direction: column;
   width: 100%;
   grid-column: span 2;
-  height: 30rem;
+  max-height: 30rem;
+  /* height: 30rem; */
   /* background: var(--color-grey-100); */
   background: var(--color-grey-50);
   border-radius: var(--border-radius-md);
-  padding: 1rem;
+  padding: 1rem 0;
 `;
 
 const ScrollContent = styled.div`

@@ -45,6 +45,7 @@ const filter = [
 // ];
 
 const StyledOperations = styled.div`
+  /* display: fixed; */
   display: flex;
   /* gap: 0.5rem; */
   margin-top: 1.5rem;

@@ -177,8 +177,5 @@ function TodaysOverviewRow({ booking }) {
     </CommonRow>
   );
 }
-{
-  /* <TbDoorExit /> */
-}
 
 export default TodaysOverviewRow;

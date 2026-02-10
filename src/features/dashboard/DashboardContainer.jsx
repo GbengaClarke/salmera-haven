@@ -4,10 +4,9 @@ import DashboardOperations from "../../ui/DashboardOperations";
 import Cards from "../../ui/Cards";
 import TodayBookingOverview from "./TodayBookingOverview";
 import StayDuration from "./StayDuration";
-import ProgressBar from "./ProgressBar";
+import ProgressReport from "./ProgressReport";
 import SalesGraph from "./SalesGraph";
-import { useEffect } from "react";
-import { getBookingsStats } from "../../services/apiDashboard";
+
 import useDashboardBookings from "./useDashboardBookings";
 
 const CardRow = styled.div`
@@ -62,8 +61,14 @@ function DashboardContainer() {
 
       <StyledGrid>
         <TodayBookingOverview />
-        <StayDuration />
-        <ProgressBar />
+        <StayDuration
+          bookings={bookings}
+          isGettingBookings={isGettingBookings}
+        />
+        <ProgressReport
+          bookings={bookings}
+          isGettingBookings={isGettingBookings}
+        />
         <SalesGraph />
       </StyledGrid>
     </StyledTableContainer>

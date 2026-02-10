@@ -150,7 +150,10 @@ function Cards({ scheduledTodayCount, bookings }) {
 
           <span>
             {scheduledTodayCount > 0
-              ? `${scheduledTodayCount} arrivals
+              ? scheduledTodayCount === 1
+                ? `${scheduledTodayCount} arrival
+            today`
+                : `${scheduledTodayCount} arrivals
             today`
               : "No arrival today"}
           </span>

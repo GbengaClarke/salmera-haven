@@ -4,13 +4,13 @@ export async function getSettings() {
   const { data: settings, error } = await supabase
     .from("settings")
     .select(
-      "id,maxBookingLength,maxGuests,maxActiveBookingsPerGuest,breakfastPrice"
+      "id,maxBookingLength,maxGuests,maxActiveBookingsPerGuest,breakfastPrice,revenueTarget"
     )
     .single();
 
   if (error) {
     console.error(error);
-    throw new Error("Rooms could not be loaded");
+    throw new Error("Settings could not be loaded");
   }
 
   return settings;

@@ -55,6 +55,7 @@ function BookingForm() {
     maxActiveBookingsPerGuest,
     maxGuests,
     maxBookingLength,
+    revenueTarget,
   } = settings;
 
   // console.log(settings);
@@ -70,6 +71,7 @@ function BookingForm() {
       maxGuests: maxGuests,
       maxActiveBookingsPerGuest: maxActiveBookingsPerGuest,
       breakfastPrice: breakfastPrice,
+      revenueTarget: revenueTarget,
     },
   });
 
@@ -81,6 +83,7 @@ function BookingForm() {
       maxGuests,
       maxActiveBookingsPerGuest,
       breakfastPrice,
+      revenueTarget,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset, settings]);
@@ -154,6 +157,18 @@ function BookingForm() {
             type="number"
             id="breakfastPrice"
             {...register("breakfastPrice", { valueAsNumber: true })}
+          />
+        </FormRow>
+
+        <FormRow
+          label={"Revenue Target (in 30 days)"}
+          error={errors?.revenueTarget?.message}
+        >
+          <input
+            disabled={isWorking}
+            type="number"
+            id="revenueTarget"
+            {...register("revenueTarget", { valueAsNumber: true })}
           />
         </FormRow>
 
