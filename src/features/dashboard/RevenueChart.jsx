@@ -21,49 +21,13 @@ const StyledChart = styled.div`
   }
 `;
 
-// const data = [
-//   { date: "2026-02-01", revenue: 4000, extra: 400 },
-//   { date: "2026-02-02", revenue: 3000, extra: 1200 },
-//   { date: "2026-02-03", revenue: 5000, extra: 800 },
-//   { date: "2026-02-04", revenue: 1000, extra: 200 },
-//   { date: "2026-02-05", revenue: 800, extra: 400 },
-//   { date: "2026-02-06", revenue: 2000, extra: 250 },
-// ];
-
-const data = [
-  { date: "Jan 09", revenue: 480, extra: 20 },
-  { date: "Jan 10", revenue: 580, extra: 100 },
-  { date: "Jan 11", revenue: 550, extra: 150 },
-  { date: "Jan 12", revenue: 600, extra: 50 },
-  { date: "Jan 13", revenue: 700, extra: 150 },
-  { date: "Jan 14", revenue: 800, extra: 150 },
-  { date: "Jan 15", revenue: 700, extra: 200 },
-  { date: "Jan 16", revenue: 650, extra: 200 },
-  { date: "Jan 17", revenue: 600, extra: 300 },
-  { date: "Jan 18", revenue: 550, extra: 100 },
-  { date: "Jan 19", revenue: 700, extra: 100 },
-  { date: "Jan 20", revenue: 800, extra: 200 },
-  { date: "Jan 21", revenue: 700, extra: 100 },
-  { date: "Jan 22", revenue: 810, extra: 50 },
-  { date: "Jan 23", revenue: 950, extra: 250 },
-  { date: "Jan 24", revenue: 970, extra: 100 },
-  { date: "Jan 25", revenue: 900, extra: 200 },
-  { date: "Jan 26", revenue: 950, extra: 300 },
-  { date: "Jan 27", revenue: 850, extra: 200 },
-  { date: "Jan 28", revenue: 900, extra: 100 },
-  { date: "Jan 29", revenue: 800, extra: 300 },
-  { date: "Jan 30", revenue: 950, extra: 200 },
-  { date: "Jan 31", revenue: 1100, extra: 300 },
-  { date: "Feb 01", revenue: 1200, extra: 400 },
-  { date: "Feb 02", revenue: 1250, extra: 300 },
-  { date: "Feb 03", revenue: 1400, extra: 450 },
-  { date: "Feb 04", revenue: 1500, extra: 500 },
-  { date: "Feb 05", revenue: 1400, extra: 600 },
-  { date: "Feb 06", revenue: 1450, extra: 400 },
-];
-
-function RevenueChart() {
+function RevenueChart({ data, lastDays }) {
   const { isDarkMode } = useDarkModeContext();
+
+  //edit for x-axis labels
+  const interval = lastDays === 30 ? 3 : lastDays === 90 ? 9 : "";
+
+  // console.log(interval);
 
   const colors = isDarkMode
     ? {
@@ -86,7 +50,7 @@ function RevenueChart() {
       <ResponsiveContainer height={"100%"} width={"100%"}>
         <AreaChart
           data={data}
-          margin={{ top: 20, right: 30, left: 10, bottom: 5 }}
+          margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
         >
           {/* Gradient for Revenue */}
           <defs>
@@ -130,8 +94,8 @@ function RevenueChart() {
             dataKey="date"
             stroke={colors.text}
             tick={{ fill: colors.text }}
-            interval={2}
             angle={0}
+            interval={interval}
             tickMargin={10}
           />
 
@@ -161,7 +125,7 @@ function RevenueChart() {
 
           {/* LEGEND */}
           <Legend
-            height={7}
+            height={5}
             wrapperStyle={{
               color: colors.text,
               fontSize: "12px",

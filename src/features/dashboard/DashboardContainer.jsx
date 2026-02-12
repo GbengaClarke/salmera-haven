@@ -69,7 +69,7 @@ function DashboardContainer() {
           bookings={bookings}
           isGettingBookings={isGettingBookings}
         />
-        <SalesGraph />
+        <SalesGraph bookings={bookings} />
       </StyledGrid>
     </StyledTableContainer>
   );
