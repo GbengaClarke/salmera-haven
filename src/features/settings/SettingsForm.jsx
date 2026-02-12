@@ -75,6 +75,8 @@ function BookingForm() {
     },
   });
 
+  //fix useEffect dependency issue
+
   useEffect(() => {
     if (!settings) return;
 
@@ -85,6 +87,7 @@ function BookingForm() {
       breakfastPrice,
       revenueTarget,
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset, settings]);
 
