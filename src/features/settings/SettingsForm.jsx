@@ -26,7 +26,7 @@ const Container = styled.div`
   }
 `;
 
-const Form = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

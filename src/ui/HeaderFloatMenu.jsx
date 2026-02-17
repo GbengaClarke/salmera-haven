@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { IoChevronDownSharp, IoLogOut } from "react-icons/io5";
 import styled from "styled-components";
 import { FaUserEdit } from "react-icons/fa";
+import useLogout from "../features/authentication/useLogout";
+import SpinnerMini from "./SpinnerMini";
+import { useNavigate } from "react-router-dom";
 
 const FloatMenu = styled.div`
   position: absolute;
@@ -65,9 +68,14 @@ const IconCont = styled.div`
   opacity: 0.7;
 `;
 
-function HeaderFloatMenu() {
+function HeaderFloatMenu({ username }) {
   const [floatMenuOpen, setFloatMenuOpen] = useState(false);
   const floatElement = useRef(null);
+  const navigate = useNavigate();
+
+  const firstName = username.split(" ").at(0);
+
+  const { logout, isLoggingOut } = useLogout();
 
   useEffect(() => {
     function handleClick(e) {
@@ -93,13 +101,14 @@ function HeaderFloatMenu() {
   return (
     <>
       <ChevronContainer onClick={handleClickChevron}>
+        {/* {isLoggingOut ? <SpinnerMini /> : <IoChevronDownSharp />} */}
         <IoChevronDownSharp />
       </ChevronContainer>
 
       <FloatMenu $floatMenuOpen={floatMenuOpen} ref={floatElement}>
-        <GreetingCont>Hello, Samuel</GreetingCont>
+        <GreetingCont>Hello, {firstName}</GreetingCont>
 
-        <Cont>
+        <Cont onClick={() => navigate("/account")}>
           <IconCont>
             <FaUserEdit />
           </IconCont>
@@ -107,7 +116,7 @@ function HeaderFloatMenu() {
           <div>Update Account</div>
         </Cont>
 
-        <Cont>
+        <Cont onClick={logout}>
           <IconCont>
             <IoLogOut />
           </IconCont>

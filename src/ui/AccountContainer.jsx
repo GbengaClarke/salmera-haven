@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
 import { media } from "../styles/breakpoints";
-import UsersForm from "../features/authentication/UsersForm";
+import UserDataForm from "../features/authentication/UserDataForm";
+import ChangePasswordForm from "../features/authentication/ChangePasswordForm";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -10,6 +11,7 @@ const StyledTableContainer = styled.div`
   /* border: 1px solid red; */
   width: 100%;
   height: auto;
+  /* gap: 1rem; */
 
   & p {
     font-size: 1rem;
@@ -27,48 +29,55 @@ const RowFlex = styled.div`
   display: flex;
   padding: 0.5rem 0.7rem;
   flex-direction: column;
+  /* border: 1px solid red; */
   /* gap: 1rem; */
+
+  /* & div {
+    gap: 2rem;
+  } */
 
   @media (min-width: 602px) {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
-    gap: 0.8rem;
+    /* gap: 0.8rem; */
   }
 `;
 
 const TableWrapper = styled.div`
-  overflow-x: scroll;
+  /* overflow-x: scroll;
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
 
   ${media.mobile} {
     overflow-x: auto;
     margin-bottom: 0;
-  }
+  } */
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;
 
-function UsersContainer() {
+function AccountContainer() {
   return (
     <StyledTableContainer>
       <RowFlex>
         <Row>
-          <Heading as={"h3"}>Create a new user</Heading>
-          <p>
-            Enter the user’s information to create their account and grant them
-            access to the platform.
-          </p>
+          <Heading as={"h3"}>Update your account</Heading>
+          <p>Manage and update your account details here.</p>
         </Row>
       </RowFlex>
 
       <Row>
-        {/* <TableWrapper> */}
-        <UsersForm />
-        {/* </TableWrapper> */}
+        <TableWrapper>
+          <UserDataForm />
+          <ChangePasswordForm />
+        </TableWrapper>
       </Row>
     </StyledTableContainer>
   );
 }
 
-export default UsersContainer;
+export default AccountContainer;

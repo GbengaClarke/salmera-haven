@@ -5,17 +5,44 @@ import FormRow from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
 import useSignupUser from "./useSignupUser";
 
+// const Container = styled.div`
+//   width: 100%;
+//   /* max-width: 600px; */
+//   margin: 0.5rem auto;
+//   padding: 2rem;
+//   background-color: var(--color-grey-100);
+//   border-radius: var(--border-radius-md);
+//   box-shadow: var(--shadow-sd);
+
+//   ${media.tabletsm} {
+//     padding: 2.3rem;
+//   }
+
+//   ${media.laptoplg} {
+//     max-width: 800px;
+//   }
+// `;
+
 const Container = styled.div`
   width: 100%;
   /* max-width: 600px; */
-  margin: 0.5rem auto;
-  padding: 2rem;
-  background-color: var(--color-grey-100);
-  border-radius: var(--border-radius-md);
+  /* margin: 0.5rem auto; */
+  /* padding: 2rem;
+  background-color: var(--color-grey-100); */
+  padding: 0.5rem 0.7rem;
+
+  /* border-radius: var(--border-radius-md); */
   box-shadow: var(--shadow-sd);
 
+  & h5 {
+    text-align: left;
+    color: var(--color-grey-700);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
   ${media.tabletsm} {
-    padding: 2.3rem;
+    /* padding: 2.3rem; */
   }
 
   ${media.laptoplg} {
@@ -27,6 +54,9 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding: 2rem;
+  background-color: var(--color-grey-100);
+  border-radius: var(--border-radius-md);
 
   & div {
     text-align: left;
@@ -40,10 +70,7 @@ const ButtonsCont = styled.div`
   gap: 1rem;
 `;
 
-function UsersForm() {
-  const { signupUser, isCreating } = useSignupUser();
-  // const { googleLogin, isPending } = useGoogleLogin();
-
+function ChangePasswordForm() {
   const {
     register,
     handleSubmit,
@@ -52,51 +79,19 @@ function UsersForm() {
     formState: { errors },
   } = useForm();
 
-  function onSubmit({ fullName, email, password }) {
-    signupUser(
-      { fullName, email, password },
-      {
-        onSuccess: () => reset(),
-      }
-    );
-  }
+  function onSubmit({ avatar, email, password }) {}
 
   return (
-    // <>
     <Container>
+      <h5>Change password</h5>
+
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <FormRow label={"Full Name"} error={errors?.fullName?.message}>
-          <input
-            disabled={isCreating}
-            type="text"
-            id="fullName"
-            {...register("fullName", {
-              required: "This field is required",
-            })}
-          />
-        </FormRow>
-
-        <FormRow label={"Email address"} error={errors?.email?.message}>
-          <input
-            disabled={isCreating}
-            type="email"
-            id="email"
-            {...register("email", {
-              required: "This field is required",
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "provide a valid email address",
-              },
-            })}
-          />
-        </FormRow>
-
         <FormRow
           label={"Password (min 8 charaters)"}
           error={errors?.password?.message}
         >
           <input
-            disabled={isCreating}
+            disabled={""}
             type="password"
             id="password"
             {...register("password", {
@@ -114,7 +109,7 @@ function UsersForm() {
           error={errors?.repeatPassword?.message}
         >
           <input
-            disabled={isCreating}
+            disabled={""}
             type="password"
             id="repeatPassword"
             {...register("repeatPassword", {
@@ -126,7 +121,7 @@ function UsersForm() {
         </FormRow>
 
         <ButtonsCont type="horizontal">
-          <CancelButton onClick={reset} type="reset" disabled={isCreating}>
+          <CancelButton onClick={reset} type="reset" disabled={""}>
             Clear
           </CancelButton>
 
@@ -140,14 +135,13 @@ function UsersForm() {
             <FcGoogle />
           </Button> */}
 
-          <Button disabled={isCreating} type="submit">
+          <Button disabled={""} type="submit">
             Create new user
           </Button>
         </ButtonsCont>
       </Form>
     </Container>
-    // </>
   );
 }
 
-export default UsersForm;
+export default ChangePasswordForm;

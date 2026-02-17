@@ -31,16 +31,23 @@ const AvatarInfo = styled.div`
   }
 `;
 
-function AvatarDetails() {
+function AvatarDetails({ user }) {
+  // console.log(user);
+
+  const { fullName, email, avatar } = user;
   return (
     <GenralContainer>
       <ImageResuseable height={"2.8rem"} width={"2.8rem"}>
-        <Avatar src="/placeholderpic.webp" alt="user avatar" />
+        {/* add defualt guest avatar */}
+        <Avatar
+          src={avatar || "/default-user.jpg"}
+          alt={`${fullName}'s avatar`}
+        />
       </ImageResuseable>
 
       <AvatarInfo>
-        <h1>Samuel Nwaokocha</h1>
-        <div>samuelnwaokocha@gmail.com</div>
+        <h1>{fullName}</h1>
+        <div>{email}</div>
       </AvatarInfo>
     </GenralContainer>
   );

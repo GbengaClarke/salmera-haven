@@ -7,7 +7,8 @@ export const Button = styled.button`
 
   color: ${({ textColor = "white" }) => textColor};
 
-  font-weight: 500;
+  /* font-weight: 500; */
+  font-weight: ${({ fontWeight = "500" }) => fontWeight};
   padding: ${({ padding = "1rem" }) => padding};
   border-radius: 4px;
   border: none;

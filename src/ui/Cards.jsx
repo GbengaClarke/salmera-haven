@@ -128,7 +128,7 @@ function Cards({ scheduledTodayCount, bookings }) {
   );
 
   // const occupation =
-  //   confirmedStays.reduce((acc, curr) => acc + curr.numNights, 0) /
+  // bookings.reduce((acc, curr) => acc + curr.numNights, 0) /
   //   (numDays * cabinCount)
 
   // console.log(unconfirmed);

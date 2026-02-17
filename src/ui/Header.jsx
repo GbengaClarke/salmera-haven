@@ -8,6 +8,7 @@ import HeaderFloatMenu from "./HeaderFloatMenu";
 import { useDarkModeContext } from "../context/DarkModeContext";
 import Logo from "./Logo";
 import AvatarDetails from "./AvatarDetails";
+import useGetUser from "../features/authentication/useGetUser";
 // import Clock from "./Clock";
 
 const StyledHeader = styled.div`
@@ -91,6 +92,12 @@ export const FlexAligner = styled.div`
 function Header({ toggleSideBar, sidebarOpen }) {
   // eslint-disable-next-line no-unused-vars
   const { toggleTheme, isDarkMode, theme } = useDarkModeContext();
+  const { user } = useGetUser();
+
+  const userData = user.user_metadata;
+
+  // console.log(user);
+  // console.log(user.email);
 
   return (
     <StyledHeader>
@@ -119,10 +126,10 @@ function Header({ toggleSideBar, sidebarOpen }) {
           )}
         </IconsContainer>
 
-        <AvatarDetails />
+        <AvatarDetails user={userData} />
 
         <IconsContainer>
-          <HeaderFloatMenu />
+          <HeaderFloatMenu username={userData.fullName} />
         </IconsContainer>
       </FlexContainer>
     </StyledHeader>
