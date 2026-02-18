@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import Row from "../styles/Row";
-import Heading from "../styles/Heading";
-import { media } from "../styles/breakpoints";
-import UserDataForm from "../features/authentication/UserDataForm";
-import ChangePasswordForm from "../features/authentication/ChangePasswordForm";
+import Row from "../../styles/Row";
+import Heading from "../../styles/Heading";
+import { media } from "../../styles/breakpoints";
+import UserDataForm from "./UserDataForm";
+import ChangePasswordForm from "./ChangePasswordForm";
+import useUpdateUser from "./useUpdateUser";
+// import UserDataForm from "./UserDataForm";
+// import ChangePasswordForm from "./ChangePasswordForm";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -61,6 +64,8 @@ const TableWrapper = styled.div`
 `;
 
 function AccountContainer() {
+  const { updateUser, errorUpdatingUser, isUpdatingUser } = useUpdateUser();
+
   return (
     <StyledTableContainer>
       <RowFlex>
@@ -72,8 +77,14 @@ function AccountContainer() {
 
       <Row>
         <TableWrapper>
-          <UserDataForm />
-          <ChangePasswordForm />
+          <UserDataForm
+            updateUser={updateUser}
+            isUpdatingUser={isUpdatingUser}
+          />
+          <ChangePasswordForm
+            updateUser={updateUser}
+            isUpdatingUser={isUpdatingUser}
+          />
         </TableWrapper>
       </Row>
     </StyledTableContainer>

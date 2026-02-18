@@ -23,7 +23,6 @@ const StyledSidebar = styled.aside`
 
   transition: transform 0.3s, background-color 0.3s ease-in-out;
 
-  /* keeps animation smooth */
   will-change: transform;
 
   ${media.tabletsm} {

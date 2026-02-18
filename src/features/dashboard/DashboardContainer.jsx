@@ -8,6 +8,7 @@ import ProgressReport from "./ProgressReport";
 import SalesGraph from "./SalesGraph";
 
 import useDashboardBookings from "./useDashboardBookings";
+import useRooms from "../rooms/useRooms";
 
 const CardRow = styled.div`
   display: flex;
@@ -39,12 +40,15 @@ const StyledGrid = styled.div`
 `;
 
 function DashboardContainer() {
+  const { rooms } = useRooms();
+
   const {
     bookings,
-    bookingsCount,
     scheduledTodayCount,
     errorGettingBookings,
     isGettingBookings,
+    lastDays,
+    confirmedStays,
   } = useDashboardBookings();
 
   //after fully implementing, take out unused properties from getBookingsStats
@@ -56,7 +60,13 @@ function DashboardContainer() {
       </RowFlex>
 
       <CardRow>
-        <Cards bookings={bookings} scheduledTodayCount={scheduledTodayCount} />
+        <Cards
+          bookings={bookings}
+          scheduledTodayCount={scheduledTodayCount}
+          lastDays={lastDays}
+          roomsCount={rooms?.length}
+          confirmedStays={confirmedStays}
+        />
       </CardRow>
 
       <StyledGrid>

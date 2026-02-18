@@ -86,7 +86,7 @@ const Form = styled.form`
 
 function LoginForm() {
   const [email, setEmail] = useState("test@demo.com");
-  const [password, setPassword] = useState("aaaaaaaa");
+  const [password, setPassword] = useState("HelloFriend");
   const [showPassword, setShowPassword] = useState(false);
 
   const { login, isLoggingIn } = useLogin();
@@ -100,7 +100,7 @@ function LoginForm() {
     login(
       { email, password },
       {
-        onSettled: () => {
+        onSuccess: () => {
           setPassword("");
           setEmail("");
         },

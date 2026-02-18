@@ -1,15 +1,11 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getBookings } from "../../services/apiBooking";
 import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
 import { getBookingsStats } from "../../services/apiDashboard";
 
 function useDashboardBookings() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const lastDays = Number(searchParams.get("lastDays")) || 7;
-
-  const queryClient = useQueryClient();
 
   const {
     data,
@@ -25,12 +21,25 @@ function useDashboardBookings() {
     keepPreviousData: true,
   });
 
+  // const confirmedStays = data?.bookings?.filter(
+  //   (booked) => booked.status === "checked-in"
+  // );
+
+  const confirmedStays = data?.bookings?.filter(
+    (booked) =>
+      booked.status === "checked-in" || booked.status === "checked-out"
+  );
+
+  // console.log(confirmedStays);
+  // console.log(data?.bookings);
+
   return {
     bookings: data?.bookings ?? [],
-    bookingsCount: data?.bookingsCount ?? 0,
     scheduledTodayCount: data?.scheduledTodayCount ?? 0,
     errorGettingBookings,
     isGettingBookings,
+    lastDays,
+    confirmedStays,
   };
 }
 

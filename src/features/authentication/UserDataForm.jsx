@@ -53,13 +53,13 @@ const ButtonsCont = styled.div`
   gap: 1rem;
 `;
 
-function UserDataForm() {
+function UserDataForm({ isUpdatingUser, updateUser }) {
   const {
     user: { user_metadata: userData },
     isPending,
   } = useGetUser();
 
-  const { updateUser, errorUpdatingUser, isUpdatingUser } = useUpdateUser();
+  // const { updateUser, errorUpdatingUser, isUpdatingUser } = useUpdateUser();
 
   const isWorking = isUpdatingUser || isPending;
 
@@ -70,6 +70,7 @@ function UserDataForm() {
   const {
     register,
     handleSubmit,
+    resetField,
     reset,
     getValues,
     formState: { errors },
@@ -81,7 +82,14 @@ function UserDataForm() {
   });
 
   function onSubmit({ fullName, avatar }) {
-    updateUser({ fullName, avatar });
+    updateUser(
+      { fullName, avatar },
+      {
+        onSuccess: () => {
+          resetField("avatar");
+        },
+      }
+    );
   }
 
   return (

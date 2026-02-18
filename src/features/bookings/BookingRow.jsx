@@ -137,15 +137,8 @@ const StyledStatus = styled.div`
 function BookingRow({ booking, last3 }) {
   const {
     id,
-    numGuests,
-    isPaid,
-    observations,
-    hasBreakfast,
-    guestId,
-    roomId,
     endDate,
     startDate,
-    created_at,
     status,
     totalPrice,
     numNights,

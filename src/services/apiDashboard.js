@@ -10,8 +10,7 @@ export async function getBookingsStats({ lastDays = 7 }) {
   const bookingsQuery = supabase
     .from("bookings")
     .select(
-      `*,room:rooms ( name ),guest:guests( fullName,email,nationalID,countryFlag )`,
-      { count: "exact" }
+      `*,room:rooms ( name ),guest:guests( fullName,email,nationalID,countryFlag )`
     )
     .gte("created_at", day);
 
@@ -23,7 +22,7 @@ export async function getBookingsStats({ lastDays = 7 }) {
     .eq("status", "unconfirmed");
 
   const [
-    { data: bookings, count: bookingsCount, error },
+    { data: bookings, error },
     { count: scheduledTodayCount, error: scheduledTodayError },
   ] = await Promise.all([bookingsQuery, TodaysBookingsQuery]);
 
@@ -32,7 +31,7 @@ export async function getBookingsStats({ lastDays = 7 }) {
     throw new Error("Booking stats could not be loaded");
   }
 
-  return { bookings, bookingsCount, scheduledTodayCount };
+  return { bookings, scheduledTodayCount };
 }
 
 export async function getTodayBookingOverview() {

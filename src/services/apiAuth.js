@@ -69,7 +69,7 @@ export async function loginWithGoogle() {
   // console.log(data);
 }
 
-export async function updateUser({ fullName, avatar }) {
+export async function updateUser({ fullName, avatar, password }) {
   let avatarUrl;
 
   if (avatar?.[0]) {
@@ -86,14 +86,22 @@ export async function updateUser({ fullName, avatar }) {
       .data.publicUrl;
   }
 
-  const updateData = {
-    fullName,
-    ...(avatarUrl && { avatar: avatarUrl }),
-  };
+  let query;
 
-  const { data, error } = await supabase.auth.updateUser({
-    data: updateData,
-  });
+  if (password) {
+    query = supabase.auth.updateUser({ password });
+  }
+
+  if (fullName || avatarUrl) {
+    query = supabase.auth.updateUser({
+      data: {
+        ...(fullName && { fullName }),
+        ...(avatarUrl && { avatar: avatarUrl }),
+      },
+    });
+  }
+
+  const { data, error } = await query;
 
   if (error) throw error;
 

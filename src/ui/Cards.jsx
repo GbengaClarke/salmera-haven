@@ -109,7 +109,13 @@ const CardRow = styled.div`
   }
 `;
 
-function Cards({ scheduledTodayCount, bookings }) {
+function Cards({
+  scheduledTodayCount,
+  bookings,
+  lastDays,
+  roomsCount,
+  confirmedStays,
+}) {
   const { revenue, highest, checkIn, unconfirmed } = bookings.reduce(
     (acc, curr) => {
       acc.revenue += curr.totalPrice;
@@ -127,11 +133,11 @@ function Cards({ scheduledTodayCount, bookings }) {
     }
   );
 
-  // const occupation =
-  // bookings.reduce((acc, curr) => acc + curr.numNights, 0) /
-  //   (numDays * cabinCount)
+  const occupation =
+    confirmedStays?.reduce((acc, curr) => acc + curr.numNights, 0) /
+    (lastDays * roomsCount);
 
-  // console.log(unconfirmed);
+  // console.log(confirmedStays);
 
   return (
     <StyledCards>
@@ -189,7 +195,7 @@ function Cards({ scheduledTodayCount, bookings }) {
             <p>Occupancy Rate</p>
           </CardRow>
 
-          <strong>76%</strong>
+          <strong>{Math.round(occupation * 100) + "%"}</strong>
           <span>62 of 80 rooms</span>
         </Card>
       </CardContainer>

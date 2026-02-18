@@ -1,4 +1,4 @@
-import AccountContainer from "../ui/AccountContainer";
+import AccountContainer from "../features/authentication/AccountContainer";
 import { StyledSection } from "./Bookings";
 
 function Users() {

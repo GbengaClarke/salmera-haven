@@ -70,7 +70,7 @@ const ButtonsCont = styled.div`
   gap: 1rem;
 `;
 
-function ChangePasswordForm() {
+function ChangePasswordForm({ isUpdatingUser, updateUser }) {
   const {
     register,
     handleSubmit,
@@ -79,7 +79,16 @@ function ChangePasswordForm() {
     formState: { errors },
   } = useForm();
 
-  function onSubmit({ avatar, email, password }) {}
+  function onSubmit({ password }) {
+    updateUser(
+      { password },
+      {
+        onSuccess: () => {
+          reset();
+        },
+      }
+    );
+  }
 
   return (
     <Container>
@@ -91,7 +100,7 @@ function ChangePasswordForm() {
           error={errors?.password?.message}
         >
           <input
-            disabled={""}
+            disabled={isUpdatingUser}
             type="password"
             id="password"
             {...register("password", {
@@ -109,7 +118,7 @@ function ChangePasswordForm() {
           error={errors?.repeatPassword?.message}
         >
           <input
-            disabled={""}
+            disabled={isUpdatingUser}
             type="password"
             id="repeatPassword"
             {...register("repeatPassword", {
@@ -121,22 +130,12 @@ function ChangePasswordForm() {
         </FormRow>
 
         <ButtonsCont type="horizontal">
-          <CancelButton onClick={reset} type="reset" disabled={""}>
+          <CancelButton onClick={reset} type="reset" disabled={isUpdatingUser}>
             Clear
           </CancelButton>
 
-          {/* <Button
-            type="button"
-            fontSize="2.4rem"
-            onClick={() => {
-              googleLogin();
-            }}
-          >
-            <FcGoogle />
-          </Button> */}
-
-          <Button disabled={""} type="submit">
-            Create new user
+          <Button disabled={isUpdatingUser} type="submit">
+            Update password
           </Button>
         </ButtonsCont>
       </Form>

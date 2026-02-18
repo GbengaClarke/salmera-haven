@@ -71,7 +71,12 @@ function AppLayout() {
   return (
     <StyledMaxWidth>
       <StyledAppLayoutGrid $sidebarOpen={sidebarOpen}>
-        <BackdropEffect $sidebarOpen={sidebarOpen} />
+        <BackdropEffect
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          $sidebarOpen={sidebarOpen}
+        />
         <Sidebar
           isOpen={sidebarOpen}
           closeSideBar={() => setSidebarOpen(false)}

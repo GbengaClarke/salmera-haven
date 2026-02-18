@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router-dom";
 import Pagination from "../../ui/Pagination.jsx";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/TableContext";
