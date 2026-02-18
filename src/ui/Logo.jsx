@@ -12,6 +12,11 @@ const CompanyName = styled.h1`
     font-size: 1.4rem;
   }
 `;
+
+// const StyledDiv = styled.div`
+//   display: flex;
+//   align-items: center;
+// `;
 function Logo() {
   return (
     <>

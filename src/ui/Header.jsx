@@ -9,6 +9,7 @@ import { useDarkModeContext } from "../context/DarkModeContext";
 import Logo from "./Logo";
 import AvatarDetails from "./AvatarDetails";
 import useGetUser from "../features/authentication/useGetUser";
+import { NavLink } from "react-router-dom";
 // import Clock from "./Clock";
 
 const StyledHeader = styled.div`
@@ -108,9 +109,11 @@ function Header({ toggleSideBar, sidebarOpen }) {
           </Hamburger>
         </MobileOnly>
 
-        <FlexAligner $sidebarOpen={sidebarOpen}>
-          <Logo />
-        </FlexAligner>
+        <NavLink to={"/"}>
+          <FlexAligner $sidebarOpen={sidebarOpen}>
+            <Logo />
+          </FlexAligner>
+        </NavLink>
       </FlexContainer>
 
       {/* <FlexContainer>

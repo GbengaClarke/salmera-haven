@@ -57,6 +57,8 @@ export const TableWrapper = styled.div`
   overflow-x: scroll;
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
+  /* border: 1px solid red; */
+  border-radius: 1rem;
 
   ${media.mobile} {
     overflow-x: auto;
