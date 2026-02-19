@@ -7,6 +7,8 @@ function useCheckinBooking() {
   const queryClient = useQueryClient();
   const { id } = useParams();
 
+  // let toastId;
+
   const {
     mutate: checkinBooking,
     error: errorCheckingIn,

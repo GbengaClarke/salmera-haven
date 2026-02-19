@@ -115,12 +115,13 @@ function Cards({
   lastDays,
   roomsCount,
   confirmedStays,
+  stays,
 }) {
   const { revenue, highest, checkIn, unconfirmed } = bookings.reduce(
     (acc, curr) => {
       acc.revenue += curr.totalPrice;
       acc.highest = Math.max(acc.highest, curr.totalPrice);
-      acc.checkIn += curr.status === "checked-in" ? 1 : 0;
+      // acc.checkIn += curr.status === "checked-in" ? 1 : 0;
       acc.unconfirmed += curr.status === "unconfirmed" ? 1 : 0;
 
       return acc;
@@ -128,7 +129,7 @@ function Cards({
     {
       revenue: 0,
       highest: 0,
-      checkIn: 0,
+      // checkIn: 0,
       unconfirmed: 0,
     }
   );
@@ -136,8 +137,6 @@ function Cards({
   const occupation =
     confirmedStays?.reduce((acc, curr) => acc + curr.numNights, 0) /
     (lastDays * roomsCount);
-
-  // console.log(confirmedStays);
 
   return (
     <StyledCards>
@@ -183,9 +182,9 @@ function Cards({
             <p>Check ins</p>
           </CardRow>
 
-          <strong>{checkIn}</strong>
-          {/*  unconfimed status below */}
-          <span>{unconfirmed} remaining</span>
+          <strong>{confirmedStays?.length}</strong>
+
+          <span>{unconfirmed} unconfirmed</span>
         </Card>
       </CardContainer>
       <CardContainer $bColor="var(--color-janquil-500)">
@@ -196,7 +195,7 @@ function Cards({
           </CardRow>
 
           <strong>{Math.round(occupation * 100) + "%"}</strong>
-          <span>62 of 80 rooms</span>
+          <span>Last {lastDays} days</span>
         </Card>
       </CardContainer>
     </StyledCards>

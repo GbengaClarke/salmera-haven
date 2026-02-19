@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import useCheckinBooking from "./useCheckinBooking";
 import { formatCurrency, getNumberOfNights } from "../../utils/helpers";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Container = styled.section`
   overflow: hidden;
@@ -95,6 +96,7 @@ function Checkin() {
     isPaid,
     numNights,
     numGuests,
+    status,
     guest: { fullName },
   } = booking;
 
@@ -104,7 +106,7 @@ function Checkin() {
   const [wantBreakfast, setWantBreakfast] = useState(hasBreakfast);
   // const [hasPaid, setHasPaid] = useState();
 
-  const { checkinBooking, isCheckingIn } = useCheckinBooking();
+  const { checkinBooking, isCheckingIn, toastId } = useCheckinBooking();
 
   const {
     register,
@@ -195,7 +197,14 @@ function Checkin() {
     checkinBooking(
       { id, values },
       {
-        onSuccess: () => navigate("/bookings"),
+        onSuccess: () => {
+          navigate("/bookings");
+
+          // toast.success(`${fullName} successfully Checked in!`);
+          // toast.success(`Booking #${id} successfully Checked in!`, {
+          //   id: toastId,
+          // });
+        },
       }
     );
 

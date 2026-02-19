@@ -9,6 +9,7 @@ import SalesGraph from "./SalesGraph";
 
 import useDashboardBookings from "./useDashboardBookings";
 import useRooms from "../rooms/useRooms";
+import useGetStaysAfterDate from "./useGetStaysAfterDate";
 
 const CardRow = styled.div`
   display: flex;
@@ -48,8 +49,16 @@ function DashboardContainer() {
     errorGettingBookings,
     isGettingBookings,
     lastDays,
-    confirmedStays,
   } = useDashboardBookings();
+
+  const {
+    stays,
+    errorgettingStaysAfterDate,
+    isgettingStaysAfterDate,
+    confirmedStays,
+  } = useGetStaysAfterDate();
+
+  // console.log(confirmedStays);
 
   //after fully implementing, take out unused properties from getBookingsStats
 
@@ -66,6 +75,7 @@ function DashboardContainer() {
           lastDays={lastDays}
           roomsCount={rooms?.length}
           confirmedStays={confirmedStays}
+          stays={stays}
         />
       </CardRow>
 
@@ -77,7 +87,10 @@ function DashboardContainer() {
         />
         <ProgressReport
           bookings={bookings}
+          stays={stays}
+          isgettingStaysAfterDate={isgettingStaysAfterDate}
           isGettingBookings={isGettingBookings}
+          lastDays={lastDays}
         />
         <SalesGraph bookings={bookings} />
       </StyledGrid>

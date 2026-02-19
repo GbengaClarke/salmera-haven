@@ -47,13 +47,8 @@ const Styled = styled.div`
   }
 `;
 
-function ProgressBar({
-  value = 12,
-  max = 20,
-  label = "Booking Completion",
-  label2,
-}) {
-  const percentage = Math.ceil((value / max) * 100);
+function ProgressBar({ value = 12, max = 20, label, label2 }) {
+  const percentage = value === 0 ? 0 : Math.ceil((value / max) * 100);
 
   return (
     <StyledContainer>

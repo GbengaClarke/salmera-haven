@@ -50,14 +50,32 @@ export async function getTodayBookingOverview() {
     throw new Error("Booking overview could not be loaded");
   }
 
-  // console.log(bookingsOverview);
-
   return bookingsOverview;
 }
 
-async function test() {
-  const x = await getTodayBookingOverview();
+export async function getStaysAfterDate(date) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*")
+    .gte("startDate", date)
+    .lte("startDate", getToday());
 
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
+
+  // console.log(data);
+
+  return data;
+}
+
+// const date = subDays(getToday(), 7).toISOString();
+
+// console.log(date);
+
+async function test() {
+  // const x = await getStaysAfterDate(date);
   // console.log(data);
   // console.log(count);
 }

@@ -193,23 +193,36 @@ function getBookingStats(bookings = []) {
   );
 }
 
-function ProgressReport({ bookings = [], isGettingBookings }) {
+function ProgressReport({
+  bookings = [],
+  isGettingBookings,
+  stays,
+  isgettingStaysAfterDate,
+  lastDays,
+}) {
+  // const [searchParams] = useSearchParams();
+  // const lastDays = Number(searchParams.get("lastDays") ?? 7);
   const { isGettingSettings, settings } = useGetSettings();
 
-  const [searchParams] = useSearchParams();
-  const lastDays = Number(searchParams.get("lastDays") ?? 7);
+  const isWorking =
+    isgettingStaysAfterDate || isGettingSettings || isGettingBookings;
 
   const stats = getBookingStats(bookings);
 
   //  Revenue Target Calculation
   const maxRevenueTarget = (settings?.revenueTarget ?? 0) * (lastDays / 30);
 
+  //completion rate
+  const completedBookings = stays?.filter(
+    (booking) => booking.status === "checked-out"
+  );
+
   const progressItems = [
     {
-      value: stats.checkedIn,
-      max: stats.activeBookings,
+      value: completedBookings?.length,
+      max: stays?.length,
       label: "Booking Completion",
-      label2: "Checked in guests",
+      label2: "Checked out guests",
     },
     {
       value: stats.breakfast,
@@ -239,7 +252,7 @@ function ProgressReport({ bookings = [], isGettingBookings }) {
         </Row>
       </RowFlex>
 
-      {isGettingBookings || isGettingSettings ? (
+      {isWorking ? (
         <Spinner />
       ) : (
         <ProgressContainer>

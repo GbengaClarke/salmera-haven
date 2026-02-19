@@ -21,15 +21,6 @@ function useDashboardBookings() {
     keepPreviousData: true,
   });
 
-  // const confirmedStays = data?.bookings?.filter(
-  //   (booked) => booked.status === "checked-in"
-  // );
-
-  const confirmedStays = data?.bookings?.filter(
-    (booked) =>
-      booked.status === "checked-in" || booked.status === "checked-out"
-  );
-
   // console.log(confirmedStays);
   // console.log(data?.bookings);
 
@@ -39,7 +30,6 @@ function useDashboardBookings() {
     errorGettingBookings,
     isGettingBookings,
     lastDays,
-    confirmedStays,
   };
 }
 
