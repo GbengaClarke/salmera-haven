@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 const Row = styled.div`
   display: flex;
-  padding: 0.5rem 0.7rem;
+  padding: 0.5rem 0;
   /* border: 1px solid red; */
 
   ${({ scroll }) =>

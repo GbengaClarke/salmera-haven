@@ -1,27 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { IoChevronDownSharp, IoLogOut } from "react-icons/io5";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FaUserEdit } from "react-icons/fa";
 import useLogout from "../features/authentication/useLogout";
-import SpinnerMini from "./SpinnerMini";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 
 const FloatMenu = styled.div`
   position: absolute;
-  top: 4.3rem;
+  top: 5.2rem;
   right: -0.7rem;
   display: flex;
   flex-direction: column;
   color: var(--color-black);
   justify-content: center;
-  /* justify-content: flex-start; */
-  gap: 1rem;
-  padding: 2rem 0.5rem;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
   background-color: var(--color-grey-0);
   border-radius: 4px;
-  /* height: 12rem; */
   height: auto;
-  width: 16rem;
+  width: max-content;
   border: 1px solid var(--color-grey-100);
   overflow: hidden;
   transition: transform 0.2s ease;
@@ -54,10 +51,15 @@ const Cont = styled.div`
   gap: 0.7rem;
   font-size: 1.4rem;
   /* border: 1px solid red; */
-  padding: 0.6rem 0.4rem;
+  padding: 0.6rem 0.8rem;
   border-radius: 4px;
   cursor: pointer;
   font-family: "Raleway", sans-serif;
+  ${({ $active }) =>
+    $active &&
+    css`
+      background-color: var(--color-grey-200);
+    `}
 
   &:hover {
     background-color: var(--color-grey-200);
@@ -73,9 +75,14 @@ function HeaderFloatMenu({ username }) {
   const floatElement = useRef(null);
   const navigate = useNavigate();
 
+  const match = useMatch("/account");
+
+  console.log(match);
+
   const firstName = username.split(" ").at(0);
 
-  const { logout, isLoggingOut } = useLogout();
+  const { logout } = useLogout();
+  // const { logout, isLoggingOut } = useLogout();
 
   useEffect(() => {
     function handleClick(e) {
@@ -101,14 +108,16 @@ function HeaderFloatMenu({ username }) {
   return (
     <>
       <ChevronContainer onClick={handleClickChevron}>
-        {/* {isLoggingOut ? <SpinnerMini /> : <IoChevronDownSharp />} */}
         <IoChevronDownSharp />
       </ChevronContainer>
 
       <FloatMenu $floatMenuOpen={floatMenuOpen} ref={floatElement}>
         <GreetingCont>Hello, {firstName}</GreetingCont>
 
-        <Cont onClick={() => navigate("/account")}>
+        <Cont
+          $active={match ? true : false}
+          onClick={() => navigate("/account")}
+        >
           <IconCont>
             <FaUserEdit />
           </IconCont>

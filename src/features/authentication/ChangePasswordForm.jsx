@@ -1,74 +1,7 @@
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
-import { media } from "../../styles/breakpoints";
 import FormRow from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
-import useSignupUser from "./useSignupUser";
-
-// const Container = styled.div`
-//   width: 100%;
-//   /* max-width: 600px; */
-//   margin: 0.5rem auto;
-//   padding: 2rem;
-//   background-color: var(--color-grey-100);
-//   border-radius: var(--border-radius-md);
-//   box-shadow: var(--shadow-sd);
-
-//   ${media.tabletsm} {
-//     padding: 2.3rem;
-//   }
-
-//   ${media.laptoplg} {
-//     max-width: 800px;
-//   }
-// `;
-
-const Container = styled.div`
-  width: 100%;
-  /* max-width: 600px; */
-  /* margin: 0.5rem auto; */
-  /* padding: 2rem;
-  background-color: var(--color-grey-100); */
-  padding: 0.5rem 0.7rem;
-
-  /* border-radius: var(--border-radius-md); */
-  box-shadow: var(--shadow-sd);
-
-  & h5 {
-    text-align: left;
-    color: var(--color-grey-700);
-    font-weight: 500;
-    margin-bottom: 1rem;
-  }
-
-  ${media.tabletsm} {
-    /* padding: 2.3rem; */
-  }
-
-  ${media.laptoplg} {
-    max-width: 800px;
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem;
-  background-color: var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  & div {
-    text-align: left;
-  }
-`;
-
-const ButtonsCont = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  gap: 1rem;
-`;
+import { ButtonsCont, Container, Form } from "./UserDataForm";
 
 function ChangePasswordForm({ isUpdatingUser, updateUser }) {
   const {

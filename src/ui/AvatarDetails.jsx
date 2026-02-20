@@ -10,6 +10,7 @@ const GenralContainer = styled.div`
 const Avatar = styled.img`
   object-fit: cover;
   height: 100%;
+  width: 100%;
 `;
 
 const AvatarInfo = styled.div`
@@ -20,25 +21,34 @@ const AvatarInfo = styled.div`
   font-size: 0.5rem;
   color: var(--color-grey-600);
 
-  & div {
-    font-size: 0.7rem;
+  & p {
+    font-size: 0.8rem;
     font-family: "Raleway", sans-serif;
     color: var(--color-grey-500);
   }
 
   ${media.tabletsm} {
     display: flex;
+
+    & p {
+      font-size: 1rem;
+    }
+  }
+
+  ${media.laptopsm} {
+    font-size: 0.7rem;
+
+    & p {
+      font-size: 1.1rem;
+    }
   }
 `;
 
 function AvatarDetails({ user }) {
-  // console.log(user);
-
   const { fullName, email, avatar } = user;
   return (
     <GenralContainer>
-      <ImageResuseable height={"2.8rem"} width={"2.8rem"}>
-        {/* add defualt guest avatar */}
+      <ImageResuseable height={"2.9rem"} width={"2.9rem"}>
         <Avatar
           src={avatar || "/default-user.jpg"}
           alt={`${fullName}'s avatar`}
@@ -47,7 +57,7 @@ function AvatarDetails({ user }) {
 
       <AvatarInfo>
         <h1>{fullName}</h1>
-        <div>{email}</div>
+        <p>{email}</p>
       </AvatarInfo>
     </GenralContainer>
   );

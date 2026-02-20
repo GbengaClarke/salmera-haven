@@ -2,9 +2,8 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { media } from "../styles/breakpoints";
-import { swipeInMenu } from "./userExperience";
 import Footer from "./Footer";
 
 const StyledMaxWidth = styled.div`
@@ -33,47 +32,47 @@ const StyledAppLayoutGrid = styled.div`
   grid-template-columns: minmax(15rem, 17rem) 1fr;
   grid-template-rows: 5.5rem auto;
 
-  /* ${media.laptopsm} {
-  } */
+  ${media.tabletRange} {
+    grid-template-columns: 14.5rem 1fr;
+  }
 `;
 
 const Main = styled.main`
   grid-column: span 2;
   background-color: var(--color-grey-50);
   overflow-y: scroll;
+  margin-top: 2.5rem;
 
   width: 100%;
   padding-inline: 3%;
   padding-bottom: 2.5rem;
   margin-inline: auto;
+
+  ${({ $sidebarOpen }) =>
+    $sidebarOpen &&
+    `
+    pointer-events: none;
+    user-select: none;
+  `}/* @media (min-width: 900px) {
+    margin-top: 2rem;
+  } */
 `;
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-
   function toggleSideBar() {
     setSidebarOpen((sb) => !sb);
   }
-
-  // const { onTouchStart, onTouchMove, onTouchEnd } = swipeInMenu(
-  //   touchStartX,
-  //   touchEndX,
-  //   setSidebarOpen
-  // );
-
-  // onTouchStart={onTouchStart}
-  // onTouchMove={onTouchMove}
-  // onTouchEnd={onTouchEnd}
 
   return (
     <StyledMaxWidth>
       <StyledAppLayoutGrid $sidebarOpen={sidebarOpen}>
         <BackdropEffect
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
+            setSidebarOpen(false);
           }}
           $sidebarOpen={sidebarOpen}
         />
@@ -83,7 +82,7 @@ function AppLayout() {
         />
         <Header toggleSideBar={toggleSideBar} sidebarOpen={sidebarOpen} />
         <Main>
-          <Outlet />
+          <Outlet context={{ sidebarOpen }} />
           <Footer />
         </Main>
       </StyledAppLayoutGrid>

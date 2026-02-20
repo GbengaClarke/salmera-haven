@@ -4,24 +4,8 @@ import { media } from "../../styles/breakpoints";
 import FormRow from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
 import useSignupUser from "./useSignupUser";
-
-const Container = styled.div`
-  width: 100%;
-  /* max-width: 600px; */
-  margin: 0.5rem auto;
-  padding: 2rem;
-  background-color: var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-sd);
-
-  ${media.tabletsm} {
-    padding: 2.3rem;
-  }
-
-  ${media.laptoplg} {
-    max-width: 800px;
-  }
-`;
+import { Container } from "../settings/SettingsForm";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const Form = styled.form`
   display: flex;
@@ -141,7 +125,7 @@ function UsersForm() {
           </Button> */}
 
           <Button disabled={isCreating} type="submit">
-            Create new user
+            {!isCreating ? " Create new user" : <SpinnerMini />}
           </Button>
         </ButtonsCont>
       </Form>

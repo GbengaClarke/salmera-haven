@@ -10,7 +10,7 @@ export const guests = [
     countryFlag: "https://flagcdn.com/ng.svg",
   },
   {
-    fullName: "Jonathan Smith",
+    fullName: "Samuel Johnson",
     email: "johnsmith@test.eu",
     nationality: "Great Britain",
     nationalID: "4534593454",
@@ -117,7 +117,7 @@ export const guests = [
     countryFlag: "https://flagcdn.com/pk.svg",
   },
   {
-    fullName: "David Smith",
+    fullName: "David Nosagie",
     email: "david@gmail.com",
     nationality: "Australia",
     nationalID: "44450960283",

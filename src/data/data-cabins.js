@@ -4,8 +4,6 @@ const imageUrl = `${supabaseUrl}/storage/v1/object/public/room-pictures/`;
 
 // ("https://cpdwazwtvjpogpwizqis.supabase.co/storage/v1/object/public/rooms-pictures/cabin-001.jpg");
 
-// https://cpdwazwtvjpogpwizqis.supabase.co/storage/v1/object/public/room-pictures/cabin-001.jpg
-
 export const cabins = [
   {
     name: "001",

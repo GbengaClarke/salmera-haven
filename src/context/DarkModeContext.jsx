@@ -8,11 +8,7 @@ function DarkModeProvider({ children }) {
     "(prefers-color-scheme: dark)"
   ).matches;
 
-  // console.log("prfaresDark", prefaresDark);
-
   const { value, setValue } = useLocalStorageState("darkMode", prefaresDark);
-
-  // console.log("value", value);
 
   const [isDarkMode, setIsDarkMode] = useState(value);
 

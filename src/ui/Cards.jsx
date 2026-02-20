@@ -195,7 +195,7 @@ function Cards({
           </CardRow>
 
           <strong>{Math.round(occupation * 100) + "%"}</strong>
-          <span>Last {lastDays} days</span>
+          <span>In the last {lastDays} days</span>
         </Card>
       </CardContainer>
     </StyledCards>

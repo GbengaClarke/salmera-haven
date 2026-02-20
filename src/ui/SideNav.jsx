@@ -3,10 +3,11 @@ import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../styles/breakpoints";
-import Uploader from "../data/Uploader";
+import useLogout from "../features/authentication/useLogout";
+// import Uploader from "../data/Uploader";
 
 const Ul = styled.ul`
   display: flex;
@@ -65,6 +66,10 @@ const Link = styled(NavLink)`
   @media (min-height: 260px) and (max-height: 330px) {
     font-size: 1.2rem;
   }
+
+  ${media.tabletRange} {
+    font-size: 1.25rem;
+  }
 `;
 
 const Logout = styled.li`
@@ -86,7 +91,7 @@ const Margin = styled.div`
   /* margin-top: 15rem; */
 `;
 
-const LogoutLink = styled(NavLink)`
+const LogoutLink = styled.div`
   display: flex;
   align-items: center;
   gap: 0.9rem;
@@ -129,12 +134,17 @@ const LogoutLink = styled(NavLink)`
     font-size: 1.2rem;
     margin-top: 0rem;
   }
+
+  ${media.tabletRange} {
+    font-size: 1.25rem;
+  }
 `;
 
 function SideNav({ closeSideBar }) {
+  const { logout } = useLogout();
+
   function handleCloseSidebar() {
     if (window.innerWidth < 800) closeSideBar();
-    // if (window.innerWidth < 576) closeSideBar();
   }
 
   return (
@@ -170,9 +180,9 @@ function SideNav({ closeSideBar }) {
             <span>Settings</span>
           </Link>
         </li>
-        <Uploader />
+        {/* <Uploader /> */}
 
-        <Logout>
+        <Logout onClick={logout}>
           <LogoutLink>
             <RxDashboard />
             <Margin>Log Out</Margin>

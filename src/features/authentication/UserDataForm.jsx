@@ -1,20 +1,14 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { media } from "../../styles/breakpoints";
 import FormRow, { InputFile } from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
 import useGetUser from "./useGetUser";
-import useUpdateUser from "./useUpdateUser";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
-  /* max-width: 600px; */
-  /* margin: 0.5rem auto; */
-  /* padding: 2rem;
-  background-color: var(--color-grey-100); */
-  padding: 0.5rem 0.7rem;
 
-  /* border-radius: var(--border-radius-md); */
+  padding: 0.5rem 0;
+
   box-shadow: var(--shadow-sd);
 
   & h5 {
@@ -23,17 +17,9 @@ const Container = styled.div`
     font-weight: 500;
     margin-bottom: 1rem;
   }
-
-  ${media.tabletsm} {
-    /* padding: 2.3rem; */
-  }
-
-  ${media.laptoplg} {
-    max-width: 800px;
-  }
 `;
 
-const Form = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -46,11 +32,12 @@ const Form = styled.form`
   }
 `;
 
-const ButtonsCont = styled.div`
+export const ButtonsCont = styled.div`
   display: flex;
   align-items: center;
   margin-left: auto;
   gap: 1rem;
+  margin-top: 2rem;
 `;
 
 function UserDataForm({ isUpdatingUser, updateUser }) {
@@ -59,20 +46,15 @@ function UserDataForm({ isUpdatingUser, updateUser }) {
     isPending,
   } = useGetUser();
 
-  // const { updateUser, errorUpdatingUser, isUpdatingUser } = useUpdateUser();
-
   const isWorking = isUpdatingUser || isPending;
 
   const { fullName, email } = userData;
-
-  // console.log(userData);
 
   const {
     register,
     handleSubmit,
     resetField,
     reset,
-    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {

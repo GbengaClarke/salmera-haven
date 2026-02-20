@@ -1,24 +1,23 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-// import GlobalStyles, { media } from "./GlobalStyles";
 import { media } from "../../styles/breakpoints";
 import FormRow from "../../ui/FormElements";
 import { Button } from "../../ui/Button";
 import useGetSettings from "./useGetSettings";
 import useUpdateSettings from "./useUpdateSettings";
+import SpinnerMini from "../../ui/SpinnerMini";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
-  /* max-width: 600px; */
-  margin: 2rem auto;
+  margin: 0.5rem auto;
   padding: 2rem;
   background-color: var(--color-grey-100);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sd);
 
   ${media.tabletsm} {
-    padding: 3rem;
+    padding: 2.3rem;
   }
 
   ${media.laptoplg} {
@@ -37,15 +36,9 @@ export const Form = styled.form`
 `;
 
 function BookingForm() {
-  //load settings from supabase and place as default values
-  const {
-    isGettingSettings,
-    settings = {},
-    errorGettingSettings,
-  } = useGetSettings();
+  const { isGettingSettings, settings = {} } = useGetSettings();
 
-  const { updateSetting, errorUpdatingSettings, isUpdatingSettings } =
-    useUpdateSettings();
+  const { updateSetting, isUpdatingSettings } = useUpdateSettings();
 
   const isWorking = isGettingSettings || isUpdatingSettings;
 
@@ -57,8 +50,6 @@ function BookingForm() {
     maxBookingLength,
     revenueTarget,
   } = settings;
-
-  // console.log(settings);
 
   const {
     register,
@@ -74,8 +65,6 @@ function BookingForm() {
       revenueTarget: revenueTarget,
     },
   });
-
-  //fix useEffect dependency issue
 
   useEffect(() => {
     if (!settings) return;
@@ -101,7 +90,6 @@ function BookingForm() {
   };
 
   return (
-    // <>
     <Container>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormRow
@@ -176,11 +164,10 @@ function BookingForm() {
         </FormRow>
 
         <Button disabled={isWorking} type="submit">
-          {isWorking ? "Saving..." : "Save Settings"}
+          {!isWorking ? "Save Settings" : <SpinnerMini />}
         </Button>
       </Form>
     </Container>
-    // </>
   );
 }
 

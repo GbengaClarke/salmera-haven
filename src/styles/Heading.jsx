@@ -12,17 +12,27 @@ const Heading = styled.h1`
       font-weight: 600;
     `}
 
-  ${(props) =>
+  /* ${(props) =>
     props.as === "h2" &&
     css`
       font-size: 2rem;
       font-weight: 600;
-    `}
+    `} */
 
   ${(props) =>
     props.as === "h3" &&
     css`
-      font-size: 1.8rem;
+      /* font-size: 1.8rem; */
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 600;
+    `}
+
+  ${(props) =>
+    props.as === "h2" &&
+    css`
+      /* font-size: 1.8rem; */
+      /* font-size: clamp(1.8rem, 2.5vw, 2.3rem); */
+      font-size: 2rem;
       font-weight: 600;
     `}
 

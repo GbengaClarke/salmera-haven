@@ -12,11 +12,12 @@ export const Button = styled.button`
   padding: ${({ padding = "1rem" }) => padding};
   border-radius: 4px;
   border: none;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: ${({ fontSize = "auto" }) => fontSize};
+  font-size: ${({ fontSize = "1.3rem" }) => fontSize};
 
   transition: all 0.25s ease-in-out;
 
@@ -49,7 +50,7 @@ export const CancelButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: ${({ fontSize = "auto" }) => fontSize};
+  font-size: ${({ fontSize = "1.3rem" }) => fontSize};
 
   transition: all 0.25s ease-in-out;
 

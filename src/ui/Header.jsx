@@ -18,14 +18,17 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 3.5rem 2rem;
   background-color: var(--color-grey-0);
   box-shadow: 0 6px 5px -6px rgba(24, 68, 138, 0.15);
-  /* 0 6px 12px -6px  */
   z-index: 11;
 
   ${media.mobilesm} {
-    padding: 1.2rem;
+    padding: 3rem 1.2rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 3rem 1.2rem;
   }
 `;
 
@@ -35,6 +38,8 @@ const Hamburger = styled.button`
   color: var(--color-grey-500);
   font-size: 2.5rem;
   outline: none;
+  /* border: 1px solid red; */
+  padding: 0.5rem;
 
   &:focus,
   &:active {
@@ -53,28 +58,6 @@ export const FlexContainer = styled.div`
   }
 `;
 
-export const IconsContainer = styled.button`
-  position: relative;
-
-  display: flex;
-  /* border: 1px solid red; */
-  border-radius: 3px;
-  align-items: center;
-  border: none;
-  padding: 0.4rem;
-  background-color: inherit;
-
-  &:hover {
-    background-color: var(--color-grey-200);
-  }
-
-  &:focus,
-  &:active {
-    outline: none;
-    box-shadow: none;
-  }
-`;
-
 export const FlexAligner = styled.div`
   display: flex;
   align-items: center;
@@ -90,15 +73,62 @@ export const FlexAligner = styled.div`
   }
 `;
 
+export const IconsContainer = styled.button`
+  position: relative;
+  display: flex;
+  border-radius: 3px;
+  align-items: center;
+  border: none;
+  padding: 0.7rem;
+  background-color: inherit;
+
+  &:hover {
+    background-color: var(--color-grey-200);
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: none;
+  }
+`;
+
+const ThemeIconContainer = styled.div`
+  position: relative;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  display: flex;
+  border-radius: 3px;
+  align-items: center;
+  justify-content: center;
+
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: none;
+  }
+`;
+
+const Icon = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+
+  transition: transform 0.4s ease, opacity 0.4s ease;
+
+  transform: ${({ $active }) =>
+    $active ? "translateX(0)" : "translateX(-40px)"};
+  opacity: ${({ $active }) => ($active ? 1 : 0)};
+`;
+
 function Header({ toggleSideBar, sidebarOpen }) {
-  // eslint-disable-next-line no-unused-vars
-  const { toggleTheme, isDarkMode, theme } = useDarkModeContext();
+  const { toggleTheme, isDarkMode } = useDarkModeContext();
   const { user } = useGetUser();
 
   const userData = user.user_metadata;
-
-  // console.log(user);
-  // console.log(user.email);
 
   return (
     <StyledHeader>
@@ -121,13 +151,14 @@ function Header({ toggleSideBar, sidebarOpen }) {
       </FlexContainer> */}
 
       <FlexContainer>
-        <IconsContainer onClick={toggleTheme}>
-          {!isDarkMode ? (
+        <ThemeIconContainer onClick={toggleTheme}>
+          <Icon $active={!isDarkMode}>
             <IoMdMoon color="#0b1e3d90" />
-          ) : (
+          </Icon>
+          <Icon $active={isDarkMode}>
             <IoSunnySharp color="#d36019" />
-          )}
-        </IconsContainer>
+          </Icon>
+        </ThemeIconContainer>
 
         <AvatarDetails user={userData} />
 

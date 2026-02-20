@@ -134,8 +134,7 @@ const GlobalStyles = createGlobalStyle`
   padding: 0;
   margin: 0;
 
-  /* Creating animations for dark mode */
-  /* transition: background-color 0.3s, border 0.3s ease; */
+
   transition: opacity 0.3s ease-in-out;
   transition: background-color 0.3s ease-in-out;
 
@@ -146,11 +145,8 @@ html {
 }
 
 body {
-  /* font-family: "Raleway", sans-serif; */
   font-family: "Inter", sans-serif;
-  /* color: var(--color-grey-700); */
-  /* margin: 0; */
-
+background-color: var(--color-grey-50);
   transition: color 0.3s, background-color 0.3s;
   min-height: 100vh;
   line-height: 1.5;
@@ -163,6 +159,19 @@ textarea,
 select {
   font: inherit;
   color: inherit;
+
+  
+    /* Remove arrows - Chrome, Safari, Edge */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  
+    /* Remove arrows - Firefox */
+    &[type="number"] {
+      -moz-appearance: textfield;
+    }
 
 
 }
@@ -211,13 +220,15 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
-  hyphens: auto;
+  /* hyphens: auto; */
   font-family: "Inter", sans-serif;
 }
 
 p {
   overflow-wrap: break-word;
-  hyphens: auto;
+  /* hyphens: auto; */
+  hyphens: none;
+
 }
 
 img {

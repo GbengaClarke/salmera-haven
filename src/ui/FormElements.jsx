@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 
 export const StyledFormElements = styled.div`
   border: 1px solid var(--color-grey-300);
@@ -25,13 +26,13 @@ const StyledRow = styled.div`
   width: ${({ style = "100%" }) => style.width};
 
   & label {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     width: max-content;
     cursor: pointer;
   }
 
   & input {
-    font-size: 1rem;
+    font-size: 1.6rem;
     /* color: var(--color-grey-900); */
     padding: 0.7rem 1rem;
     border: 1.5px solid var(--color-grey-300);
@@ -43,6 +44,10 @@ const StyledRow = styled.div`
     &:focus {
       outline: none;
       border: 1.5px solid var(--color-brand-500);
+    }
+
+    ${media.tabletRange} {
+      font-size: 1.3rem;
     }
   }
 `;
@@ -80,6 +85,7 @@ export const InputFile = styled.input.attrs({ type: "file" })`
   /* font-size: 1.4rem; */
   border-radius: var(--border-radius-sm);
   width: max-content;
+  max-width: 100%;
 
   &::file-selector-button {
     font: inherit;

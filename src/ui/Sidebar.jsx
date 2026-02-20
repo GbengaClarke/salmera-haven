@@ -5,7 +5,6 @@ import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import Logo from "./Logo";
 import FlexAlign from "../styles/FlexAlign";
 import SideNav from "./SideNav";
-import Uploader from "../data/Uploader";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -27,6 +26,7 @@ const StyledSidebar = styled.aside`
 
   ${media.tabletsm} {
     position: static;
+    width: max-content;
     width: auto;
     transform: translateX(0);
     background-color: var(--color-grey-0);
@@ -34,6 +34,10 @@ const StyledSidebar = styled.aside`
 
     box-shadow: 6px 0 5px -6px rgba(24, 68, 138, 0.15);
   }
+
+  /* @media (min-width: 600px) and (max-width: 900px) {
+    padding: 3rem 1.2rem;
+  } */
 `;
 
 export const MobileOnly = styled.div`
