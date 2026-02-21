@@ -79,8 +79,10 @@ export const IconsContainer = styled.button`
   border-radius: 3px;
   align-items: center;
   border: none;
-  padding: 0.7rem;
+  padding: 0.9rem;
+
   background-color: inherit;
+  z-index: 999;
 
   &:hover {
     background-color: var(--color-grey-200);
@@ -124,7 +126,7 @@ const Icon = styled.div`
   opacity: ${({ $active }) => ($active ? 1 : 0)};
 `;
 
-function Header({ toggleSideBar, sidebarOpen }) {
+function Header({ toggleSideBar, sidebarOpen, mainRef }) {
   const { toggleTheme, isDarkMode } = useDarkModeContext();
   const { user } = useGetUser();
 
@@ -163,7 +165,7 @@ function Header({ toggleSideBar, sidebarOpen }) {
         <AvatarDetails user={userData} />
 
         <IconsContainer>
-          <HeaderFloatMenu username={userData.fullName} />
+          <HeaderFloatMenu username={userData.fullName} mainRef={mainRef} />
         </IconsContainer>
       </FlexContainer>
     </StyledHeader>

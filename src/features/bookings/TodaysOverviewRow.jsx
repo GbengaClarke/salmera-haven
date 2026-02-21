@@ -1,12 +1,9 @@
 import styled from "styled-components";
-// import { CommonRow } from "../../ui/TableContext";
-
 import { formatCurrency, getToday } from "../../utils/helpers";
 import { HiArrowDownTray } from "react-icons/hi2";
 import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 import { isSameDay } from "date-fns";
 import { GiAirplaneArrival, GiCommercialAirplane } from "react-icons/gi";
-import useGetTodayBookingOverview from "../dashboard/useGetTodayBookingOverview";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
@@ -25,14 +22,17 @@ const StyledInfo = styled.div`
   gap: 0.5rem;
   margin: 0.7rem 0;
 `;
+
 const StyledChecking = styled.button`
   background-color: var(--color-brand-500);
   border: none;
   padding: 0.4rem 0.8rem;
   border-radius: 5px;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 500;
+  white-space: nowrap;
+  width: 8rem;
 
   &:hover {
     background-color: var(--color-brand-600);
@@ -45,19 +45,33 @@ const StyledRoom = styled.div`
 
 const StyledDirection = styled.span`
   border-radius: 3rem;
-  padding: 0.4rem 0.8rem;
-  gap: 0.3rem;
-  color: var(--color-grey-700);
+  padding: 0.4rem 0.9rem;
+  gap: 0.4rem;
   font-size: 1.2rem;
   display: flex;
   align-items: center;
+  width: max-content;
   background-color: ${({ $isArriving }) =>
     $isArriving === "true"
-      ? "var(--color-brand-mint)"
-      : "var(--color-silver-100)"};
-  /* background-color: green; */
-  width: max-content;
-  height: auto;
+      ? "var(--color-arrival-bg)"
+      : "var(--color-departure-bg)"};
+  color: ${({ $isArriving }) =>
+    $isArriving === "true"
+      ? "var(--color-arrival-text)"
+      : "var(--color-departure-text)"};
+  font-weight: 500;
+`;
+
+const StyledId = styled.span`
+  font-size: 1.1rem;
+  color: var(--color-grey-500);
+  background-color: var(--color-grey-100);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-top: 0.2rem;
+  display: inline-block;
 `;
 
 const ImageCont = styled.div`
@@ -75,8 +89,9 @@ const CommonRow = styled.div`
   align-items: center;
   text-align: left;
   padding: 0.6rem;
-  /* border: 1px solid red; */
+  gap: 1rem;
   cursor: pointer;
+  /* border: 1px solid red; */
 
   &:nth-child(odd) {
     background-color: inherit;
@@ -96,9 +111,7 @@ const CommonRow = styled.div`
 
 function TodaysOverviewRow({ booking }) {
   const navigate = useNavigate();
-
-  const { checkoutBooking, isCheckingout, errorCheckingout } =
-    useCheckoutBooking();
+  const { checkoutBooking } = useCheckoutBooking();
 
   const {
     guest: { countryFlag, fullName },
@@ -108,7 +121,6 @@ function TodaysOverviewRow({ booking }) {
   } = booking;
 
   const today = getToday();
-
   const isArriving = isSameDay(new Date(startDate), new Date(today));
 
   return (
@@ -117,14 +129,15 @@ function TodaysOverviewRow({ booking }) {
         if (e.target.closest("button")) return;
         navigate(`bookings/${id}`);
       }}
-      columns="0.25fr 1fr 2fr .8fr .7fr"
+      columns="0.2fr 1.2fr 2fr .8fr .7fr"
     >
       <ImageCont>
         <Img src={countryFlag} alt={`country flag`} />
       </ImageCont>
 
       <div>
-        {fullName} #{id}
+        <div style={{ whiteSpace: "nowrap" }}>{fullName}</div>
+        {/* <StyledId>#{id}</StyledId> */}
       </div>
 
       {!isArriving ? (
@@ -166,7 +179,7 @@ function TodaysOverviewRow({ booking }) {
               resourceName={fullName}
               onConfirm={(e) => {
                 e?.stopPropagation?.();
-                checkoutBooking({ id: id, status: "checked-out" });
+                checkoutBooking({ id: id, status: "checked-out", fullName });
               }}
               disabled={false}
               message={"confirmCheckout"}

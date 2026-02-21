@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RowFlex, StyledTableContainer } from "../../ui/BookingsTableContainer";
+import { StyledTableContainer } from "../../ui/BookingsTableContainer";
 import DashboardOperations from "../../ui/DashboardOperations";
 import Cards from "../../ui/Cards";
 import TodayBookingOverview from "./TodayBookingOverview";
@@ -13,9 +13,8 @@ import useGetStaysAfterDate from "./useGetStaysAfterDate";
 
 const CardRow = styled.div`
   display: flex;
-  /* padding: 0.5rem 0.7rem; */
   overflow-x: scroll;
-  margin-top: 1.5rem;
+  margin-top: 4.5rem;
   justify-content: space-between;
   align-items: center;
 
@@ -40,33 +39,30 @@ const StyledGrid = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
+const StyledPositionAbsolute = styled.div`
+  position: fixed;
+  right: 10px;
+  z-index: 10;
+`;
+
 function DashboardContainer() {
   const { rooms } = useRooms();
 
-  const {
-    bookings,
-    scheduledTodayCount,
-    errorGettingBookings,
-    isGettingBookings,
-    lastDays,
-  } = useDashboardBookings();
+  const { bookings, scheduledTodayCount, isGettingBookings, lastDays } =
+    useDashboardBookings();
 
-  const {
-    stays,
-    errorgettingStaysAfterDate,
-    isgettingStaysAfterDate,
-    confirmedStays,
-  } = useGetStaysAfterDate();
+  const { stays, isgettingStaysAfterDate, confirmedStays } =
+    useGetStaysAfterDate();
 
-  // console.log(confirmedStays);
+  const isLoading = isGettingBookings || isgettingStaysAfterDate;
 
-  //after fully implementing, take out unused properties from getBookingsStats
+  //after fully implementing, take out unused properties from getBookingsStats api
 
   return (
     <StyledTableContainer>
-      <RowFlex $marginLeft="auto" $padding="0">
+      <StyledPositionAbsolute>
         <DashboardOperations />
-      </RowFlex>
+      </StyledPositionAbsolute>
 
       <CardRow>
         <Cards
@@ -76,6 +72,7 @@ function DashboardContainer() {
           roomsCount={rooms?.length}
           confirmedStays={confirmedStays}
           stays={stays}
+          isLoading={isLoading}
         />
       </CardRow>
 

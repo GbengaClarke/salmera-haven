@@ -28,6 +28,7 @@ const StyledBody = styled.div`
   flex-direction: column;
   justify-content: center;
   font-size: 1.2rem;
+  /* width: max-content; */
 
   /* border: 1px solid red; */
   /* padding: 0.7rem 0.7rem 1.5rem 0.7rem; */

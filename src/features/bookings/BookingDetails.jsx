@@ -15,6 +15,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { media } from "../../styles/breakpoints";
 import useDeleteBooking from "./useDeleteBooking";
+import useCheckoutBooking from "./useCheckoutBooking";
 // import { media } from "../../styles/media";
 
 /* ======================
@@ -151,24 +152,24 @@ const DangerAction = styled(ActionButton)`
   }
 `;
 
-/* ======================
-   COMPONENT
-====================== */
-
 function BookingDetails() {
   const { booking = {}, isGettingSingleBooking } = useGetSingleBooking();
+
+  const { checkoutBooking } = useCheckoutBooking();
 
   const navigate = useNavigate();
 
   const { deleteBooking, errorDeleting, isDeleting } = useDeleteBooking();
 
-  const { id, status, created_at } = booking;
-
   const isCheckIn = useMatch(`/bookings/:id/checkin`);
-
-  // console.log(isCheckIn);
-
   if (isGettingSingleBooking) return <Spinner />;
+
+  const {
+    id,
+    status,
+    created_at,
+    guest: { fullName },
+  } = booking;
 
   return (
     <>
@@ -211,11 +212,25 @@ function BookingDetails() {
       <Modal>
         <ModalActions>
           {status === "checked-in" && (
-            <PrimaryAction>
-              <IoMdLogOut />
-              <span>Check out</span>
-            </PrimaryAction>
+            <Modal.Open openFor="confirmCheckout">
+              <PrimaryAction>
+                <IoMdLogOut />
+                <span>Check out</span>
+              </PrimaryAction>
+            </Modal.Open>
           )}
+
+          <Modal.Window openFor="confirmCheckout">
+            <ConfirmDelete
+              resourceName={fullName}
+              onConfirm={(e) => {
+                e?.stopPropagation?.();
+                checkoutBooking({ id: id, status: "checked-out", fullName });
+              }}
+              disabled={false}
+              message={"confirmCheckout"}
+            />
+          </Modal.Window>
 
           {status === "unconfirmed" && !isCheckIn && (
             <PrimaryAction

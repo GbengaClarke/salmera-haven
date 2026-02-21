@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { media } from "../styles/breakpoints";
 import Footer from "./Footer";
 
@@ -45,7 +45,6 @@ const Main = styled.main`
 
   width: 100%;
   padding-inline: 3%;
-  padding-bottom: 2.5rem;
   margin-inline: auto;
 
   ${({ $sidebarOpen }) =>
@@ -53,13 +52,34 @@ const Main = styled.main`
     `
     pointer-events: none;
     user-select: none;
-  `}/* @media (min-width: 900px) {
-    margin-top: 2rem;
-  } */
+  `}
+
+  /* Slim Scrollbar - Chrome, Edge, Safari */
+    &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-grey-300);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-grey-400);
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-grey-300) transparent;
 `;
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mainRef = useRef(null);
 
   function toggleSideBar() {
     setSidebarOpen((sb) => !sb);
@@ -80,8 +100,12 @@ function AppLayout() {
           isOpen={sidebarOpen}
           closeSideBar={() => setSidebarOpen(false)}
         />
-        <Header toggleSideBar={toggleSideBar} sidebarOpen={sidebarOpen} />
-        <Main>
+        <Header
+          mainRef={mainRef}
+          toggleSideBar={toggleSideBar}
+          sidebarOpen={sidebarOpen}
+        />
+        <Main ref={mainRef}>
           <Outlet context={{ sidebarOpen }} />
           <Footer />
         </Main>

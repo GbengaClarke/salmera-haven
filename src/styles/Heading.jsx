@@ -5,6 +5,9 @@ const test = css`
 `;
 
 const Heading = styled.h1`
+  color: var(--color-grey-700);
+  text-align: left;
+
   ${(props) =>
     props.as === "h1" &&
     css`

@@ -1,18 +1,3 @@
-// import DashboardContainer from "../features/dashboard/DashboardContainer";
-// import { StyledSection } from "./Bookings";
-
-// function Dashboard() {
-//   return (
-//     <StyledSection>
-//       <DashboardContainer />
-//     </StyledSection>
-//   );
-// }
-
-// export default Dashboard;
-
-//im adding this version due to the click of the todayOverview table when the side bar closes
-
 import { useOutletContext } from "react-router-dom";
 import DashboardContainer from "../features/dashboard/DashboardContainer";
 import styled from "styled-components";

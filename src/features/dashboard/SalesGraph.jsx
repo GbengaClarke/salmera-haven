@@ -7,7 +7,6 @@ import Spinner from "../../ui/Spinner";
 import RevenueChart from "./RevenueChart";
 import { useSearchParams } from "react-router-dom";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
-import { getToday } from "../../utils/helpers";
 
 const StyledDiv = styled.div`
   grid-column: span 2;
@@ -53,7 +52,7 @@ function SalesGraph({ bookings = [], isGettingBookings }) {
     <StyledDiv>
       <RowFlex>
         <Row>
-          <Heading as="h3">
+          <Heading as="h2">
             Revenue from {format(dates.at(0), "MMM dd, yyyy")} &mdash;{" "}
             {format(dates.at(-1), "MMM dd, yyyy")}{" "}
           </Heading>

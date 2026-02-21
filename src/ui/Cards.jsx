@@ -1,40 +1,72 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { media } from "../styles/breakpoints";
-import FlexAlign from "../styles/FlexAlign";
-import {
-  HiClock,
-  HiCurrencyDollar,
-  HiCurrencyEuro,
-  HiMiniDocumentCurrencyDollar,
-  HiOutlineCalendarDays,
-} from "react-icons/hi2";
+import { HiCurrencyDollar, HiOutlineCalendarDays } from "react-icons/hi2";
 import { FaBed, FaSuitcaseRolling } from "react-icons/fa";
 import { formatCurrency } from "../utils/helpers";
+
+const shimmer = keyframes`
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+`;
+
+const Skeleton = styled.div`
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-grey-100) 25%,
+    var(--color-grey-200) 37%,
+    var(--color-grey-100) 63%
+  );
+  background-size: 400% 100%;
+  animation: ${shimmer} 1.4s ease infinite;
+
+  ${({ $height }) => $height && `height: ${$height};`}
+  ${({ $width }) => $width && `width: ${$width};`}
+`;
+
+const CardContentWrapper = styled.div`
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
 
 const StyledCards = styled.div`
   display: flex;
   gap: 1rem;
-  /* border: 1px solid red; */
 
-  ${media.mobile} {
+  @media (min-width: 872px) {
     overflow-x: auto;
     justify-content: space-between;
     width: 100%;
     margin-inline: auto;
-    gap: 1rem;
+  }
+  /* @media (min-width: 872px) {
+    overflow-x: auto;
+    justify-content: space-between;
+    width: 100%;
+    margin-inline: auto;
+  } */
+
+  ${media.laptopsm} {
+    gap: 2rem;
   }
 
-  ${media.tabletlg} {
-    gap: 3rem;
-    /* gap: 3rem; */
+  @media (min-width: 730px) and (max-width: 840px) {
+    gap: 0.6rem;
+    overflow-x: auto;
+    justify-content: space-between;
+    width: 100%;
+    margin-inline: auto;
   }
 `;
 
 const CardContainer = styled.div`
-  width: 13.8rem;
-  height: 8rem;
+  width: 16rem;
+  height: 10rem;
   margin-left: 0.3rem;
   margin-top: 0.2rem;
+
   background: ${({ $bColor }) =>
     `linear-gradient(
       to right,
@@ -45,66 +77,68 @@ const CardContainer = styled.div`
 
   border-radius: 9px;
   overflow: hidden;
-  /* outline: 1px solid var(--color-grey-100); */
   outline: 1px solid #72727226;
-
   transition: all 0.25s ease;
 
-  ${media.mobile} {
+  @media (min-width: 730px) and (max-width: 840px) {
+    width: 14.99rem;
+  }
+
+  @media (min-width: 872px) {
     flex: 1;
-    width: 13rem;
-    /* width: 20rem; */
+    width: 20rem;
   }
 `;
 
 const Card = styled.div`
   width: 100%;
   height: 100%;
-  margin-left: 0.4rem;
+  margin-left: 0.5rem;
   color: var(--color-grey-700);
-  padding: 0.8rem;
-  /* text-align: left; */
+  padding: 1rem;
+
+  font-weight: 500;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  gap: 0.4rem;
 
   background-color: var(--color-grey-0);
 
   & p {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
-  & strong {
-  }
   & span {
-    display: block;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--color-grey-500);
+
+    @media (min-width: 730px) and (max-width: 840px) {
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+
+    ${media.laptoplg} {
+      font-size: 1.3rem;
+    }
   }
 `;
 
 const CardRow = styled.div`
   gap: 0.4rem;
+  margin-bottom: auto;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
-  /* margin-right: 0.5rem; */
+
   color: ${({ $bColor }) => $bColor};
 
-  /* border: 1px solid red; */
-
   & p {
-    font-size: 1.3rem;
     color: ${({ $bColor }) => $bColor};
     white-space: nowrap;
 
-    @media (min-width: 576px) and (max-width: 623px) {
-      font-size: 1.1rem;
-    }
-    @media (min-width: 769px) and (max-width: 784px) {
-      font-size: 1.1rem;
+    @media (min-width: 730px) and (max-width: 840px) {
+      font-size: 1.2rem;
     }
   }
 `;
@@ -115,23 +149,16 @@ function Cards({
   lastDays,
   roomsCount,
   confirmedStays,
-  stays,
+  isLoading,
 }) {
-  const { revenue, highest, checkIn, unconfirmed } = bookings.reduce(
+  const { revenue, highest, unconfirmed } = bookings.reduce(
     (acc, curr) => {
       acc.revenue += curr.totalPrice;
       acc.highest = Math.max(acc.highest, curr.totalPrice);
-      // acc.checkIn += curr.status === "checked-in" ? 1 : 0;
       acc.unconfirmed += curr.status === "unconfirmed" ? 1 : 0;
-
       return acc;
     },
-    {
-      revenue: 0,
-      highest: 0,
-      // checkIn: 0,
-      unconfirmed: 0,
-    }
+    { revenue: 0, highest: 0, unconfirmed: 0 }
   );
 
   const occupation =
@@ -147,23 +174,28 @@ function Cards({
             <p>Total Bookings</p>
           </CardRow>
 
-          <strong>{bookings.length}</strong>
-          {/* <span>
-            {scheduledTodayCount > 0 ? scheduledTodayCount : "None"} arrivals
-            today
-          </span> */}
-
-          <span>
-            {scheduledTodayCount > 0
-              ? scheduledTodayCount === 1
-                ? `${scheduledTodayCount} arrival
-            today`
-                : `${scheduledTodayCount} arrivals
-            today`
-              : "No arrival today"}
-          </span>
+          <CardContentWrapper>
+            {isLoading ? (
+              <>
+                <Skeleton $height="1.6rem" $width="3rem" />
+                <Skeleton $height="1rem" $width="7rem" />
+              </>
+            ) : (
+              <>
+                <strong>{bookings.length}</strong>
+                <span>
+                  {scheduledTodayCount > 0
+                    ? scheduledTodayCount === 1
+                      ? `${scheduledTodayCount} arrival today`
+                      : `${scheduledTodayCount} arrivals today`
+                    : "No arrival today"}
+                </span>
+              </>
+            )}
+          </CardContentWrapper>
         </Card>
       </CardContainer>
+
       <CardContainer $bColor="var(--color-brand-mint)">
         <Card>
           <CardRow $bColor="var(--color-brand-mint)">
@@ -171,10 +203,22 @@ function Cards({
             <p>Total Revenue</p>
           </CardRow>
 
-          <strong>{formatCurrency(revenue)}</strong>
-          <span>Highest sale {formatCurrency(highest)}</span>
+          <CardContentWrapper>
+            {isLoading ? (
+              <>
+                <Skeleton $height="1.6rem" $width="6rem" />
+                <Skeleton $height="1rem" $width="8rem" />
+              </>
+            ) : (
+              <>
+                <strong>{formatCurrency(revenue)}</strong>
+                <span>Highest sale {formatCurrency(highest)}</span>
+              </>
+            )}
+          </CardContentWrapper>
         </Card>
       </CardContainer>
+
       <CardContainer $bColor="var(--color-red-700)">
         <Card>
           <CardRow $bColor="var(--color-red-700)">
@@ -182,11 +226,22 @@ function Cards({
             <p>Check ins</p>
           </CardRow>
 
-          <strong>{confirmedStays?.length}</strong>
-
-          <span>{unconfirmed} unconfirmed</span>
+          <CardContentWrapper>
+            {isLoading ? (
+              <>
+                <Skeleton $height="1.6rem" $width="3rem" />
+                <Skeleton $height="1rem" $width="6rem" />
+              </>
+            ) : (
+              <>
+                <strong>{confirmedStays?.length}</strong>
+                <span>{unconfirmed} unconfirmed</span>
+              </>
+            )}
+          </CardContentWrapper>
         </Card>
       </CardContainer>
+
       <CardContainer $bColor="var(--color-janquil-500)">
         <Card>
           <CardRow $bColor="var(--color-janquil-500)">
@@ -194,8 +249,21 @@ function Cards({
             <p>Occupancy Rate</p>
           </CardRow>
 
-          <strong>{Math.round(occupation * 100) + "%"}</strong>
-          <span>In the last {lastDays} days</span>
+          <CardContentWrapper>
+            {isLoading ? (
+              <>
+                <Skeleton $height="1.6rem" $width="4rem" />
+                <Skeleton $height="1rem" $width="9rem" />
+              </>
+            ) : (
+              <>
+                <strong>
+                  {occupation ? Math.round(occupation * 100) + "%" : "0%"}
+                </strong>
+                <span>In the last {lastDays} days</span>
+              </>
+            )}
+          </CardContentWrapper>
         </Card>
       </CardContainer>
     </StyledCards>

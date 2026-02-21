@@ -11,6 +11,7 @@ import BookingsTable from "../features/bookings/BookingsTable";
 export const StyledTableContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   /* border: 1px solid red; */
   width: 100%;
   height: auto;
@@ -29,10 +30,10 @@ export const StyledTableContainer = styled.div`
 
 export const RowFlex = styled.div`
   display: flex;
-  /* padding: 0.5rem 0.7rem; */
   padding: ${({ $padding = "0.5rem 0.7rem" }) => $padding};
   flex-direction: column;
   gap: 1rem;
+  margin-bottom: auto;
   /* border: 1px solid red; */
   ${({ $marginLeft }) =>
     $marginLeft === "auto" &&
@@ -46,10 +47,6 @@ export const RowFlex = styled.div`
     justify-content: ${({ $justifyContent = "space-between" }) =>
       $justifyContent};
     gap: 0.8rem;
-  }
-
-  ${media.mobile} {
-    /* margin-left: auto; */
   }
 `;
 

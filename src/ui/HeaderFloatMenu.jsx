@@ -24,6 +24,7 @@ const FloatMenu = styled.div`
   transition: transform 0.2s ease;
   box-shadow: var(--shadow-sm);
   cursor: default;
+  z-index: 999;
 
   ${({ $floatMenuOpen }) =>
     $floatMenuOpen
@@ -70,35 +71,42 @@ const IconCont = styled.div`
   opacity: 0.7;
 `;
 
-function HeaderFloatMenu({ username }) {
+function HeaderFloatMenu({ username, mainRef }) {
   const [floatMenuOpen, setFloatMenuOpen] = useState(false);
   const floatElement = useRef(null);
   const navigate = useNavigate();
 
   const match = useMatch("/account");
 
-  console.log(match);
-
   const firstName = username.split(" ").at(0);
 
   const { logout } = useLogout();
-  // const { logout, isLoggingOut } = useLogout();
 
   useEffect(() => {
-    function handleClick(e) {
-      if (floatElement.current && !e.target.contains(floatElement.current)) {
+    if (!floatMenuOpen) return;
+
+    function handleClickOutside(e) {
+      if (floatElement.current && !floatElement.current.contains(e.target)) {
         setFloatMenuOpen(false);
       }
     }
 
-    document.addEventListener("click", handleClick);
-    document.addEventListener("scroll", handleClick);
+    function handleScroll() {
+      setFloatMenuOpen(false);
+    }
+
+    const scrollContainer = mainRef?.current;
+
+    document.addEventListener("mousedown", handleClickOutside);
+    scrollContainer?.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
-      document.removeEventListener("click", handleClick);
-      document.removeEventListener("scroll", handleClick);
+      document.removeEventListener("mousedown", handleClickOutside);
+      scrollContainer?.removeEventListener("scroll", handleScroll);
     };
-  }, [floatMenuOpen]);
+  }, [floatMenuOpen, mainRef]);
 
   function handleClickChevron(e) {
     e.stopPropagation();

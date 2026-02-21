@@ -225,7 +225,11 @@ function BookingRow({ booking, last3 }) {
                 <Mod
                   disabled={isWorking}
                   onClick={() => {
-                    checkoutBooking({ id: id, status: "checked-out" });
+                    checkoutBooking({
+                      id: id,
+                      status: "checked-out",
+                      fullName: guestName,
+                    });
                   }}
                 >
                   <IoMdLogOut />

@@ -3,32 +3,22 @@ import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
   display: flex;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--color-grey-600);
-  /* gap: 0.8rem; */
-  /* padding: 0.6rem 0.9rem; */
-  /* border: 1px solid red; */
   background-color: var(--color-grey-0);
   border-radius: 9px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-grey-100);
   white-space: nowrap;
-
-  & div {
-  }
-
-  @media (max-width: 394px) {
-    /* white-space: nowrap; */
-    justify-content: center;
-  }
 `;
 
-const FilterOption = styled.div`
+const FilterOption = styled.button`
   padding: 0.6rem 0.8rem;
-  transition: all 0.3s ease-in-out;
   cursor: pointer;
+  border: none;
+  background: none;
 
   ${({ $active }) =>
     $active &&
@@ -37,36 +27,26 @@ const FilterOption = styled.div`
       color: white;
     `}
 
-  &:hover,
-  &:active {
-    background-color: var(--color-brand-500);
+  &:hover {
     color: white;
   }
 
-  @media (max-width: 394px) {
-    padding: 0.6rem 1.2rem;
-  }
-
-  @media (max-width: 363px) {
-    font-size: 0.9rem;
-    padding: 0.6rem 0.8rem;
+  &:focus {
+    outline: none;
   }
 `;
 
 function Filter({ options, filterField }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // const { refetch } = useGetBookings();
-
   function handleFilter(value) {
-    // searchParams.set(filterField, value);
-    // setSearchParams(searchParams);
+    if (value === presentFilter) return;
 
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set(filterField, value);
 
-      if (filterField !== "lastDays" || filterField !== "discount") {
+      if (filterField !== "lastDays" && filterField !== "discount") {
         params.set("page", 1);
       }
 

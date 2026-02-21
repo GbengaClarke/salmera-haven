@@ -5,9 +5,8 @@ import { media } from "../../styles/breakpoints";
 import { ButtonText, ModalActions } from "./BookingDetails";
 import { useForm } from "react-hook-form";
 import useCheckinBooking from "./useCheckinBooking";
-import { formatCurrency, getNumberOfNights } from "../../utils/helpers";
+import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
-import toast from "react-hot-toast";
 
 const Container = styled.section`
   overflow: hidden;
@@ -121,65 +120,6 @@ function Checkin() {
 
   const newTotalPrice = roomPrice + newExtraPrice;
 
-  // function onSubmit(data) {
-  //   if (!data.confirmPayment) return;
-
-  //   let checkinData;
-
-  //   if (wantBreakfast && !hasBreakfast) {
-  //     checkinData = {
-  //       id: id,
-  //       values: {
-  //         isPaid: true,
-  //         hasBreakfast: wantBreakfast,
-  //         totalPrice: newTotalPrice,
-  //         extraPrice: newExtraPrice,
-  //         status: "checked-in",
-  //       },
-  //     };
-
-  //     // console.log("HB", wantBreakfast);
-  //     // console.log("TP", newTotalPrice);
-  //     // return console.log("EP", newExtraPrice);
-  //   } else if (!wantBreakfast && hasBreakfast) {
-  //     checkinData = {
-  //       id: id,
-  //       values: {
-  //         isPaid: true,
-  //         hasBreakfast: wantBreakfast,
-  //         totalPrice: newTotalPrice,
-  //         extraPrice: newExtraPrice,
-  //         status: "checked-in",
-  //       },
-  //     };
-
-  //     //extra price was ZERO in the former working code
-
-  //     // console.log("HB", wantBreakfast);
-  //     // console.log("TP", newTotalPrice);
-  //     // return console.log("EP", 0);
-  //   } else {
-  //     // console.log("HB", hasBreakfast);
-  //     // console.log("TP", totalPrice);
-  //     // console.log("EP", extraPrice);
-
-  //     checkinData = {
-  //       id: id,
-  //       values: {
-  //         isPaid: true,
-  //         hasBreakfast: hasBreakfast,
-  //         status: "checked-in",
-  //       },
-  //     };
-  //   }
-
-  //   // console.log(checkinData.values);
-
-  //   checkinBooking(checkinData, {
-  //     onSuccess: () => navigate("/bookings"),
-  //   });
-  // }
-
   function onSubmit(data) {
     if (!data.confirmPayment) return;
 
@@ -188,41 +128,18 @@ function Checkin() {
       status: "checked-in",
     };
 
-    if (wantBreakfast !== hasBreakfast) {
-      values.hasBreakfast = wantBreakfast;
-      values.extraPrice = wantBreakfast ? newExtraPrice : 0;
-      values.totalPrice = wantBreakfast ? roomPrice + newExtraPrice : roomPrice;
-    }
-
     checkinBooking(
-      { id, values },
+      { id, values, fullName },
       {
-        onSuccess: () => {
-          navigate("/bookings");
-
-          // toast.success(`${fullName} successfully Checked in!`);
-          // toast.success(`Booking #${id} successfully Checked in!`, {
-          //   id: toastId,
-          // });
-        },
+        onSuccess: () => navigate("/"),
       }
     );
-
-    // console.log(values);
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Container>
         <StyledDiv>
-          {/* <input
-            defaultChecked={hasBreakfast}
-            onClick={() => setWantBreakfast(!wantBreakfast)}
-            type="checkbox"
-            id="breakfast"
-            {...register("hasBreakfast")}
-            disabled={isCheckingIn || (isPaid && hasBreakfast)}
-          /> */}
           <input
             checked={wantBreakfast}
             onChange={(e) => setWantBreakfast(e.target.checked)}

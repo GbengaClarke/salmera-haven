@@ -3,8 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
-  font-size: 1rem;
-  /* border: 1px solid red; */
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--color-grey-600);
   border-radius: 9px;

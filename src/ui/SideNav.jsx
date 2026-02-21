@@ -3,11 +3,11 @@ import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "../styles/breakpoints";
 import useLogout from "../features/authentication/useLogout";
-// import Uploader from "../data/Uploader";
+import Uploader from "../data/Uploader";
 
 const Ul = styled.ul`
   display: flex;
@@ -80,15 +80,9 @@ const Logout = styled.li`
   margin-top: auto;
 
   @media (min-height: 260px) and (max-height: 330px) {
-    /* display: flex; */
     flex-direction: column;
     height: 100dvh;
-    /* text-align: left; */
   }
-`;
-
-const Margin = styled.div`
-  /* margin-top: 15rem; */
 `;
 
 const LogoutLink = styled.div`
@@ -102,7 +96,6 @@ const LogoutLink = styled.div`
   border-right: 3px solid rgba(0, 195, 159, 0);
   transition: border-right-color 0.25s ease;
   margin-top: -30rem;
-  /* margin-top: -25rem; */
   /* border: 2px solid red; */
 
   &:hover {
@@ -124,10 +117,8 @@ const LogoutLink = styled.div`
   }
 
   ${media.tabletsm} {
-    /* margin-top: -10rem; */
     margin-top: auto;
     margin-bottom: 3rem;
-    /* margin-bottom: 3rem; */
   }
 
   @media (min-height: 260px) and (max-height: 330px) {
@@ -180,12 +171,12 @@ function SideNav({ closeSideBar }) {
             <span>Settings</span>
           </Link>
         </li>
-        {/* <Uploader /> */}
+        <Uploader />
 
         <Logout onClick={logout}>
           <LogoutLink>
             <RxDashboard />
-            <Margin>Log Out</Margin>
+            <span>Log Out</span>
           </LogoutLink>
         </Logout>
       </Ul>

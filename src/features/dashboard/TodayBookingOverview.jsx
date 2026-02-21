@@ -52,7 +52,7 @@ function TodayBookingOverview() {
     <StyledTableContainer>
       <RowFlex>
         <Row>
-          <Heading as="h3">Today’s Booking Overview</Heading>
+          <Heading as="h2">Today’s Booking Overview</Heading>
         </Row>
       </RowFlex>
 

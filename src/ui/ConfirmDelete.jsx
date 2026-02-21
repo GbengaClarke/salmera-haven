@@ -3,22 +3,33 @@ import { Button, CancelButton } from "./Button";
 
 const StyledConfirmDelete = styled.div`
   width: 40rem;
+  max-width: 90vw;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
+  box-sizing: border-box;
 
   & p {
     color: var(--color-grey-500);
     margin-bottom: 1.2rem;
     font-family: "Raleway", sans-serif;
-    hyphens: none;
   }
 
   & div {
     display: flex;
     justify-content: flex-end;
     gap: 1.2rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column-reverse;
+      gap: 0.8rem;
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
+    }
   }
 `;
 
@@ -26,6 +37,14 @@ const StyledH3 = styled.h3`
   font-size: 1.8rem;
   font-weight: 600;
   color: var(--color-brand-500);
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 function ConfirmDelete({
@@ -41,8 +60,6 @@ function ConfirmDelete({
     closeModal();
     setFloatMenu?.(false);
   }
-
-  // console.log(message === "confirmCheckout");
 
   if (message === "confirmCheckout")
     return (

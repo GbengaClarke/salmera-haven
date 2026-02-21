@@ -10,24 +10,50 @@ import {
 } from "recharts";
 import styled from "styled-components";
 import { useDarkModeContext } from "../../context/DarkModeContext";
+import { useState, useEffect } from "react";
 
 const StyledChart = styled.div`
   width: 100%;
   height: 300px;
+  overflow-x: auto;
+  overflow-y: hidden;
 
   & .recharts-cartesian-grid-horizontal line,
   & .recharts-cartesian-grid-vertical line {
     stroke: var(--color-grey-300);
   }
+
+  & .recharts-cartesian-axis-tick-value {
+    font-size: 1.3rem;
+    font-family: inherit;
+  }
 `;
 
 function RevenueChart({ data, lastDays }) {
   const { isDarkMode } = useDarkModeContext();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  //edit for x-axis labels
-  const interval = lastDays === 30 ? 3 : lastDays === 90 ? 9 : "";
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  // console.log(interval);
+  const isMobile = windowWidth < 640;
+
+  let interval;
+  if (isMobile) {
+    interval =
+      lastDays === 7
+        ? 1
+        : lastDays === 30
+        ? 6
+        : lastDays === 90
+        ? 15
+        : "preserveEnd";
+  } else {
+    interval = lastDays === 30 ? 3 : lastDays === 90 ? 9 : 0;
+  }
 
   const colors = isDarkMode
     ? {
@@ -47,12 +73,15 @@ function RevenueChart({ data, lastDays }) {
 
   return (
     <StyledChart>
-      <ResponsiveContainer height={"100%"} width={"100%"}>
+      <ResponsiveContainer
+        height="100%"
+        width="100%"
+        minWidth={isMobile ? 550 : 0}
+      >
         <AreaChart
           data={data}
-          margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
+          margin={{ top: 10, right: 15, left: 0, bottom: 0 }}
         >
-          {/* Gradient for Revenue */}
           <defs>
             <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
               <stop
@@ -67,7 +96,6 @@ function RevenueChart({ data, lastDays }) {
               />
             </linearGradient>
 
-            {/* Gradient for Extra Fees */}
             <linearGradient id="extraGradient" x1="0" y1="0" x2="0" y2="1">
               <stop
                 offset="5%"
@@ -82,57 +110,54 @@ function RevenueChart({ data, lastDays }) {
             </linearGradient>
           </defs>
 
-          {/* GRID */}
-          <CartesianGrid
-            strokeDasharray="4 4"
-            stroke={colors.grid}
-            vertical={true}
-          />
+          <CartesianGrid strokeDasharray="4 4" stroke={colors.grid} />
 
-          {/* AXES */}
           <XAxis
             dataKey="date"
             stroke={colors.text}
             tick={{ fill: colors.text }}
-            angle={0}
-            interval={interval}
             tickMargin={10}
+            interval={interval}
+            angle={isMobile ? -25 : 0}
+            textAnchor={isMobile ? "end" : "middle"}
+            height={isMobile ? 60 : 30}
           />
 
           <YAxis
             stroke={colors.text}
-            tick={{ fill: colors.text }}
-            tickFormatter={(value) => `$${value}`}
+            tick={{ fill: colors.text, fontSize: isMobile ? "10px" : "12px" }}
+            width={isMobile ? 45 : 60}
+            tickFormatter={(value) =>
+              value >= 1000 ? `$${(value / 1000).toFixed(1)}k` : `$${value}`
+            }
           />
 
-          {/* TOOLTIP */}
           <Tooltip
-            /* This aligns the text content to the left */ itemStyle={{
+            itemStyle={{ textAlign: "left" }}
+            labelStyle={{
               textAlign: "left",
+              marginBottom: "4px",
+              fontWeight: "bold",
             }}
-            /* Optional: align the date label at the top to the left too */ labelStyle={{
-              textAlign: "left",
-            }}
-            itemSorter={(item) => (item.name === "Total Sales" ? -1 : 1)}
             contentStyle={{
               backgroundColor: colors.background,
-              border: "none",
+              border: `1px solid ${colors.grid}`,
               borderRadius: "8px",
               color: colors.text,
             }}
             formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
           />
 
-          {/* LEGEND */}
           <Legend
-            height={5}
+            verticalAlign="top"
+            align="right"
+            height={40}
             wrapperStyle={{
-              color: colors.text,
+              paddingBottom: "10px",
               fontSize: "12px",
             }}
           />
 
-          {/* REVENUE FLOW */}
           <Area
             type="monotone"
             dataKey="revenue"
@@ -143,7 +168,6 @@ function RevenueChart({ data, lastDays }) {
             strokeWidth={2}
           />
 
-          {/* EXTRA FEES FLOW */}
           <Area
             type="monotone"
             dataKey="extra"

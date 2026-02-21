@@ -7,7 +7,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--color-grey-500);
 `;
 
@@ -16,6 +16,10 @@ const StyledLabel = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  & span {
+    white-space: nowrap;
+  }
 `;
 
 const StyledBar = styled.div`
@@ -25,16 +29,15 @@ const StyledBar = styled.div`
   border-radius: 1rem;
   overflow: hidden;
 `;
+
 const StyledProgress = styled.div`
-  /* width: 50%; */
   width: ${({ $percentage }) => `${$percentage}%`};
   height: 100%;
   border-radius: 1rem;
 
-  background-color: var(--color-mint-500);
+  background-color: ${({ $color }) => $color || "var(--color-mint-500)"};
 
   transition: width 0.5s ease;
-  /* transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
   will-change: width;
 `;
 
@@ -47,13 +50,13 @@ const Styled = styled.div`
   }
 `;
 
-function ProgressBar({ value = 12, max = 20, label, label2 }) {
+function ProgressBar({ value = 12, max = 20, label, label2, color }) {
   const percentage = value === 0 ? 0 : Math.ceil((value / max) * 100);
 
   return (
     <StyledContainer>
       <StyledLabel>
-        <div>
+        <span>
           {label}:{" "}
           {label === "Revenue Target" ? (
             <strong>
@@ -65,11 +68,14 @@ function ProgressBar({ value = 12, max = 20, label, label2 }) {
             </strong>
           )}
           {label2}
-        </div>
+        </span>
       </StyledLabel>
       <Styled>
         <StyledBar>
-          <StyledProgress $percentage={percentage}></StyledProgress>
+          <StyledProgress
+            $percentage={percentage}
+            $color={color}
+          ></StyledProgress>
         </StyledBar>
         <span>{percentage}%</span>
       </Styled>

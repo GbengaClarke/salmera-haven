@@ -25,6 +25,12 @@ const GlobalStyles = createGlobalStyle`
   --color-janquil-100: #eced89;
   --color-janquil-500: #ffce20;
 --color-janquil-600: #857d0e;
+--color-arrival-bg: #DCFCE7;
+--color-arrival-text: #166534;
+
+--color-departure-bg: #e6ebfe;
+--color-departure-text: #4338CA;
+
 
   --color-silver-100: #e5e7eb;
   --color-silver-700: #374151;
@@ -83,6 +89,12 @@ const GlobalStyles = createGlobalStyle`
 /* --color-red-100: #3730a3; */
 --color-red-500: #e0e7ff;
 --color-brand-mint: #206a20;
+--color-arrival-bg: #14532D;
+--color-arrival-text: #BBF7D0;
+
+--color-departure-bg: #1E1B4B;
+--color-departure-text: #C7D2FE;
+
 
 
 --color-red-100: #fee2e2;
