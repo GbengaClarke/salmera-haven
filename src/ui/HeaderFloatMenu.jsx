@@ -5,6 +5,10 @@ import { FaUserEdit } from "react-icons/fa";
 import useLogout from "../features/authentication/useLogout";
 import { useMatch, useNavigate } from "react-router-dom";
 
+/* ======================
+    STYLES
+====================== */
+
 const FloatMenu = styled.div`
   position: absolute;
   top: 5.2rem;
@@ -16,106 +20,150 @@ const FloatMenu = styled.div`
   gap: 1.5rem;
   padding: 2rem 1.5rem;
   background-color: var(--color-grey-0);
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   height: auto;
   width: max-content;
   border: 1px solid var(--color-grey-100);
   overflow: hidden;
-  transition: transform 0.2s ease;
-  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-md);
   cursor: default;
   z-index: 999;
 
   ${({ $floatMenuOpen }) =>
     $floatMenuOpen
-      ? "transform: translateY(1%)"
-      : "transform: translateY(-300%)"};
+      ? css`
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        `
+      : css`
+          opacity: 0;
+          transform: translateY(-10px);
+          pointer-events: none;
+        `};
 `;
 
 const ChevronContainer = styled.div`
   display: flex;
-  align-content: center;
+  align-items: center;
   color: var(--color-black);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  ${({ $floatMenuOpen }) => $floatMenuOpen && `transform: rotate(180deg);`}
 `;
 
 const GreetingCont = styled.h1`
-  /* border: 1px solid blue; */
   text-align: center;
   margin: 0 0 0.7rem 0;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-grey-500);
   pointer-events: none;
+  border-bottom: 1px solid var(--color-grey-100);
+  padding-bottom: 1rem;
 `;
 
 const Cont = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 1rem;
   font-size: 1.4rem;
-  /* border: 1px solid red; */
-  padding: 0.6rem 0.8rem;
-  border-radius: 4px;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-family: "Raleway", sans-serif;
+  color: var(--color-grey-700);
+  transition: all 0.2s;
+
   ${({ $active }) =>
     $active &&
     css`
-      background-color: var(--color-grey-200);
+      background-color: var(--color-grey-100);
+      color: var(--color-brand-600);
+      font-weight: 600;
     `}
 
   &:hover {
-    background-color: var(--color-grey-200);
+    background-color: var(--color-grey-100);
+    color: var(--color-brand-600);
   }
 `;
+
 const IconCont = styled.div`
-  color: var(--color-grey-700);
-  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
 `;
 
-function HeaderFloatMenu({ username, mainRef }) {
+/* ======================
+    COMPONENT
+====================== */
+
+function HeaderFloatMenu({ username = "Guest", mainRef }) {
   const [floatMenuOpen, setFloatMenuOpen] = useState(false);
   const floatElement = useRef(null);
+  const toggleRef = useRef(null); // Fixes the toggle clash
+
   const navigate = useNavigate();
-
+  const { logout } = useLogout();
   const match = useMatch("/account");
-
   const firstName = username.split(" ").at(0);
 
-  const { logout } = useLogout();
+  const closeMenu = () => setFloatMenuOpen(false);
 
   useEffect(() => {
     if (!floatMenuOpen) return;
 
     function handleClickOutside(e) {
-      if (floatElement.current && !floatElement.current.contains(e.target)) {
-        setFloatMenuOpen(false);
+      // Check if click is outside menu AND outside the toggle button
+      const isOutsideMenu =
+        floatElement.current && !floatElement.current.contains(e.target);
+      const isOutsideToggle =
+        toggleRef.current && !toggleRef.current.contains(e.target);
+
+      if (isOutsideMenu && isOutsideToggle) {
+        closeMenu();
       }
     }
 
     function handleScroll() {
-      setFloatMenuOpen(false);
+      closeMenu();
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === "Escape") closeMenu();
     }
 
     const scrollContainer = mainRef?.current;
 
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
     scrollContainer?.addEventListener("scroll", handleScroll, {
       passive: true,
     });
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
       scrollContainer?.removeEventListener("scroll", handleScroll);
     };
   }, [floatMenuOpen, mainRef]);
 
-  function handleClickChevron(e) {
+  function handleToggleMenu(e) {
+    // Stop propagation so the event doesn't bubble up unnecessarily
     e.stopPropagation();
     setFloatMenuOpen((open) => !open);
   }
 
   return (
-    <>
-      <ChevronContainer onClick={handleClickChevron}>
+    <div style={{ position: "relative" }}>
+      <ChevronContainer
+        ref={toggleRef}
+        $floatMenuOpen={floatMenuOpen}
+        onClick={handleToggleMenu}
+      >
         <IoChevronDownSharp />
       </ChevronContainer>
 
@@ -123,24 +171,31 @@ function HeaderFloatMenu({ username, mainRef }) {
         <GreetingCont>Hello, {firstName}</GreetingCont>
 
         <Cont
-          $active={match ? true : false}
-          onClick={() => navigate("/account")}
+          $active={!!match}
+          onClick={() => {
+            navigate("/account");
+            closeMenu();
+          }}
         >
           <IconCont>
             <FaUserEdit />
           </IconCont>
-
-          <div>Update Account</div>
+          <span>Update Account</span>
         </Cont>
 
-        <Cont onClick={logout}>
+        <Cont
+          onClick={() => {
+            logout();
+            closeMenu();
+          }}
+        >
           <IconCont>
             <IoLogOut />
           </IconCont>
-          <div>Log Out</div>
+          <span>Log Out</span>
         </Cont>
       </FloatMenu>
-    </>
+    </div>
   );
 }
 

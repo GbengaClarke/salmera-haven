@@ -2,11 +2,12 @@ import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import { LuMapPinCheckInside } from "react-icons/lu";
 import { media } from "../../styles/breakpoints";
-import { ButtonText, ModalActions } from "./BookingDetails";
+// import { ButtonText, ModalActions } from "./BookingDetails";
 import { useForm } from "react-hook-form";
 import useCheckinBooking from "./useCheckinBooking";
 import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Container = styled.section`
   overflow: hidden;
@@ -14,6 +15,35 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+
+const ModalActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+  padding: 2rem;
+
+  ${media.mobile} {
+    justify-content: flex-start;
+  }
+`;
+
+const ButtonText = styled.button`
+  background: none;
+  border: none;
+  /* color: var(--color-brand-600); */
+  color: var(--color-grey-600);
+  padding: 1rem 1.4rem;
+  background-color: var(--color-grey-200);
+  border-radius: var(--border-radius-md);
+  margin-left: auto;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-brand-400);
+  }
 `;
 
 const StyledDiv = styled.div`
@@ -84,7 +114,7 @@ const StyledError = styled.span`
 `;
 
 function Checkin() {
-  const { booking, isCheckIn, navigate } = useOutletContext();
+  const { booking, isCheckIn, navigate, scrollToTop } = useOutletContext();
 
   const {
     id,
@@ -105,7 +135,7 @@ function Checkin() {
   const [wantBreakfast, setWantBreakfast] = useState(hasBreakfast);
   // const [hasPaid, setHasPaid] = useState();
 
-  const { checkinBooking, isCheckingIn, toastId } = useCheckinBooking();
+  const { checkinBooking, isCheckingIn } = useCheckinBooking();
 
   const {
     register,
@@ -113,7 +143,6 @@ function Checkin() {
     formState: { errors },
   } = useForm();
 
-  //after change: when hasBreakfast was initially false
   const newExtraPrice = !hasBreakfast
     ? numNights * ((numGuests + 1) * placeholderBreakfastCost)
     : 0;
@@ -128,16 +157,31 @@ function Checkin() {
       status: "checked-in",
     };
 
+    if (wantBreakfast !== hasBreakfast) {
+      values.hasBreakfast = wantBreakfast;
+      values.extraPrice = wantBreakfast ? newExtraPrice : 0;
+      values.totalPrice = wantBreakfast ? roomPrice + newExtraPrice : roomPrice;
+    }
+
     checkinBooking(
       { id, values, fullName },
       {
-        onSuccess: () => navigate("/"),
+        onSuccess: () => {
+          navigate("/");
+          scrollToTop?.();
+        },
       }
     );
   }
 
+  function onError(errors) {
+    if (errors?.confirmPayment) {
+      toast.error(errors.confirmPayment.message);
+    }
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Container>
         <StyledDiv>
           <input
@@ -162,7 +206,7 @@ function Checkin() {
             type="checkbox"
             id="confirmPayment"
             {...register("confirmPayment", {
-              required: "* You must confirm payment before check-in.",
+              required: "* Payment must be confimed before check-in.",
             })}
           />
 
@@ -187,7 +231,7 @@ function Checkin() {
           </label>
 
           <StyledError $error={errors?.confirmPayment ? true : false}>
-            {errors?.confirmPayment?.message}
+            {/* {errors?.confirmPayment?.message} */}
           </StyledError>
         </StyledDiv>
       </Container>
@@ -195,7 +239,7 @@ function Checkin() {
       <ModalActions>
         <PrimaryAction type="submit">
           <LuMapPinCheckInside />
-          <span>Check in booking #{id}</span>
+          <span>Check In Booking </span>
         </PrimaryAction>
         <ButtonText type="button" onClick={() => navigate(-1)}>
           Back

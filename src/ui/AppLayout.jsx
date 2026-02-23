@@ -41,8 +41,11 @@ const Main = styled.main`
   grid-column: span 2;
   background-color: var(--color-grey-50);
   overflow-y: scroll;
-  margin-top: 2.5rem;
+  padding-top: 2.5rem;
 
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   width: 100%;
   padding-inline: 3%;
   margin-inline: auto;
@@ -81,6 +84,12 @@ function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const mainRef = useRef(null);
 
+  const scrollToTop = () => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   function toggleSideBar() {
     setSidebarOpen((sb) => !sb);
   }
@@ -99,6 +108,7 @@ function AppLayout() {
         <Sidebar
           isOpen={sidebarOpen}
           closeSideBar={() => setSidebarOpen(false)}
+          scrollToTop={scrollToTop}
         />
         <Header
           mainRef={mainRef}
@@ -106,7 +116,7 @@ function AppLayout() {
           sidebarOpen={sidebarOpen}
         />
         <Main ref={mainRef}>
-          <Outlet context={{ sidebarOpen }} />
+          <Outlet context={{ sidebarOpen, scrollToTop }} />
           <Footer />
         </Main>
       </StyledAppLayoutGrid>

@@ -11,6 +11,7 @@ import Uploader from "../data/Uploader";
 
 const Ul = styled.ul`
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   height: 100dvh;
   text-align: left;
@@ -18,6 +19,7 @@ const Ul = styled.ul`
 
   ${media.tabletsm} {
     padding-top: 5rem;
+    gap: 0.4rem;
   }
 `;
 
@@ -131,7 +133,7 @@ const LogoutLink = styled.div`
   }
 `;
 
-function SideNav({ closeSideBar }) {
+function SideNav({ closeSideBar, scrollToTop }) {
   const { logout } = useLogout();
 
   function handleCloseSidebar() {
@@ -142,31 +144,61 @@ function SideNav({ closeSideBar }) {
     <nav>
       <Ul>
         <li>
-          <Link to={"/"} onClick={handleCloseSidebar}>
+          <Link
+            to={"/"}
+            onClick={() => {
+              handleCloseSidebar();
+              scrollToTop();
+            }}
+          >
             <RxDashboard />
             <span>Dashboard</span>
           </Link>
         </li>
         <li>
-          <Link to={"/bookings"} onClick={handleCloseSidebar}>
+          <Link
+            to={"/bookings"}
+            onClick={() => {
+              handleCloseSidebar();
+              scrollToTop();
+            }}
+          >
             <HiOutlineCalendarDateRange />
             <span>Bookings</span>
           </Link>
         </li>
         <li>
-          <Link to={"/rooms"} onClick={handleCloseSidebar}>
+          <Link
+            to={"/rooms"}
+            onClick={() => {
+              handleCloseSidebar();
+              scrollToTop();
+            }}
+          >
             <MdOutlineBedroomParent />
             <span>Rooms</span>
           </Link>
         </li>
         <li>
-          <Link to={"/users"} onClick={handleCloseSidebar}>
+          <Link
+            to={"/users"}
+            onClick={() => {
+              handleCloseSidebar();
+              scrollToTop();
+            }}
+          >
             <LuUsers />
             <span>Users</span>
           </Link>
         </li>
         <li>
-          <Link to={"/settings"} onClick={handleCloseSidebar}>
+          <Link
+            to={"/settings"}
+            onClick={() => {
+              handleCloseSidebar();
+              scrollToTop();
+            }}
+          >
             <FiSettings />
             <span>Settings</span>
           </Link>

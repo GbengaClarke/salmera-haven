@@ -15,6 +15,7 @@ import Checkin from "./features/bookings/Checkin";
 import Login from "./pages/Login";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import Account from "./pages/Account";
+// import ScrollToTop from "./utils/ScrollToTop";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,6 +72,7 @@ function App() {
           )} */}
         </Toaster>
         <BrowserRouter>
+          {/* <ScrollToTop /> */}
           <Routes>
             <Route path="/login" element={<Login />} />
 

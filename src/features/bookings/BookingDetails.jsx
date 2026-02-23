@@ -1,167 +1,215 @@
-import React from "react";
 import styled, { css } from "styled-components";
 import { format } from "date-fns";
 import { IoMdLogOut } from "react-icons/io";
-import { LuMapPinCheckInside } from "react-icons/lu";
+import { LuMapPinCheckInside, LuUser } from "react-icons/lu";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { Outlet, useMatch, useNavigate } from "react-router-dom";
-
+import {
+  Outlet,
+  useMatch,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 import BookingDataBox from "./BookingDataBox";
-import FlexAlign from "../../styles/FlexAlign";
 import { statusStyles } from "./BookingRow";
 import useGetSingleBooking from "./useGetSingleBooking";
 import Spinner from "../../ui/Spinner";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { media } from "../../styles/breakpoints";
 import useDeleteBooking from "./useDeleteBooking";
 import useCheckoutBooking from "./useCheckoutBooking";
-// import { media } from "../../styles/media";
+import { media } from "../../styles/breakpoints";
 
-/* ======================
-   STYLES
-====================== CLEAN UP UI CODE, REMOVE COPIES AND USE PERSONAL RESUABLE BUTTON COMPONENT */
-
-const Container = styled.section`
-  background-color: var(--color-grey-0);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-grey-100);
-  overflow: hidden;
+const PageWrapper = styled.section`
+  width: 100%;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;
 
-const TopRow = styled.div`
-  padding: 2rem 3.2rem;
+const HeaderCard = styled.div`
+  background: var(--color-grey-100);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 100, 0.1);
+  border: 1px solid var(--color-grey-100);
+  transition: all 0.25s ease;
+
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--color-grey-100);
+  flex-direction: column;
+  gap: 1rem;
+
+  ${media.mobile} {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+const TitleBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 
   h2 {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--color-grey-800);
+    color: var(--color-brand-600);
+
+    ${media.tabletsm} {
+      font-size: 2.2rem;
+    }
   }
 
-  ${media.mobilesm} {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  span {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    justify-content: center;
+
+    color: var(--color-grey-500);
+
+    ${media.mobile} {
+      justify-content: left;
+    }
   }
-`;
-
-const StyledStatus = styled.span`
-  padding: 0.6rem 1.4rem;
-  border-radius: 999px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  ${({ $statusStyles, status }) => $statusStyles[status]};
-`;
-
-export const ButtonText = styled.button`
-  background: none;
-  border: none;
-  /* color: var(--color-brand-600); */
-  color: var(--color-grey-600);
-  padding: 1rem 1.4rem;
-  background-color: var(--color-grey-200);
-  border-radius: var(--border-radius-md);
-  margin-left: auto;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    color: var(--color-brand-400);
-  }
-`;
-
-const Footer = styled.footer`
-  padding: 1.6rem 3.2rem;
-  border-top: 1px solid var(--color-grey-100);
-  font-size: 1.2rem;
-  color: var(--color-grey-500);
-  text-align: right;
-`;
-
-/* ======================
-   MODAL ACTIONS
-====================== */
-
-export const ModalActions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.2rem;
-  justify-content: center;
-  padding: 2rem;
 
   ${media.mobile} {
-    justify-content: flex-start;
+    gap: 2.5rem;
   }
 `;
 
-export const ActionButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
+const StyledStatusBackContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 
-  padding: 1rem 1.4rem;
-  border-radius: var(--border-radius-md);
+  ${media.mobile} {
+    gap: 1.3rem;
+    margin-bottom: -1rem;
+  }
+`;
+
+const StatusBadge = styled.span`
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  min-width: 27rem;
+  max-width: 45rem;
+  margin-inline: auto;
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 1.3rem;
-
-  border: none;
-  cursor: pointer;
-
-  width: auto;
-  min-width: 12rem;
-  white-space: nowrap;
-
-  background-color: var(--color-grey-100);
   color: var(--color-grey-700);
 
-  &:hover {
-    background-color: var(--color-grey-200);
+  text-transform: uppercase;
+  ${({ $statusStyles, status }) => $statusStyles[status]};
+
+  ${media.mobile} {
+    min-width: auto;
   }
+`;
+
+const BackButton = styled.button`
+  background: none;
+  border: none;
+  margin-top: 1.5rem;
+  width: max-content;
+  margin-inline: auto;
+  padding: 1rem 3rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--color-grey-600);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-brand-600);
+  }
+
+  ${media.mobile} {
+    margin-top: auto;
+  }
+`;
+
+const Card = styled.div`
+  background: var(--color-grey-0);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-grey-100);
+  transition: all 0.25s ease;
+`;
+
+const ActionsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+`;
+
+const ActionButton = styled.button`
+  flex: 1;
+  min-width: 160px;
+  padding: 1rem 1.4rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.4rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: 0.2s ease;
 
   svg {
     font-size: 1.6rem;
   }
-
-  ${media.tabletsm} {
-    font-size: 1.4rem;
-    padding: 1.1rem 1.6rem;
-  }
 `;
 
-const PrimaryAction = styled(ActionButton)`
-  background-color: var(--color-brand-600);
+const PrimaryButton = styled(ActionButton)`
+  background: var(--color-brand-600);
   color: white;
 
   &:hover {
-    background-color: var(--color-brand-500);
+    background: var(--color-brand-500);
   }
 `;
 
-const DangerAction = styled(ActionButton)`
-  background-color: var(--color-red-100);
+const DangerButton = styled(ActionButton)`
+  background: var(--color-red-100);
   color: var(--color-red-700);
 
   &:hover {
-    background-color: var(--color-red-200);
+    background: var(--color-red-700);
+    color: var(--color-red-100);
+  }
+
+  &:focus {
+    outline: none;
+    opacity: 0.8;
+  }
+
+  ${media.mobile} {
+    ${({ $isCheckedOut }) =>
+      !$isCheckedOut &&
+      css`
+        margin: auto;
+        max-width: 30rem;
+      `}
   }
 `;
 
 function BookingDetails() {
   const { booking = {}, isGettingSingleBooking } = useGetSingleBooking();
-
   const { checkoutBooking } = useCheckoutBooking();
-
+  const { deleteBooking, isDeleting } = useDeleteBooking();
   const navigate = useNavigate();
-
-  const { deleteBooking, errorDeleting, isDeleting } = useDeleteBooking();
-
   const isCheckIn = useMatch(`/bookings/:id/checkin`);
+  const { scrollToTop } = useOutletContext();
+
   if (isGettingSingleBooking) return <Spinner />;
 
   const {
@@ -172,111 +220,112 @@ function BookingDetails() {
   } = booking;
 
   return (
-    <>
-      <TopRow>
-        <FlexAlign>
-          <h2>Booking #{id}</h2>
-          <StyledStatus $statusStyles={statusStyles} status={status}>
+    <PageWrapper>
+      <HeaderCard>
+        <TitleBlock>
+          <h2>Booking ID #{id}</h2>
+          <span>
+            <LuUser /> {fullName}
+          </span>
+        </TitleBlock>
+
+        <StyledStatusBackContainer>
+          <StatusBadge $statusStyles={statusStyles} status={status}>
             {status}
-          </StyledStatus>
-        </FlexAlign>
+          </StatusBadge>
 
-        <ButtonText onClick={() => navigate(-1)}>&larr; Back</ButtonText>
-      </TopRow>
+          <BackButton onClick={() => navigate(-1)}>← Back</BackButton>
+        </StyledStatusBackContainer>
+      </HeaderCard>
 
-      <Container>
+      <Card>
         <BookingDataBox booking={booking} />
-
-        <Footer>
+        <p
+          style={{
+            marginTop: "1.6rem",
+            fontSize: "1.2rem",
+            color: "var(--color-grey-500)",
+          }}
+        >
           Booked on{" "}
           {created_at && format(new Date(created_at), "EEE, MMM dd yyyy, p")}
-        </Footer>
-      </Container>
+        </p>
+      </Card>
 
-      {/* {isCheckIn && (
-        <Container>
-          <Footer>
-            Booked on{" "}
-            {created_at && format(new Date(created_at), "EEE, MMM dd yyyy, p")}
-          </Footer>
-          <Footer>
-            Booked on{" "}
-            {created_at && format(new Date(created_at), "EEE, MMM dd yyyy, p")}
-          </Footer>
-        </Container>
-      )} */}
+      <Outlet context={{ booking, isCheckIn, navigate, scrollToTop }} />
 
-      <Outlet context={{ booking, isCheckIn, navigate }} />
+      {!isCheckIn && (
+        <Card>
+          <Modal>
+            <ActionsWrapper>
+              {status === "checked-in" && (
+                <Modal.Open openFor="confirmCheckout">
+                  <PrimaryButton>
+                    <IoMdLogOut />
+                    Check Out
+                  </PrimaryButton>
+                </Modal.Open>
+              )}
 
-      {/* MODAL ACTIONS */}
-      <Modal>
-        <ModalActions>
-          {status === "checked-in" && (
-            <Modal.Open openFor="confirmCheckout">
-              <PrimaryAction>
-                <IoMdLogOut />
-                <span>Check out</span>
-              </PrimaryAction>
-            </Modal.Open>
-          )}
+              {status === "unconfirmed" && (
+                <PrimaryButton
+                  onClick={() => navigate(`/bookings/${id}/checkin`)}
+                >
+                  <LuMapPinCheckInside />
+                  Check In
+                </PrimaryButton>
+              )}
 
-          <Modal.Window openFor="confirmCheckout">
-            <ConfirmDelete
-              resourceName={fullName}
-              onConfirm={(e) => {
-                e?.stopPropagation?.();
-                checkoutBooking({ id: id, status: "checked-out", fullName });
-              }}
-              disabled={false}
-              message={"confirmCheckout"}
-            />
-          </Modal.Window>
-
-          {status === "unconfirmed" && !isCheckIn && (
-            <PrimaryAction
-              onClick={() => {
-                navigate(`/bookings/${id}/checkin`);
-              }}
-            >
-              <LuMapPinCheckInside />
-              <span>Check in</span>
-            </PrimaryAction>
-          )}
-
-          {/* {status === "unconfirmed" && isCheckIn && (
-            <PrimaryAction>
-              <LuMapPinCheckInside />
-
-              <span>Check in booking #{id}</span>
-            </PrimaryAction>
-          )} */}
-
-          {!isCheckIn && (
-            <>
-              {" "}
               <Modal.Open openFor="confirmDelete">
-                <DangerAction>
+                <DangerButton
+                  disabled={isDeleting}
+                  $isCheckedOut={status === "checked-in"}
+                >
                   <MdOutlineDeleteOutline />
-                  <span>Delete</span>
-                </DangerAction>
+                  Delete Booking
+                </DangerButton>
               </Modal.Open>
-              <ButtonText onClick={() => navigate(-1)}>Back</ButtonText>
-            </>
-          )}
-        </ModalActions>
+            </ActionsWrapper>
 
-        <Modal.Window openFor="confirmDelete">
-          <ConfirmDelete
-            resourceName="booking"
-            onConfirm={() => {
-              deleteBooking(id);
-              navigate(-1);
-            }}
-            disabled={false}
-          />
-        </Modal.Window>
-      </Modal>
-    </>
+            <Modal.Window openFor="confirmCheckout">
+              <ConfirmDelete
+                resourceName={fullName}
+                onConfirm={(e) => {
+                  e?.stopPropagation?.();
+                  checkoutBooking(
+                    { id: id, status: "checked-out", fullName },
+                    {
+                      onSuccess: () => {
+                        navigate("/");
+
+                        scrollToTop();
+                      },
+                    }
+                  );
+                }}
+                disabled={false}
+                message={"confirmCheckout"}
+              />
+            </Modal.Window>
+
+            <Modal.Window openFor="confirmDelete">
+              <ConfirmDelete
+                resourceName="booking"
+                onConfirm={() => {
+                  deleteBooking(id, {
+                    onSettled: () => {
+                      navigate(-1);
+                      scrollToTop();
+                    },
+                  });
+                }}
+                disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Modal>
+        </Card>
+      )}
+    </PageWrapper>
   );
 }
 

@@ -68,7 +68,7 @@ const AlignRight = styled.button`
   }
 `;
 
-function Sidebar({ isOpen, closeSideBar }) {
+function Sidebar({ isOpen, closeSideBar, scrollToTop }) {
   const sidebarRef = useRef(null);
 
   //close menu on outside click (mobile)
@@ -111,7 +111,7 @@ function Sidebar({ isOpen, closeSideBar }) {
         )}
       </MobileOnly>
 
-      <SideNav closeSideBar={closeSideBar} />
+      <SideNav closeSideBar={closeSideBar} scrollToTop={scrollToTop} />
     </StyledSidebar>
   );
 }

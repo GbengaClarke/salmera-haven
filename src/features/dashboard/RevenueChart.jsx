@@ -24,7 +24,7 @@ const StyledChart = styled.div`
   }
 
   & .recharts-cartesian-axis-tick-value {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-family: inherit;
   }
 `;

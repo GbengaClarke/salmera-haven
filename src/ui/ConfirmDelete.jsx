@@ -14,6 +14,7 @@ const StyledConfirmDelete = styled.div`
     color: var(--color-grey-500);
     margin-bottom: 1.2rem;
     font-family: "Raleway", sans-serif;
+    font-weight: 500;
   }
 
   & div {
@@ -35,7 +36,7 @@ const StyledConfirmDelete = styled.div`
 
 const StyledH3 = styled.h3`
   font-size: 1.8rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-brand-500);
 
   @media (max-width: 768px) {

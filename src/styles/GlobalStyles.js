@@ -2,6 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
+.hidden-mobile {
+    @media (max-width:850px) {
+      display: none;
+    }
+  }
+
   :root, :root.light-mode{
   /* Grey */
   --color-grey-0: #ffff;
@@ -54,19 +60,15 @@ const GlobalStyles = createGlobalStyle`
 }
 
 :root.dark-mode{
-  /* --color-grey-0: #1A1A1A; */
-  /* --color-grey-0: #181818; */
+
   --color-grey-0: #121212;
-/* --color-grey-50: #111827; */
 --color-grey-50: #1f2226
 
 ;
 --color-grey-100: #22282e;
-/* --color-grey-100: #1f2937; */
 --color-grey-200: #374151;
 --color-grey-300: #4b5563;
 --color-grey-400: #6b7280;
-/* --color-grey-500: #9ca3af; */
 --color-grey-500: #c3c7ce;
 --color-grey-600: #d1d5db;
 --color-grey-700: #e5e7eb;
@@ -75,7 +77,6 @@ const GlobalStyles = createGlobalStyle`
 --color-black: #e5e7eb;
 
 
-/* --color-blue-100: #075985; */
 --color-blue-100: #18438A; 
 --color-blue-500: #e0f2fe;
 --color-blue-700: #3B6FC4;
@@ -86,7 +87,6 @@ const GlobalStyles = createGlobalStyle`
 --color-janquil-600: #fef9c3;
 --color-silver-100: #374151;
 --color-silver-700: #f3f4f6;
-/* --color-red-100: #3730a3; */
 --color-red-500: #e0e7ff;
 --color-brand-mint: #206a20;
 --color-arrival-bg: #14532D;
@@ -100,11 +100,9 @@ const GlobalStyles = createGlobalStyle`
 --color-red-100: #fee2e2;
 --color-red-800: #fee2e2;
 --color-red-700: #b91c1c;
-/* --color-red-800: #991b1b; */
 
 --backdrop-color: rgba(0, 0, 0, 0.3);
 
-/* --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4); */
 --shadow-sm: 0 1px 2px 1px rgba(256, 256, 256, 0.04);
 --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
 --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
@@ -125,7 +123,6 @@ const GlobalStyles = createGlobalStyle`
   --color-brand-700: #18438A;
   --color-brand-800: #122F61;
   --color-brand-900: #0B1E3D;
-  /* --color-brand-mint: #00C39E; */
 
   --border-radius-tiny: 3px;
   --border-radius-sm: 5px;
@@ -154,6 +151,7 @@ const GlobalStyles = createGlobalStyle`
 
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -210,7 +208,7 @@ select:focus {
   outline-offset: -1px;
 }
 
-/* Parent selector, finally 😃 */
+/* Parent selector */
 button:has(svg) {
   line-height: 0;
 }

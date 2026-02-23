@@ -37,12 +37,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { checkoutBooking as checkoutBookingApi } from "../../services/apiBooking";
 import toast from "react-hot-toast";
+// import { useNavigate } from "react-router-dom";
 
 function useCheckoutBooking() {
   const queryClient = useQueryClient();
+  // const navigate = useNavigate();
 
   const { mutate: checkoutBooking, isPending: isCheckingout } = useMutation({
-    // Pass only the ID to the API, while keeping fullName for the toast
     mutationFn: (obj) => checkoutBookingApi(obj),
 
     onMutate: (variables) => {
@@ -54,8 +55,8 @@ function useCheckoutBooking() {
       toast.success(`${variables.fullName} successfully checked out!`, {
         id: context.toastId,
       });
+      // navigate("/");
 
-      // Invalidate active queries to refresh UI status
       queryClient.invalidateQueries({ active: true });
     },
 
