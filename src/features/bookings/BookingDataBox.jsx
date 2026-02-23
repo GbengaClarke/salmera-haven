@@ -160,83 +160,10 @@ const PriceBox = styled.div`
   }
 `;
 
-// const PriceBox = styled.div`
-//   margin-top: 2rem;
-//   padding: 1.6rem 2rem;
-//   border-radius: var(--border-radius-md);
-//   display: flex;
-//   flex-direction: column;
-//   gap: 1.6rem;
-
-//   /* Theme-based colors */
-//   background-color: ${({ $isPaid }) =>
-//     $isPaid ? "var(--color-green-100)" : "var(--color-yellow-100)"};
-//   color: ${({ $isPaid }) =>
-//     $isPaid ? "var(--color-green-700)" : "var(--color-yellow-700)"};
-
-//   @media (min-width: 640px) {
-//     flex-direction: row;
-//     justify-content: space-between;
-//     align-items: center;
-//     padding: 2rem 2.4rem;
-//   }
-
-//   /* Left Side: Price Content */
-//   & > div:first-child {
-//     display: flex;
-//     align-items: center;
-//     gap: 1.4rem;
-//     flex-wrap: wrap;
-//   }
-
-//   /* The "Total Price" Label & Value */
-//   .price-main {
-//     display: flex;
-//     align-items: center;
-//     gap: 0.8rem;
-//     font-size: 1.8rem; /* Larger for legibility */
-//     font-weight: 800; /* Heavy weight for emphasis */
-//     letter-spacing: -0.02em;
-//   }
-
-//   /* The Breakdown (Room + Extra) */
-//   .price-breakdown {
-//     font-size: 1.3rem;
-//     font-weight: 500;
-//     opacity: 0.7;
-//     font-family: "Sono", monospace; /* Distinguishes math from labels */
-//   }
-
-//   /* Right Side: Status Badge */
-//   .status-badge {
-//     align-self: flex-start;
-//     padding: 0.4rem 1.2rem;
-//     border-radius: 999px;
-//     font-size: 1.2rem;
-//     font-weight: 700;
-//     text-transform: uppercase;
-//     letter-spacing: 0.05em;
-
-//     /* Subtle background for the badge itself */
-//     background-color: ${({ $isPaid }) =>
-//       $isPaid ? "var(--color-green-200)" : "var(--color-yellow-200)"};
-
-//     @media (min-width: 640px) {
-//       align-self: center;
-//     }
-//   }
-
-//   svg {
-//     width: 2.6rem;
-//     height: 2.6rem;
-//     flex-shrink: 0;
-//   }
-// `;
-
 const Header = styled.header`
   border-radius: var(--border-radius-sm);
 
-  padding: 2.4rem 3.2rem;
+  padding: 2.4rem 3rem;
   background: linear-gradient(
     135deg,
     var(--color-brand-500),
@@ -264,7 +191,6 @@ const Header = styled.header`
 
   p {
     font-size: 1.4rem;
-    opacity: 0.9;
     text-align: right;
   }
 
@@ -377,26 +303,6 @@ function BookingDataBox({ booking = {} }) {
           </div>
           <p>{isPaid ? "✓ Paid" : " ⚠ Pay at property"}</p>
         </PriceBox>
-
-        {/* <PriceBox $isPaid={isPaid}>
-          <div>
-            <div className="price-main">
-              <HiOutlineCurrencyDollar />
-              <span>Total {formatCurrency(totalPrice)}</span>
-            </div>
-
-            {extraPrice > 0 && (
-              <span className="price-breakdown">
-                ({formatCurrency(roomPrice)} room + {formatCurrency(extraPrice)}{" "}
-                breakfast)
-              </span>
-            )}
-          </div>
-
-          <div className="status-badge">
-            {isPaid ? "✓ Paid" : "⚠ Pay at property"}
-          </div>
-        </PriceBox> */}
       </Body>
     </>
   );

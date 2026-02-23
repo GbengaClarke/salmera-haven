@@ -48,6 +48,11 @@ const ChevronContainer = styled.div`
   display: flex;
   align-items: center;
   color: var(--color-black);
+  /* border: 1px solid red; */
+  padding: 0.9rem;
+
+  /* width: 100%; */
+
   cursor: pointer;
   transition: transform 0.3s ease;
 

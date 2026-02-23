@@ -79,7 +79,8 @@ export const IconsContainer = styled.button`
   border-radius: 3px;
   align-items: center;
   border: none;
-  padding: 0.9rem;
+  /* padding: 0.9rem; */
+  /* border: 1px solid blue; */
 
   background-color: inherit;
   z-index: 999;

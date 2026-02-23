@@ -76,7 +76,7 @@ const TitleBlock = styled.div`
   }
 
   ${media.mobile} {
-    gap: 2.5rem;
+    gap: 2rem;
   }
 `;
 
@@ -122,6 +122,9 @@ const BackButton = styled.button`
 
   &:hover {
     color: var(--color-brand-600);
+  }
+  &:focus {
+    outline: none;
   }
 
   ${media.mobile} {

@@ -49,7 +49,9 @@ const ButtonText = styled.button`
 const StyledDiv = styled.div`
   padding: 2rem 3.2rem;
   border-top: 1px solid var(--color-grey-100);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-align: left;
   color: var(--color-grey-500);
   border: 1px solid var(--color-grey-100);
   box-shadow: var(--shadow-md);
@@ -206,12 +208,12 @@ function Checkin() {
             type="checkbox"
             id="confirmPayment"
             {...register("confirmPayment", {
-              required: "* Payment must be confimed before check-in.",
+              required: "Payment must be confimed before check-in.",
             })}
           />
 
           <label htmlFor="confirmPayment">
-            i confirm that {fullName} has paid the total amount of{" "}
+            I confirm that {fullName} has paid the total amount of{" "}
             {wantBreakfast && !hasBreakfast && (
               <span>
                 {formatCurrency(newTotalPrice)} ({formatCurrency(roomPrice)} +{" "}
