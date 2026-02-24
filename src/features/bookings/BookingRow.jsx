@@ -17,7 +17,7 @@ import useDeleteBooking from "./useDeleteBooking";
 import { LuMapPinCheckInside } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import useCheckoutBooking from "./useCheckoutBooking";
-// import { getRoomAndGuestName } from "../../services/apiBooking";
+import { media } from "../../styles/breakpoints";
 
 const ModifyMenu = styled.div`
   position: relative;
@@ -45,21 +45,20 @@ const FloatMenu = styled.div`
   position: absolute;
   right: 2.2rem;
 
-  top: ${({ $isLast3 }) => ($isLast3 === "false" ? "2.5rem" : "-8rem")};
+  top: ${({ $isLast3 }) => ($isLast3 === "false" ? "2.5rem" : "-5rem")};
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* border: 1px solid red; */
   border-radius: 4px;
   height: auto;
-  /* width: 12rem; */
   width: max-content;
   background-color: var(--color-grey-50);
+  border: 1px solid var(--color-grey-100);
   z-index: 100;
-  padding: 0.3rem 0.5rem;
-  gap: 0.7rem;
-  box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  gap: 1rem;
+  box-shadow: 0 4px 5px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const Mod = styled.button`
@@ -68,7 +67,9 @@ const Mod = styled.button`
   border: none;
   background-color: inherit;
   gap: 0.5rem;
-  padding: 0.3rem 0.4rem;
+  padding: 1rem;
+  border-radius: 4px;
+
   /* border: 1px solid red; */
   transition: all 0.25s ease;
 
@@ -88,17 +89,18 @@ const Mod = styled.button`
 const StyledInfo = styled.div`
   display: flex;
   flex-direction: column;
-  /* gap: 0.2rem; */
-  justify-content: center;
   padding: 0.6rem 0;
+  gap: 0.2rem;
 
   & div {
     font-weight: 500;
     color: var(--color-grey-700);
+    white-space: nowrap;
   }
 
   & p {
-    /* font-family: "Raleway", sans-serif; */
+    font-size: 1.1rem;
+    color: var(--color-grey-500);
   }
 `;
 
@@ -122,16 +124,20 @@ export const statusStyles = {
 };
 
 const StyledStatus = styled.div`
-  /* color: white; */
   color: var(--color-grey-700);
-  width: fit-content;
-  padding: 0.5rem 0.8rem;
-  font-weight: 500;
-  border-radius: 3rem;
-  font-size: 0.9rem;
+  width: max-content;
+  padding: 0.4rem 1.2rem;
+  font-weight: 600;
+  border-radius: 100px;
+  font-size: 1rem;
   text-transform: uppercase;
+  text-align: center;
 
   ${({ status }) => statusStyles[status]}
+
+  ${media.tabletRange} {
+    font-size: 0.7rem;
+  }
 `;
 
 function BookingRow({ booking, last3 }) {
@@ -151,8 +157,7 @@ function BookingRow({ booking, last3 }) {
   const [floatOpen, setFloatMenu] = useState(false);
 
   const { deleteBooking, isDeleting } = useDeleteBooking();
-  const { checkoutBooking, isCheckingout, errorCheckingout } =
-    useCheckoutBooking();
+  const { checkoutBooking, isCheckingout } = useCheckoutBooking();
 
   const isWorking = isDeleting || isCheckingout;
   const navigate = useNavigate();
@@ -182,13 +187,11 @@ function BookingRow({ booking, last3 }) {
   }, []);
 
   return (
-    <CommonRow columns="0.2fr 1fr 1.8fr 2.2fr 1.3fr 1.2fr 0.5fr">
+    <CommonRow columns="0.1fr 0.7fr 2fr 3fr 1.5fr 1.2fr 0.1fr">
       <div></div>
       <div>{roomName}</div>
       <StyledInfo>
-        <div>
-          {guestName} #{id}
-        </div>
+        <div>{guestName}</div>
         <p>{email}</p>
       </StyledInfo>
       <StyledInfo>

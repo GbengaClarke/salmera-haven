@@ -4,6 +4,7 @@ import Heading from "../../styles/Heading";
 import UserDataForm from "./UserDataForm";
 import ChangePasswordForm from "./ChangePasswordForm";
 import useUpdateUser from "./useUpdateUser";
+import useGetUser from "./useGetUser";
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -48,6 +49,10 @@ const TableWrapper = styled.div`
 
 function AccountContainer() {
   const { updateUser, isUpdatingUser } = useUpdateUser();
+  const {
+    user: { user_metadata: user },
+    isPending,
+  } = useGetUser();
 
   return (
     <StyledTableContainer>
@@ -65,10 +70,13 @@ function AccountContainer() {
       <Row>
         <TableWrapper>
           <UserDataForm
+            user={user}
+            isPending={isPending}
             updateUser={updateUser}
             isUpdatingUser={isUpdatingUser}
           />
           <ChangePasswordForm
+            user={user}
             updateUser={updateUser}
             isUpdatingUser={isUpdatingUser}
           />

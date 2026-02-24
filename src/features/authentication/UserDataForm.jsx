@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import FormRow, { InputFile } from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
-import useGetUser from "./useGetUser";
 
 export const Container = styled.div`
   width: 100%;
@@ -40,15 +39,10 @@ export const ButtonsCont = styled.div`
   margin-top: 2rem;
 `;
 
-function UserDataForm({ isUpdatingUser, updateUser }) {
-  const {
-    user: { user_metadata: userData },
-    isPending,
-  } = useGetUser();
-
+function UserDataForm({ isUpdatingUser, updateUser, isPending, user }) {
   const isWorking = isUpdatingUser || isPending;
 
-  const { fullName, email } = userData;
+  const { fullName, email } = user;
 
   const {
     register,
@@ -104,14 +98,21 @@ function UserDataForm({ isUpdatingUser, updateUser }) {
             })}
           />
         </FormRow>
-        <FormRow>
+        <FormRow error={errors?.avatar?.message}>
           <InputFile
             disabled={isWorking}
             id={"avatar"}
             accept="image/*"
             type={"file"}
             {...register("avatar", {
-              required: false,
+              validate: (value) => {
+                if (!value[0]) return true;
+                const fileSize = value[0].size;
+                const maxSize = 4 * 1024 * 1024; // 4MB
+                return (
+                  fileSize <= maxSize || "Image size must be less than 4MB"
+                );
+              },
             })}
           />
         </FormRow>

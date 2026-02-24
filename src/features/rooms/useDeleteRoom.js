@@ -19,10 +19,15 @@ function useDeleteRoom() {
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
       toast.success("Room deleted", { id: context.toastId });
     },
-    onError: (err, _, context) =>
-      toast.error(err.message || "Failed to delete room", {
+    onError: (err, _, context) => {
+      const errorMessage =
+        err.code === "23503"
+          ? "Cannot delete room: This room is presently attached to an existing booking."
+          : "Room could not be deleted";
+      toast.error(errorMessage, {
         id: context.toastId,
-      }),
+      });
+    },
   });
 
   return { deleteRoom, error, isPending };

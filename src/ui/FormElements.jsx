@@ -17,9 +17,7 @@ export const StyledFormElements = styled.div`
 const StyledRow = styled.div`
   display: flex;
   flex-direction: column;
-  /* column-gap: 3rem; */
 
-  /* align-items: center; */
   justify-content: center;
   color: var(--color-grey-700);
   row-gap: 0.4rem;
@@ -33,12 +31,10 @@ const StyledRow = styled.div`
 
   & input {
     font-size: 1.6rem;
-    /* color: var(--color-grey-900); */
     padding: 0.7rem 1rem;
     border: 1.5px solid var(--color-grey-300);
     border-radius: 3px;
     background-color: inherit;
-    /* box-shadow: var(--shadow-sm); */
     cursor: pointer;
 
     &:focus {
@@ -55,14 +51,10 @@ const StyledRow = styled.div`
 export const Textarea = styled.textarea`
   width: 100%;
   height: 8rem;
-
-  font-size: 1rem;
-  /* color: var(--color-grey-900); */
   padding: 0.7rem 1rem;
   border: 1.5px solid var(--color-grey-300);
   border-radius: 3px;
   background-color: inherit;
-  /* box-shadow: var(--shadow-sm); */
   cursor: pointer;
 
   &:focus {
@@ -73,7 +65,6 @@ export const Textarea = styled.textarea`
 
 const StyledError = styled.span`
   font-size: 1rem;
-  /* color: var(--color-red-800); */
   color: #d22626;
   opacity: ${({ error }) => (error ? "1" : "0")};
   pointer-events: none;
@@ -82,14 +73,13 @@ const StyledError = styled.span`
 `;
 
 export const InputFile = styled.input.attrs({ type: "file" })`
-  /* font-size: 1.4rem; */
   border-radius: var(--border-radius-sm);
-  width: max-content;
-  max-width: 100%;
+  width: 25rem;
 
   &::file-selector-button {
     font: inherit;
     font-weight: 500;
+    font-size: 1rem;
     padding: 0.8rem 1.2rem;
     margin-right: 1.2rem;
     border-radius: var(--border-radius-sm);

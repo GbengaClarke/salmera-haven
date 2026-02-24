@@ -132,7 +132,7 @@ const BackButton = styled.button`
   }
 `;
 
-const Card = styled.div`
+export const Card = styled.div`
   background: var(--color-grey-0);
   border-radius: 16px;
   padding: 2rem;

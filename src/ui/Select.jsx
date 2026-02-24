@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const StyledSelect = styled.select`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   color: var(--color-grey-600);
   border-radius: 9px;
   background-color: var(--color-grey-0);
-  padding: 0.7rem 0.8rem;
-  width: 100%;
+  padding: 0.8rem 0.8rem;
+
+  width: max-content;
 
   transition: all 0.3s ease-in-out;
   cursor: pointer;
@@ -27,12 +29,8 @@ const StyledSelect = styled.select`
     border: 1px solid var(--color-blue-700);
   }
 
-  @media (min-width: 594px) {
-    width: fit-content;
-  }
-
-  @media (max-width: 363px) {
-    font-size: 0.9rem;
+  ${media.tabletRange} {
+    font-size: 1.1rem;
   }
 `;
 

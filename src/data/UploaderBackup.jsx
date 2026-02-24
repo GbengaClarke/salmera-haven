@@ -1,46 +1,52 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { isFuture, isPast, isToday } from "date-fns";
 import { supabase } from "../services/supabase";
+// import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
 
 import { bookings } from "./data-bookings";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
 
-// --- API FUNCTIONS ---
-
-async function deleteBookings() {
-  const { error } = await supabase.from("bookings").delete().gt("id", 0);
-  if (error) console.log("Delete Bookings Error:", error.message);
-}
+// const originalSettings = {
+//   minBookingLength: 3,
+//   maxBookingLength: 30,
+//   maxGuestsPerBooking: 10,
+//   breakfastPrice: 15,
+// };
 
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);
-  if (error) console.log("Delete Guests Error:", error.message);
+  if (error) console.log(error.message);
 }
 
 async function deleteCabins() {
   const { error } = await supabase.from("rooms").delete().gt("id", 0);
-  if (error) console.log("Delete Rooms Error:", error.message);
+  if (error) console.log(error.message);
+}
+
+async function deleteBookings() {
+  const { error } = await supabase.from("bookings").delete().gt("id", 0);
+  if (error) console.log(error.message);
 }
 
 async function createGuests() {
   const { error } = await supabase.from("guests").insert(guests);
-  if (error) console.log("Create Guests Error:", error.message);
+  if (error) console.log(error.message);
 }
 
 async function createCabins() {
   const { error } = await supabase.from("rooms").insert(cabins);
-  if (error) console.log("Create Rooms Error:", error.message);
+  if (error) console.log(error.message);
 }
 
 async function createBookings() {
+  // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
   const { data: guestsIds } = await supabase
     .from("guests")
     .select("id")
     .order("id");
-  const allGuestIds = guestsIds.map((guest) => guest.id);
-
+  const allGuestIds = guestsIds.map((cabin) => cabin.id);
   const { data: cabinsIds } = await supabase
     .from("rooms")
     .select("id")
@@ -48,12 +54,13 @@ async function createBookings() {
   const allCabinIds = cabinsIds.map((cabin) => cabin.id);
 
   const finalBookings = bookings.map((booking) => {
+    // Here relying on the order of cabins, as they don't have and ID yet
     const cabin = cabins.at(booking.roomId - 1);
     const numNights = subtractDates(booking.endDate, booking.startDate);
     const roomPrice = numNights * (cabin.regularPrice - cabin.discount);
     const extraPrice = booking.hasBreakfast
       ? numNights * 15 * booking.numGuests
-      : 0;
+      : 0; // hardcoded breakfast price
     const totalPrice = roomPrice + extraPrice;
 
     let status;
@@ -87,81 +94,37 @@ async function createBookings() {
     };
   });
 
+  // console.log(finalBookings);
+
   const { error } = await supabase.from("bookings").insert(finalBookings);
-  if (error) console.log("Create Bookings Error:", error.message);
+  if (error) console.log(error.message);
 }
-
-// --- COMPONENT ---
-
-// Global lock to prevent race conditions (double uploads)
-let isGlobalUploading = false;
 
 function Uploader() {
   const [isLoading, setIsLoading] = useState(false);
 
   async function uploadAll() {
-    if (isGlobalUploading) return;
-    isGlobalUploading = true;
     setIsLoading(true);
+    // Bookings need to be deleted FIRST
+    await deleteBookings();
+    await deleteGuests();
+    await deleteCabins();
 
-    try {
-      console.log("🔄 Starting database refresh...");
+    // Bookings need to be created LAST
+    await createGuests();
+    await createCabins();
+    await createBookings();
 
-      // 1. DELETE SEQUENTIALLY (Bookings first)
-      await deleteBookings();
-      await deleteGuests();
-      await deleteCabins();
-
-      // Buffer to allow DB to process deletions
-      await new Promise((res) => setTimeout(res, 500));
-
-      // 2. CREATE SEQUENTIALLY
-      await createGuests();
-      await createCabins();
-      await createBookings();
-
-      // 3. UPDATE DB TIMESTAMP
-      await supabase
-        .from("internal_settings")
-        .upsert({ key: "last_upload_time", value: new Date().toISOString() });
-
-      console.log("✅ Database successfully reset and re-seeded.");
-    } catch (err) {
-      console.error("❌ Critical error during auto-upload:", err.message);
-    } finally {
-      setIsLoading(false);
-      isGlobalUploading = false;
-    }
+    setIsLoading(false);
   }
 
-  useEffect(() => {
-    async function checkAndUpload() {
-      if (isGlobalUploading) return;
+  async function uploadBookings() {
+    setIsLoading(true);
+    await deleteBookings();
+    await createBookings();
+    setIsLoading(false);
+  }
 
-      const { data } = await supabase
-        .from("internal_settings")
-        .select("value")
-        .eq("key", "last_upload_time")
-        .single();
-
-      const lastUpload = data?.value;
-      const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
-
-      if (
-        !lastUpload ||
-        Date.now() - new Date(lastUpload).getTime() > TWO_DAYS_MS
-      ) {
-        await uploadAll();
-      }
-    }
-
-    checkAndUpload();
-  }, []);
-
-  // Hides the component from the UI
-  return null;
-
-  /* // Commented out buttons for manual use if ever needed:
   return (
     <div
       style={{
@@ -181,15 +144,11 @@ function Uploader() {
         Upload ALL
       </button>
 
-      <button onClick={() => {
-        setIsLoading(true);
-        deleteBookings().then(createBookings).finally(() => setIsLoading(false));
-      }} disabled={isLoading}>
+      <button onClick={uploadBookings} disabled={isLoading}>
         Upload bookings ONLY
       </button>
     </div>
   );
-  */
 }
 
 export default Uploader;

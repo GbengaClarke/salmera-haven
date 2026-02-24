@@ -1,23 +1,33 @@
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
-  color: black;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  background-color: inherit;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
 `;
 
 function ResultNumber({ setSearchParams, searchParams, PAGE_SIZE }) {
   const numbers = [5, 10, 15];
 
   const value = PAGE_SIZE || "10";
-  // console.log(value);
 
   function handleClick(value) {
-    // // setSearchParams((prev) => {
-    // //   prev.set("pageSize", value);
-    // //   return prev;
-    // // });
-
     searchParams.set("pageSize", value);
-    searchParams.set("page", 1); //change back to page 1?
+    searchParams.set("page", 1);
     setSearchParams(searchParams);
   }
 

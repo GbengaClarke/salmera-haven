@@ -43,7 +43,7 @@ const FloatMenu = styled.div`
   position: absolute;
   right: 2.2rem;
 
-  top: ${({ $isLast3 }) => ($isLast3 === "false" ? "2.5rem" : "-8rem")};
+  top: ${({ $isLast3 }) => ($isLast3 === "false" ? "2.5rem" : "-10.5rem")};
 
   display: flex;
   flex-direction: column;
@@ -53,12 +53,12 @@ const FloatMenu = styled.div`
   height: auto;
   /* width: 10rem; */
   width: max-content;
-
+  border: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-50);
   z-index: 100;
-  padding: 0.3rem 0.5rem;
-  gap: 0.7rem;
-  box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  gap: 1rem;
+  box-shadow: 0 4px 5px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const Mod = styled.button`
@@ -67,7 +67,7 @@ const Mod = styled.button`
   border: none;
   background-color: inherit;
   gap: 0.5rem;
-  padding: 0.3rem 0.4rem;
+  padding: 1rem;
   /* border: 1px solid red; */
   transition: all 0.25s ease;
 
@@ -156,7 +156,7 @@ function RoomsRow({ room, last3 }) {
   }, []);
 
   return (
-    <CommonRow columns="1fr 1fr 2.2fr 1fr 1fr 0.7fr">
+    <CommonRow columns="1fr 1fr 3fr 1fr 1fr 0.7fr">
       <ImageCont>
         <Img src={image} alt={`picture of room ${name}`} />
       </ImageCont>

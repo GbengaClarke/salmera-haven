@@ -1,24 +1,15 @@
 import styled from "styled-components";
 
-// const StyledFooter = styled.footer`
-//   margin-top: 4rem;
-//   padding: 1.5rem 2rem;
-//   border-radius: 5px;
-//   background-color: var(--color-grey-100);
-//   color: var(--color-grey-600);
-//   font-size: 1rem;
-// `;
-
 const StyledFooter = styled.footer`
   margin-top: auto;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   padding: 1.5rem 2rem;
   border-radius: 5px;
   background-color: var(--color-grey-100);
   color: var(--color-grey-600);
   font-size: 1rem;
 
-  /* margin-top: 4rem; */
+  margin-top: 4rem;
 `;
 
 const FooterContent = styled.div`

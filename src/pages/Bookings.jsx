@@ -4,7 +4,6 @@ import BookingsTableContainer from "../ui/BookingsTableContainer";
 export const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 `;
 function Rooms() {

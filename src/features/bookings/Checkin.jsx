@@ -8,9 +8,10 @@ import useCheckinBooking from "./useCheckinBooking";
 import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Card } from "./BookingDetails";
 
 const Container = styled.section`
-  overflow: hidden;
+  /* overflow: hidden; */
   margin: 1rem 0;
   display: flex;
   flex-direction: column;
@@ -47,19 +48,19 @@ const ButtonText = styled.button`
 `;
 
 const StyledDiv = styled.div`
-  padding: 2rem 3.2rem;
-  border-top: 1px solid var(--color-grey-100);
+  /* padding: 2rem 3.2rem; */
+  /* border-top: 1px solid var(--color-grey-100); */
   font-size: 1.3rem;
   font-weight: 500;
   text-align: left;
   color: var(--color-grey-500);
-  border: 1px solid var(--color-grey-100);
-  box-shadow: var(--shadow-md);
-  border-radius: var(--border-radius-md);
+  /* border: 1px solid var(--color-grey-100); */
+  /* box-shadow: var(--shadow-md); */
+  /* border-radius: var(--border-radius-md); */
   display: flex;
   gap: 1rem;
   align-items: center;
-  background-color: var(--color-grey-0);
+  /* background-color: var(--color-grey-0); */
 `;
 
 const ActionButton = styled.button`
@@ -185,57 +186,70 @@ function Checkin() {
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Container>
-        <StyledDiv>
-          <input
-            checked={wantBreakfast}
-            onChange={(e) => setWantBreakfast(e.target.checked)}
-            type="checkbox"
-            id="breakfast"
-            disabled={isCheckingIn || (isPaid && hasBreakfast)}
-          />
-          <label htmlFor="breakfast">
-            I want breakfast served{" "}
-            {!hasBreakfast && `(+${formatCurrency(newExtraPrice)})`}
-            {extraPrice > 1 &&
-              hasBreakfast &&
-              `(+${formatCurrency(extraPrice)})`}
-          </label>
-        </StyledDiv>
+        <Card>
+          <StyledDiv>
+            <input
+              checked={wantBreakfast}
+              onChange={(e) => setWantBreakfast(e.target.checked)}
+              type="checkbox"
+              id="breakfast"
+              disabled={isCheckingIn || (isPaid && hasBreakfast)}
+            />
+            <label htmlFor="breakfast">
+              I want breakfast served{" "}
+              {!hasBreakfast && `(+${formatCurrency(newExtraPrice)})`}
+              {extraPrice > 1 &&
+                hasBreakfast &&
+                `(+${formatCurrency(extraPrice)})`}
+            </label>
+          </StyledDiv>
+        </Card>
+        <Card>
+          <StyledDiv>
+            <input
+              disabled={isCheckingIn}
+              type="checkbox"
+              id="confirmPayment"
+              {...register("confirmPayment", {
+                required: "Payment must be confimed before checking in.",
+              })}
+            />
 
-        <StyledDiv>
-          <input
-            disabled={isCheckingIn}
-            type="checkbox"
-            id="confirmPayment"
-            {...register("confirmPayment", {
-              required: "Payment must be confimed before check-in.",
-            })}
-          />
+            <label htmlFor="confirmPayment">
+              I confirm that {fullName} has paid the total amount of{" "}
+              {wantBreakfast && !hasBreakfast && (
+                <span>
+                  {formatCurrency(newTotalPrice)} ({formatCurrency(roomPrice)} +{" "}
+                  {formatCurrency(newExtraPrice)})
+                </span>
+              )}
+              {hasBreakfast && wantBreakfast ? (
+                <span>
+                  {formatCurrency(totalPrice)} ({formatCurrency(roomPrice)} +{" "}
+                  {formatCurrency(extraPrice)}){" "}
+                  <span style={{ color: "red", marginBottom: "20rem" }}>
+                    {" "}
+                    *
+                  </span>
+                </span>
+              ) : (
+                !wantBreakfast && (
+                  <span>
+                    {formatCurrency(totalPrice - extraPrice)}
+                    <span style={{ color: "red", marginBottom: "20rem" }}>
+                      {" "}
+                      *
+                    </span>
+                  </span>
+                )
+              )}
+            </label>
 
-          <label htmlFor="confirmPayment">
-            I confirm that {fullName} has paid the total amount of{" "}
-            {wantBreakfast && !hasBreakfast && (
-              <span>
-                {formatCurrency(newTotalPrice)} ({formatCurrency(roomPrice)} +{" "}
-                {formatCurrency(newExtraPrice)})
-              </span>
-            )}
-            {hasBreakfast && wantBreakfast ? (
-              <span>
-                {formatCurrency(totalPrice)} ({formatCurrency(roomPrice)} +{" "}
-                {formatCurrency(extraPrice)}){" "}
-              </span>
-            ) : (
-              !wantBreakfast && (
-                <span>{formatCurrency(totalPrice - extraPrice)}</span>
-              )
-            )}
-          </label>
-
-          <StyledError $error={errors?.confirmPayment ? true : false}>
-            {/* {errors?.confirmPayment?.message} */}
-          </StyledError>
-        </StyledDiv>
+            <StyledError $error={errors?.confirmPayment ? true : false}>
+              {/* {errors?.confirmPayment?.message} */}
+            </StyledError>
+          </StyledDiv>
+        </Card>
       </Container>
 
       <ModalActions>

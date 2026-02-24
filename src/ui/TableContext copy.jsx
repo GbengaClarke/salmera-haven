@@ -5,11 +5,9 @@ const StyledTable = styled.div`
   font-size: 1.4rem;
   border-radius: 1rem;
   margin-inline: auto;
-  /* min-width: 500px; */
 
   @media (max-width: 767px) {
-    min-width: ${({ $minWidth = "80rem" }) => $minWidth};
-    /* min-width: 80rem; */
+    min-width: 80rem;
     overflow-x: auto;
   }
 
@@ -96,10 +94,10 @@ const StyledHeader = styled(CommonRow)`
 
 const TableContext = createContext();
 
-function Table({ columns, children, minWidth }) {
+function Table({ columns, children }) {
   return (
     <TableContext.Provider value={{ columns }}>
-      <StyledTable $minWidth={minWidth}>{children}</StyledTable>
+      <StyledTable>{children}</StyledTable>
     </TableContext.Provider>
   );
 }

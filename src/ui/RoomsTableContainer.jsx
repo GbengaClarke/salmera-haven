@@ -1,8 +1,6 @@
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
-
 import RoomsTable from "../features/rooms/RoomsTable";
-
 import AddRooms from "../features/rooms/AddRooms";
 import RoomsTableOperations from "./RoomsTableOperations";
 import {
@@ -10,26 +8,34 @@ import {
   StyledTableContainer,
   TableWrapper,
 } from "./BookingsTableContainer";
+import useRooms from "../features/rooms/useRooms";
+import Spinner from "./Spinner";
 
 function RoomsTableContainer() {
+  const { rooms = [], isPending } = useRooms();
+
   return (
     <StyledTableContainer>
-      <RowFlex>
-        <Row>
-          <Heading as={"h3"}>All Rooms</Heading>
+      <RowFlex $padding="0">
+        <div>
+          <Heading as={"h2"}>All Rooms</Heading>
           <p>This is a list of all the available rooms.</p>
-        </Row>
+        </div>
 
         <RoomsTableOperations />
       </RowFlex>
 
-      <Row>
-        <TableWrapper>
-          <RoomsTable />
-        </TableWrapper>
+      {isPending ? (
+        <Spinner />
+      ) : (
+        <Row>
+          <TableWrapper>
+            <RoomsTable rooms={rooms} />
+          </TableWrapper>
 
-        <AddRooms />
-      </Row>
+          <AddRooms />
+        </Row>
+      )}
     </StyledTableContainer>
   );
 }

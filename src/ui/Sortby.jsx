@@ -4,11 +4,10 @@ import Select from "./Select";
 const StyledSortby = styled.div`
   display: flex;
   align-items: center;
-
-  @media (max-width: 394px) {
-    /* flex: 1; */
-    width: 13rem;
-  }
+  /* border: 1px solid red; */
+  justify-content: center;
+  align-items: center;
+  width: max-content;
 `;
 
 function Sortby({ options, sortByField }) {

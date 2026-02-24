@@ -10,7 +10,7 @@ function TodaysBookingOverviewTable() {
   if (isGettingTodayBookingOverview) return <Spinner />;
 
   return (
-    <Table>
+    <Table minWidth="500px">
       <Table.Body
         name="todayOverview"
         data={getTodayBookingOverview}

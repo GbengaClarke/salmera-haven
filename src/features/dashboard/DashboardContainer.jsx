@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { StyledTableContainer } from "../../ui/BookingsTableContainer";
 import DashboardOperations from "../../ui/DashboardOperations";
 import Cards from "../../ui/Cards";
 import TodayBookingOverview from "./TodayBookingOverview";
@@ -10,6 +9,24 @@ import SalesGraph from "./SalesGraph";
 import useDashboardBookings from "./useDashboardBookings";
 import useRooms from "../rooms/useRooms";
 import useGetStaysAfterDate from "./useGetStaysAfterDate";
+
+const StyledTableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: auto;
+
+  & p {
+    color: var(--color-grey-500);
+    text-align: left;
+  }
+
+  & h3 {
+    color: var(--color-grey-700);
+    text-align: left;
+  }
+`;
 
 const CardRow = styled.div`
   display: flex;
@@ -55,8 +72,6 @@ function DashboardContainer() {
     useGetStaysAfterDate();
 
   const isLoading = isGettingBookings || isgettingStaysAfterDate;
-
-  //after fully implementing, take out unused properties from getBookingsStats api
 
   return (
     <StyledTableContainer>

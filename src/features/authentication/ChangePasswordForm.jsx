@@ -2,8 +2,19 @@ import { useForm } from "react-hook-form";
 import FormRow from "../../ui/FormElements";
 import { Button, CancelButton } from "../../ui/Button";
 import { ButtonsCont, Container, Form } from "./UserDataForm";
+import styled from "styled-components";
 
-function ChangePasswordForm({ isUpdatingUser, updateUser }) {
+const GuestHint = styled.p`
+  font-size: 1.2rem;
+  color: var(--color-silver-700);
+  margin-top: -1rem;
+  margin-bottom: 1.2rem;
+  font-style: italic;
+`;
+
+function ChangePasswordForm({ isUpdatingUser, updateUser, user }) {
+  const isGuest = user?.email === "test@demo.com";
+
   const {
     register,
     handleSubmit,
@@ -13,6 +24,8 @@ function ChangePasswordForm({ isUpdatingUser, updateUser }) {
   } = useForm();
 
   function onSubmit({ password }) {
+    if (isGuest) return;
+
     updateUser(
       { password },
       {
@@ -27,17 +40,25 @@ function ChangePasswordForm({ isUpdatingUser, updateUser }) {
     <Container>
       <h5>Change password</h5>
 
+      {isGuest && (
+        <GuestHint>
+          Note: Password changes are disabled for guest accounts. Please create
+          your own account on the &apos;User&apos; page to use this feature.
+        </GuestHint>
+      )}
+
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormRow
-          label={"Password (min 8 charaters)"}
+          label={"Password (min 8 characters)"}
           error={errors?.password?.message}
         >
           <input
-            disabled={isUpdatingUser}
+            /* 4. Disable if updating OR if guest */
+            disabled={isUpdatingUser || isGuest}
             type="password"
             id="password"
             {...register("password", {
-              required: "This field is required",
+              required: isGuest ? false : "This field is required",
               minLength: {
                 value: 8,
                 message: "password needs a minimum of 8 characters",
@@ -51,23 +72,29 @@ function ChangePasswordForm({ isUpdatingUser, updateUser }) {
           error={errors?.repeatPassword?.message}
         >
           <input
-            disabled={isUpdatingUser}
+            disabled={isUpdatingUser || isGuest}
             type="password"
             id="repeatPassword"
             {...register("repeatPassword", {
-              required: "This field is required",
+              required: isGuest ? false : "This field is required",
               validate: (value) =>
-                value === getValues().password || "passwords need to match",
+                isGuest ||
+                value === getValues().password ||
+                "passwords need to match",
             })}
           />
         </FormRow>
 
         <ButtonsCont type="horizontal">
-          <CancelButton onClick={reset} type="reset" disabled={isUpdatingUser}>
+          <CancelButton
+            onClick={reset}
+            type="reset"
+            disabled={isUpdatingUser || isGuest}
+          >
             Clear
           </CancelButton>
 
-          <Button disabled={isUpdatingUser} type="submit">
+          <Button disabled={isUpdatingUser || isGuest} type="submit">
             Update password
           </Button>
         </ButtonsCont>

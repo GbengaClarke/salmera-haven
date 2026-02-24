@@ -35,6 +35,10 @@ const Box = styled.div`
   flex-direction: column;
   gap: 1.6rem;
 
+  & h1 {
+    color: var(--color-grey-600);
+  }
+
   ${media.tabletsm} {
     padding: 3.2rem;
   }
@@ -84,7 +88,7 @@ function ErrorFallback({ error, resetErrorBoundary }) {
         <Box>
           <Illustration>⚠️</Illustration>
 
-          <Heading as="h1">Something went wrong</Heading>
+          <h1>Something went wrong</h1>
 
           <ErrorText>
             {error?.message ||

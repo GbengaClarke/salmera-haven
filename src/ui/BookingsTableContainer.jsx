@@ -1,10 +1,7 @@
 import styled, { css } from "styled-components";
 import Row from "../styles/Row";
 import Heading from "../styles/Heading";
-import TableOperations from "./RoomsTableOperations";
-import RoomsTable from "../features/rooms/RoomsTable";
 import { media } from "../styles/breakpoints";
-import AddRooms from "../features/rooms/AddRooms";
 import BookingsTableOperations from "./BookingsTableOperations";
 import BookingsTable from "../features/bookings/BookingsTable";
 
@@ -12,19 +9,22 @@ export const StyledTableContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  /* border: 1px solid red; */
   width: 100%;
   height: auto;
+  text-align: left;
 
   & p {
-    font-size: 1rem;
     color: var(--color-grey-500);
-    text-align: left;
+    font-size: 1.4rem;
+
+    ${media.tabletRange} {
+      font-size: 1.2rem;
+    }
   }
 
   & h3 {
     color: var(--color-grey-700);
-    text-align: left;
+    /* text-align: left; */
   }
 `;
 
@@ -33,8 +33,7 @@ export const RowFlex = styled.div`
   padding: ${({ $padding = "0.5rem 0.7rem" }) => $padding};
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: auto;
-  /* border: 1px solid red; */
+  margin-bottom: ${({ $mb = "auto" }) => $mb};
   ${({ $marginLeft }) =>
     $marginLeft === "auto" &&
     css`
@@ -53,24 +52,24 @@ export const RowFlex = styled.div`
 export const TableWrapper = styled.div`
   overflow-x: scroll;
   padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   /* border: 1px solid red; */
   border-radius: 1rem;
 
   ${media.mobile} {
     overflow-x: auto;
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
   }
 `;
 
 function BookingsTableContainer() {
   return (
     <StyledTableContainer>
-      <RowFlex>
-        <Row>
-          <Heading as={"h3"}>All Bookings</Heading>
+      <RowFlex $padding="0">
+        <div>
+          <Heading as={"h2"}>All Bookings</Heading>
           <p>This is a list of all the present bookings.</p>
-        </Row>
+        </div>
 
         <BookingsTableOperations />
       </RowFlex>

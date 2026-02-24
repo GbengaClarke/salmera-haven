@@ -5,10 +5,6 @@ import { FaUserEdit } from "react-icons/fa";
 import useLogout from "../features/authentication/useLogout";
 import { useMatch, useNavigate } from "react-router-dom";
 
-/* ======================
-    STYLES
-====================== */
-
 const FloatMenu = styled.div`
   position: absolute;
   top: 5.2rem;
@@ -18,7 +14,7 @@ const FloatMenu = styled.div`
   color: var(--color-black);
   justify-content: center;
   gap: 1.5rem;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1rem;
   background-color: var(--color-grey-0);
   border-radius: var(--border-radius-sm);
   height: auto;
@@ -48,10 +44,7 @@ const ChevronContainer = styled.div`
   display: flex;
   align-items: center;
   color: var(--color-black);
-  /* border: 1px solid red; */
   padding: 0.9rem;
-
-  /* width: 100%; */
 
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -102,14 +95,10 @@ const IconCont = styled.div`
   font-size: 1.8rem;
 `;
 
-/* ======================
-    COMPONENT
-====================== */
-
 function HeaderFloatMenu({ username = "Guest", mainRef }) {
   const [floatMenuOpen, setFloatMenuOpen] = useState(false);
   const floatElement = useRef(null);
-  const toggleRef = useRef(null); // Fixes the toggle clash
+  const toggleRef = useRef(null);
 
   const navigate = useNavigate();
   const { logout } = useLogout();
@@ -122,7 +111,6 @@ function HeaderFloatMenu({ username = "Guest", mainRef }) {
     if (!floatMenuOpen) return;
 
     function handleClickOutside(e) {
-      // Check if click is outside menu AND outside the toggle button
       const isOutsideMenu =
         floatElement.current && !floatElement.current.contains(e.target);
       const isOutsideToggle =
@@ -157,7 +145,6 @@ function HeaderFloatMenu({ username = "Guest", mainRef }) {
   }, [floatMenuOpen, mainRef]);
 
   function handleToggleMenu(e) {
-    // Stop propagation so the event doesn't bubble up unnecessarily
     e.stopPropagation();
     setFloatMenuOpen((open) => !open);
   }

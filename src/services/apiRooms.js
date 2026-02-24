@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { supabase } from "./supabase";
 
 export async function getRooms() {
@@ -125,12 +126,9 @@ export async function addEditRoom({ formData, id }) {
 
 export async function deleteRoom(roomId) {
   const { error } = await supabase.from("rooms").delete().eq("id", roomId);
-  // .select()
-  // .single();
 
   if (error) {
-    console.error(error);
-    throw new Error("Room could not be deleted");
+    throw error;
   }
 }
 

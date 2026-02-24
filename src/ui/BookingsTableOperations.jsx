@@ -25,14 +25,12 @@ const sortBy = [
 
 const StyledOperations = styled.div`
   display: flex;
-  gap: 0.5rem;
-  /* font-family: "Inter"; */
-
-  @media (min-width: 594px) {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.8rem;
-  }
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  align-items: end;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 `;
 function BookingsTableOperations() {
   return (

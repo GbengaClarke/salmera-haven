@@ -51,7 +51,6 @@ function Pagination({ count, PAGE_SIZE }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = Number(searchParams.get("page") || "1");
-  // const PAGE_SIZE = searchParams.get("pageSize");
 
   const totalPages = Math.ceil(count / PAGE_SIZE);
 
@@ -63,11 +62,6 @@ function Pagination({ count, PAGE_SIZE }) {
 
   function handlePageNav(newPage) {
     if (newPage < 1 || newPage > totalPages) return;
-
-    // setSearchParams((prev) => {
-    //   prev.set("page", newPage);
-    //   return prev;
-    // });
 
     searchParams.set("page", newPage);
     setSearchParams(searchParams);

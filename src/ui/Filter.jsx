@@ -1,9 +1,10 @@
 import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { media } from "../styles/breakpoints";
 
 const StyledFilter = styled.div`
   display: flex;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   color: var(--color-grey-600);
   background-color: var(--color-grey-0);
@@ -12,10 +13,19 @@ const StyledFilter = styled.div`
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-grey-100);
   white-space: nowrap;
+  /* border: 1px solid red; */
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+
+  ${media.tabletRange} {
+    font-size: 1.1rem;
+  }
 `;
 
 const FilterOption = styled.button`
   padding: 0.6rem 0.8rem;
+  /* border: 1px solid red; */
   cursor: pointer;
   border: none;
   background: none;
@@ -54,7 +64,13 @@ function Filter({ options, filterField }) {
     });
   }
 
-  const presentFilter = searchParams.get(filterField) || "7";
+  let presentFilter;
+
+  if (filterField === "lastDays") {
+    presentFilter = searchParams.get(filterField) || "7";
+  } else {
+    presentFilter = searchParams.get(filterField) || "all";
+  }
 
   return (
     <StyledFilter>
