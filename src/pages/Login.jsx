@@ -8,17 +8,7 @@ const LoginLayout = styled.main`
   grid-template-columns: 1fr;
   min-height: 100dvh;
 
-  position: relative;
-  /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop");
-  background-size: cover;
-  background-position: center; */
-
-  /* ${media.tabletlg} {
-    grid-template-columns: 1fr 1fr;
-  } */
   ${media.tabletsm} {
-    /* min-height: 100vh; */
     max-width: 1000px;
     margin-inline: auto;
   }
@@ -42,7 +32,6 @@ const BrandSection = styled.div`
   text-align: center;
 
   ${media.tabletsm} {
-    /* align-items: flex-start; */
     grid-column: span 1;
     padding: 0;
     max-width: 50rem;
@@ -52,9 +41,7 @@ const BrandSection = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    /* color: var(--color-brand-500); */
     color: #e0e0e0;
-    /* border: 1px solid red; */
 
     ${media.tabletsm} {
       margin-left: -1rem;
@@ -62,18 +49,12 @@ const BrandSection = styled.div`
   }
 
   & h1 {
-    /* font-size: 4.2rem; */
     white-space: nowrap;
     font-weight: 800;
     letter-spacing: -1px;
-
-    ${media.tabletsm} {
-      /* font-size: 3rem; */
-    }
   }
 
   & p {
-    /* font-size: 1.3rem; */
     opacity: 0.9;
     max-width: 400px;
     text-align: center;
@@ -82,41 +63,28 @@ const BrandSection = styled.div`
     ${media.laptopsm} {
       margin-top: 0rem;
     }
+
+    ${media.mobilesm} {
+      font-size: 1.5rem;
+    }
   }
 `;
 
 const FormSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FormCard = styled.div`
   margin: 3rem;
   max-width: 50rem;
   height: max-content;
 
-  border-radius: 3rem;
-  border: 1px solid red;
-
-  ${media.mobile} {
-    min-width: 50rem;
-    margin-inline: auto;
-
-    background-color: var(--color-grey-0);
-  }
-  ${media.tabletsm} {
-    min-width: 35rem;
-    margin: 3rem;
-    background-color: var(--color-grey-0);
-  }
-
-  ${media.laptopsm} {
-    min-width: 40rem;
-  }
-`;
-
-const FormCard = styled.div`
   background-color: var(--color-grey-0);
   padding: 2rem;
   border-radius: 3rem;
   text-align: left;
   width: 100%;
-  /* max-width: 45rem; */
   box-shadow: var(--shadow-lg);
 
   & h2 {
@@ -125,18 +93,24 @@ const FormCard = styled.div`
   & p {
   }
 
-  /* Remove shadow/border on desktop since the whole sidebar is white */
+  ${media.mobile} {
+    min-width: 50rem;
+    margin-inline: auto;
+  }
+
   ${media.tabletsm} {
-    box-shadow: none;
-    height: max-content;
-    /* border-radius: 0; */
+    min-width: 35rem;
+    margin: 3rem;
+  }
+
+  ${media.laptopsm} {
+    min-width: 40rem;
   }
 `;
 
 const SmallLogo = styled.div`
   display: flex;
   align-items: center;
-  /* justify-content: left; */
   font-size: 1rem;
   color: var(--color-blue-500);
   font-weight: 700;
@@ -144,14 +118,36 @@ const SmallLogo = styled.div`
   margin-left: -0.4rem;
 `;
 
-const Footer = styled.div`
-  grid-column: span 2;
-  font-size: 1rem;
-  color: #e0e0e0;
-  max-height: 10rem;
-  /* padding: 1rem; */
-  margin-top: auto;
+// const Footer = styled.div`
+//   grid-column: span 2;
+//   font-size: 1rem;
+//   color: #e0e0e0;
+//   max-height: 10rem;
+//   margin-top: auto;
+//   margin-bottom: 1rem;
+// `;
+
+const Footer = styled.footer`
   margin-bottom: 1rem;
+  grid-column: span 2;
+
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: auto;
+  max-height: 10rem;
+
+  color: #e0e0e0;
+  padding: 0 2rem;
+
+  span {
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-brand-500);
+    }
+  }
 `;
 
 export default function LoginPage() {
@@ -201,10 +197,9 @@ export default function LoginPage() {
             <LoginForm />
           </FormCard>
         </FormSection>
-        {/* turn them to links using span below */}
         <Footer>
-          © 2026 Salmera Haven. All rights reserved. | Term of use | Privacy
-          Policy
+          © 2026 Salmera Haven. All rights reserved. | <span>Terms of use</span>{" "}
+          | <span>Privacy Policy</span>
         </Footer>
       </LoginLayout>
     </Wrapper>

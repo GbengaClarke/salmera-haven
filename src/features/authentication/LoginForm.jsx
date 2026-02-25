@@ -76,7 +76,8 @@ const EyeButton = styled.button`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 2rem;
+  /* gap: 0.7rem; */
   margin-top: 2rem;
 
   & div {

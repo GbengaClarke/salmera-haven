@@ -65,8 +65,6 @@ export async function loginWithGoogle() {
   });
 
   if (error) throw new Error(error.message);
-
-  // console.log(data);
 }
 
 export async function updateUser({ fullName, avatar, password }) {
