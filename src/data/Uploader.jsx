@@ -91,8 +91,6 @@ async function createBookings() {
   if (error) console.log("Create Bookings Error:", error.message);
 }
 
-// --- COMPONENT ---
-
 // Global lock to prevent race conditions (double uploads)
 let isGlobalUploading = false;
 
@@ -158,7 +156,6 @@ function Uploader() {
     checkAndUpload();
   }, []);
 
-  // Hides the component from the UI
   return null;
 
   /* // Commented out buttons for manual use if ever needed:

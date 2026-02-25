@@ -77,7 +77,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
 
   & div {
     text-align: left;
