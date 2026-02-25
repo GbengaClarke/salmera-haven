@@ -16,17 +16,14 @@ const StyledFormContainer = styled.div`
     font-size: 1rem;
   }
 `;
-// const StyledFormName = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-// `;
 
 function FormTitle({ head, subText }) {
   return (
     <StyledFormContainer>
-      <Heading as={"h3"}>{head}</Heading>
-      <p>{subText}</p>
+      <Heading as={"h2"} style={{ color: "var(--color-brand-500)" }}>
+        {head}
+      </Heading>
+      <p style={{ fontSize: "1.4rem" }}>{subText}</p>
     </StyledFormContainer>
   );
 }
