@@ -10,7 +10,7 @@ function BookingsTable() {
   if (isGettingBookings) return <Spinner />;
 
   return (
-    <Table columns="0.1fr 0.7fr 2fr 3fr 1.5fr 1.2fr 0.1fr">
+    <Table columns="0.1fr 0.7fr 2.5fr 3fr 1.4fr 1.4fr 0.1fr">
       <Table.Header>
         <div></div>
         <div>room</div>

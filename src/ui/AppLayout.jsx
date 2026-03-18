@@ -42,7 +42,6 @@ const Main = styled.main`
   background-color: var(--color-grey-50);
   overflow-y: scroll;
   padding-top: 2.5rem;
-
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -78,6 +77,12 @@ const Main = styled.main`
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--color-grey-300) transparent;
+`;
+
+const StyledOutlet = styled.div`
+  /* border: 1px solid red; */
+  /* height: 100%; */
+  margin-bottom: auto;
 `;
 
 function AppLayout() {
@@ -116,7 +121,9 @@ function AppLayout() {
           sidebarOpen={sidebarOpen}
         />
         <Main ref={mainRef}>
-          <Outlet context={{ sidebarOpen, scrollToTop }} />
+          <StyledOutlet>
+            <Outlet context={{ sidebarOpen, scrollToTop }} />
+          </StyledOutlet>
           <Footer />
         </Main>
       </StyledAppLayoutGrid>

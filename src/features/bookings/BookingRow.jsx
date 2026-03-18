@@ -187,7 +187,7 @@ function BookingRow({ booking, last3 }) {
   }, []);
 
   return (
-    <CommonRow columns="0.1fr 0.7fr 2fr 3fr 1.5fr 1.2fr 0.1fr">
+    <CommonRow columns="0.1fr 0.7fr 2.5fr 3fr 1.4fr 1.2fr 0.1fr">
       <div></div>
       <div>{roomName}</div>
       <StyledInfo>
