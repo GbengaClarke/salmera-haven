@@ -99,8 +99,12 @@ const StyledInfo = styled.div`
   }
 
   & p {
-    font-size: 1.1rem;
+    /* font-size: 1.5rem; */
     color: var(--color-grey-500);
+
+    ${media.tabletRange} {
+      font-size: 1.05rem;
+    }
   }
 `;
 
