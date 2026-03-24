@@ -12,7 +12,6 @@ import { login } from "../../services/apiAuth";
 import useLogin from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 
-// Container to position the icon over the input
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
@@ -27,10 +26,9 @@ const InputWrapper = styled.div`
     pointer-events: none;
   }
 
-  /* Target the input within this wrapper */
   & input {
     width: 100%;
-    padding: 0.8rem 1.2rem 0.8rem 4rem; /* Extra left padding for icon */
+    padding: 0.8rem 1.2rem 0.8rem 4rem;
     border: 1px solid var(--color-grey-200);
     border-radius: var(--border-radius-md);
     background-color: var(--color-grey-50);
@@ -42,14 +40,12 @@ const InputWrapper = styled.div`
       background-color: var(--color-grey-0);
     }
 
-    /* Change icon color when input is focused */
     &:focus + svg.input-icon {
       color: var(--color-brand-500);
     }
   }
 `;
 
-// Specific button for the password visibility toggle
 const EyeButton = styled.button`
   position: absolute;
   right: 1.2rem;
@@ -60,7 +56,7 @@ const EyeButton = styled.button`
   justify-content: center;
   color: var(--color-grey-400);
   padding: 0;
-  //add transition
+  //add transition?
 
   &:hover {
     transition: all 0.15s ease-in-out;
@@ -77,7 +73,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  /* gap: 0.7rem; */
   margin-top: 2rem;
 
   & div {
@@ -95,8 +90,6 @@ function LoginForm() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
-
-    // console.log("Logging in...", { email, password });
 
     login(
       { email, password },
@@ -162,7 +155,6 @@ function LoginForm() {
         >
           {isLoggingIn ? <SpinnerMini /> : "Sign In"}
         </Button>
-        {/* {isLoggingIn ? "" : "Sign in"} */}
       </FormRow>
     </Form>
   );
