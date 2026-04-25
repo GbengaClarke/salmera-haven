@@ -8,6 +8,7 @@ export async function signupUser({ fullName, email, password }) {
       data: {
         fullName,
         avatar: "",
+        role: "admin",
       },
     },
   });
@@ -20,17 +21,45 @@ export async function signupUser({ fullName, email, password }) {
   return data;
 }
 
+// export async function login({ email, password }) {
+//   const { data, error } = await supabase.auth.signInWithPassword({
+//     email: email,
+//     password: password,
+//   });
+
+//   if (error) {
+//     throw new Error(error.message);
+//   }
+
+//   // console.log(data);
+//   return data;
+// }
+
 export async function login({ email, password }) {
   const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password,
+    email,
+    password,
   });
 
-  if (error) {
-    throw new Error(error.message);
+  if (error) throw new Error(error.message);
+
+  // 2. Fetch the role from your public.profiles table
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", data.user.id)
+    .single();
+
+  if (profileError) {
+    await supabase.auth.signOut();
+    throw new Error("Could not verify user permissions.");
   }
 
-  // console.log(data);
+  if (profile.role !== "admin") {
+    await supabase.auth.signOut();
+    throw new Error("Access denied. This portal is for administrators only.");
+  }
+
   return data;
 }
 

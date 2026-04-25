@@ -80,6 +80,7 @@ const Logout = styled.li`
   font-weight: 600;
   color: var(--color-red-700);
   margin-top: auto;
+  cursor: pointer;
 
   @media (min-height: 260px) and (max-height: 330px) {
     flex-direction: column;
