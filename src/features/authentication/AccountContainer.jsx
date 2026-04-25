@@ -49,10 +49,12 @@ const TableWrapper = styled.div`
 
 function AccountContainer() {
   const { updateUser, isUpdatingUser } = useUpdateUser();
-  const {
-    user: { user_metadata: user },
-    isPending,
-  } = useGetUser();
+  const { user, isPending } = useGetUser();
+
+  if (isPending) return <p>Loading user data...</p>;
+
+  const { user_metadata } = user;
+  // console.log(user_metadata);
 
   return (
     <StyledTableContainer>
@@ -70,7 +72,7 @@ function AccountContainer() {
       <Row>
         <TableWrapper>
           <UserDataForm
-            user={user}
+            user={user_metadata}
             isPending={isPending}
             updateUser={updateUser}
             isUpdatingUser={isUpdatingUser}

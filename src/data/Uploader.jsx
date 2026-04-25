@@ -9,13 +9,47 @@ import { guests } from "./data-guests";
 
 // --- API FUNCTIONS ---
 
+// async function deleteBookings() {
+//   const { error } = await supabase.from("bookings").delete().gt("id", 0);
+//   if (error) console.log("Delete Bookings Error:", error.message);
+// }
+
+// async function deleteGuests() {
+//   const { error } = await supabase.from("guests").delete().gt("id", 0);
+//   if (error) console.log("Delete Guests Error:", error.message);
+// }
+
 async function deleteBookings() {
-  const { error } = await supabase.from("bookings").delete().gt("id", 0);
+  // delete bookings where the guest's email is in my sample data list
+  const sampleGuestEmails = guests.map((g) => g.email);
+
+  // get the IDs of the dummy guests
+  const { data: guestsToDelete } = await supabase
+    .from("guests")
+    .select("id")
+    .in("email", sampleGuestEmails);
+
+  if (!guestsToDelete) return;
+  const guestIds = guestsToDelete.map((g) => g.id);
+
+  // Delete only the bookings belonging to these sample guests
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .in("guestId", guestIds);
+
   if (error) console.log("Delete Bookings Error:", error.message);
 }
 
 async function deleteGuests() {
-  const { error } = await supabase.from("guests").delete().gt("id", 0);
+  //  delete guests whose emails match my sample data
+  const sampleGuestEmails = guests.map((g) => g.email);
+
+  const { error } = await supabase
+    .from("guests")
+    .delete()
+    .in("email", sampleGuestEmails);
+
   if (error) console.log("Delete Guests Error:", error.message);
 }
 
@@ -143,11 +177,12 @@ function Uploader() {
         .single();
 
       const lastUpload = data?.value;
-      const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
+      // const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
+      const FOUR_DAYS_MS = 4 * 24 * 60 * 60 * 1000;
 
       if (
         !lastUpload ||
-        Date.now() - new Date(lastUpload).getTime() > TWO_DAYS_MS
+        Date.now() - new Date(lastUpload).getTime() > FOUR_DAYS_MS
       ) {
         await uploadAll();
       }

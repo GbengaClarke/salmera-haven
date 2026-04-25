@@ -51,26 +51,7 @@ function App() {
               color: "var(--color-grey-600)",
             },
           }}
-        >
-          {/* {(t) => (
-            <ToastBar toast={t}>
-              {({ icon, message }) => (
-                <>
-                  {icon}
-                  {message}
-                  {t.type !== "loading" && (
-                    <CancelButton
-                      padding={".3rem"}
-                      onClick={() => toast.dismiss(t.id)}
-                    >
-                      <IoMdClose color="var(--color-red-700)" />
-                    </CancelButton>
-                  )}
-                </>
-              )}
-            </ToastBar>
-          )} */}
-        </Toaster>
+        ></Toaster>
         <BrowserRouter>
           {/* <ScrollToTop /> */}
           <Routes>

@@ -10,8 +10,7 @@ const StyledTableContainer = styled.div`
   width: 100%;
   grid-column: span 2;
   max-height: 30rem;
-  /* height: 30rem; */
-  /* background: var(--color-grey-100); */
+
   background: var(--color-grey-50);
   border-radius: var(--border-radius-md);
   padding: 1rem 0;
@@ -24,7 +23,6 @@ const ScrollContent = styled.div`
   border: 1px solid var(--color-grey-200);
   border-radius: 5px;
 
-  /* Slim Scrollbar - Chrome, Edge, Safari */
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -42,7 +40,6 @@ const ScrollContent = styled.div`
     background: var(--color-grey-400);
   }
 
-  /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--color-grey-300) transparent;
 `;

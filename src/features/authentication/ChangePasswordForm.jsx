@@ -53,7 +53,6 @@ function ChangePasswordForm({ isUpdatingUser, updateUser, user }) {
           error={errors?.password?.message}
         >
           <input
-            /* 4. Disable if updating OR if guest */
             disabled={isUpdatingUser || isGuest}
             type="password"
             id="password"

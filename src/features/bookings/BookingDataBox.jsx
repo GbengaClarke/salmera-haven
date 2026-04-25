@@ -5,6 +5,7 @@ import {
   HiOutlineCheckCircle,
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineBuildingOffice2,
+  HiOutlineGlobeAlt,
 } from "react-icons/hi2";
 import { format, isToday } from "date-fns";
 import FlexAlign from "../../styles/FlexAlign";
@@ -247,7 +248,17 @@ function BookingDataBox({ booking = {} }) {
       <Body>
         <GuestRow>
           <GuestMain>
-            <FlagImg src={countryFlag} alt={`Flag of ${fullName}`} />
+            {countryFlag ? (
+              <FlagImg src={countryFlag} alt={`Flag of ${fullName}`} />
+            ) : (
+              <HiOutlineGlobeAlt
+                style={{
+                  width: "1.8rem",
+                  height: "1.8rem",
+                  color: "#64748b",
+                }}
+              />
+            )}
             <strong>
               {fullName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
             </strong>

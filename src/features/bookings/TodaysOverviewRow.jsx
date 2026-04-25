@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { formatCurrency, getToday } from "../../utils/helpers";
-import { HiArrowDownTray } from "react-icons/hi2";
+import {
+  HiArrowDownTray,
+  HiOutlineGlobeAlt,
+  HiOutlineGlobeAmericas,
+} from "react-icons/hi2";
 import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 import { isSameDay } from "date-fns";
 import { GiAirplaneArrival, GiCommercialAirplane } from "react-icons/gi";
@@ -80,6 +84,10 @@ const ImageCont = styled.div`
   overflow: hidden;
   border-radius: 3px;
   background-color: var(--color-grey-100);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CommonRow = styled.div`
@@ -131,12 +139,28 @@ function TodaysOverviewRow({ booking }) {
       }}
       columns="0.2fr 1.2fr 2fr .8fr .7fr"
     >
-      <ImageCont>
+      {/* <ImageCont>
         <Img src={countryFlag} alt={`country flag`} />
+      </ImageCont> */}
+
+      <ImageCont>
+        {countryFlag ? (
+          <Img src={countryFlag} alt="flag" />
+        ) : (
+          <HiOutlineGlobeAlt
+            style={{
+              width: "1.8rem",
+              height: "1.8rem",
+              color: "#64748b",
+            }}
+          />
+        )}
       </ImageCont>
 
       <div>
-        <div style={{ whiteSpace: "nowrap" }}>{fullName}</div>
+        <div style={{ whiteSpace: "nowrap" }}>
+          {fullName || "Guest Magnificente"}
+        </div>
         {/* <StyledId>#{id}</StyledId> */}
       </div>
 
